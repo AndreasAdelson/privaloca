@@ -17,6 +17,8 @@ import {
   BootstrapVue,
   IconsPlugin
 } from 'bootstrap-vue';
+import Login from './components/utilisateur/login';
+import Role from './components/admin/role';
 import ListUser from './components/admin/utilisateur';
 import EditUser from './components/admin/utilisateur/form';
 import ShowUser from './components/admin/utilisateur/show';
@@ -45,6 +47,7 @@ new Vue({
   el: '#app',
   i18n,
   components: {
+    Role,
     Avatar,
     EditUser,
     ListUser,

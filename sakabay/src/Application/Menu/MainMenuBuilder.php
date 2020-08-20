@@ -16,7 +16,7 @@ class MainMenuBuilder
             "menu_role_actions" => [
                 "menu_all_role" => [
                     "route" => "role_index",
-                    "roles" => ["ROLE_RROLE"]
+                    "roles" => ["ROLE_ADMIN"]
                 ],
                 "menu_all_group" => [
                     "route" => "group_index",

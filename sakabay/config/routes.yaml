@@ -71,9 +71,9 @@ role_new:
     controller: App\Infrastructure\Http\Web\Controller\RoleController::new
     methods: [GET, POST]
 
-role_show:
-    path: /role/show/{id}
-    controller: App\Infrastructure\Http\Web\Controller\RoleController::show
+role_edit:
+    path: /role/edit/{id}
+    controller: App\Infrastructure\Http\Web\Controller\RoleController::editRole
     methods: [GET, POST]
 
 role_delete:

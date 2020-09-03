@@ -17,8 +17,6 @@ import {
   BootstrapVue,
   IconsPlugin
 } from 'bootstrap-vue';
-import Login from './components/utilisateur/login';
-import Role from './components/admin/role';
 import ListUser from './components/admin/utilisateur';
 import EditUser from './components/admin/utilisateur/form';
 import ShowUser from './components/admin/utilisateur/show';
@@ -30,6 +28,10 @@ import cnsRenderUtils from './plugins/cnsRenderUtils';
 import cnsFormUtils from 'plugins/cnsFormUtils';
 import i18n from 'plugins/i18n';
 import Avatar from 'vue-avatar';
+import ListFonction from './components/admin/fonction';
+import FormFonction from './components/admin/fonction/form';
+import ListRole from './components/admin/role';
+import FormRole from './components/admin/role/form';
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
@@ -47,7 +49,7 @@ new Vue({
   el: '#app',
   i18n,
   components: {
-    Role,
+    ListRole,
     Avatar,
     EditUser,
     ListUser,
@@ -55,6 +57,9 @@ new Vue({
     Home,
     ExampleForm,
     SousNavBar,
-    EditAccount
+    EditAccount,
+    ListFonction,
+    FormFonction,
+    FormRole,
   }
 })

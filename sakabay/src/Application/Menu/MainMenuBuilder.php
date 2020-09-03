@@ -23,7 +23,7 @@ class MainMenuBuilder
                     "roles" => ["ROLE_RGROUP"]
                 ],
                 "menu_all_user" => [
-                    "route" => "user_admin_index",
+                    "route" => "user_index",
                     "roles" => ["ROLE_ADMIN"]
                 ],
                 "menu_all_function" => [

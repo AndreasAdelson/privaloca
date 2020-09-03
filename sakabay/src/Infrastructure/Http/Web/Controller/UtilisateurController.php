@@ -23,7 +23,7 @@ class UtilisateurController extends AbstractController
 
     /**
      * @Security("is_granted('ROLE_ADMIN')")
-     * @Route("/admin/utilisateur", name="user_admin_index")
+     * @Route("/admin/utilisateur", name="user_index")
      */
     public function usersList(AuthorizationCheckerInterface $authorizationChecker): Response
     {

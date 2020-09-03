@@ -2,17 +2,22 @@ home:
    path: /
    controller: App\Infrastructure\Http\Web\Controller\UtilisateurController::index
    methods: [GET, POST]
-user_admin_index:
+
+user_index:
     path: /admin/utilisateur
     controller: App\Infrastructure\Http\Web\Controller\UtilisateurController::usersList
     methods:  [GET, POST]
+
 user_edit_admin_index:
     path: /admin/utilisateur/edit/{id}
     controller: App\Infrastructure\Http\Web\Controller\UtilisateurController::editUserAdmin
     methods: [POST,GET]
+
 user_show_admin_index:
     path: /admin/utilisateur/show/{id}
     controller: App\Infrastructure\Http\Web\Controller\UtilisateurController::showUserAdmin
+    methods: [GET]
+
 user_edit_index:
     path: /utilisateur/edit/{id}
     controller: App\Infrastructure\Http\Web\Controller\UtilisateurController::editUser
@@ -34,54 +39,40 @@ example_show:
     controller: App\Infrastructure\Http\Web\Controller\ExampleController::show
     methods: [GET, POST]
 
-example_delete:
-    path: /example/delete/{id}
-    controller: App\Infrastructure\Http\Web\Controller\ExampleController::delete
-    methods: [GET, POST]
 
 # Routes for Fonction object
 fonction_index:
-    path: /fonction
+    path: admin/fonction
     controller: App\Infrastructure\Http\Web\Controller\FonctionController::index
     methods: [GET]
 
 fonction_new:
-    path: /fonction/new
+    path: admin/fonction/new
     controller: App\Infrastructure\Http\Web\Controller\FonctionController::new
-    methods: [GET, POST]
-
-fonction_show:
-    path: /fonction/show/{id}
-    controller: App\Infrastructure\Http\Web\Controller\FonctionController::show
-    methods: [GET, POST]
-
-fonction_delete:
-    path: /fonction/delete/{id}
-    controller: App\Infrastructure\Http\Web\Controller\FonctionController::delete
     methods: [GET, POST]
 
 # Routes for Role object
 role_index:
-    path: /role
+    path: admin/role
     controller: App\Infrastructure\Http\Web\Controller\RoleController::index
     methods: [GET]
 
 role_new:
-    path: /role/new
+    path: admin/role/new
     controller: App\Infrastructure\Http\Web\Controller\RoleController::new
     methods: [GET, POST]
 
 role_edit:
-    path: /role/edit/{id}
-    controller: App\Infrastructure\Http\Web\Controller\RoleController::editRole
+    path: admin/role/edit/{id}
+    controller: App\Infrastructure\Http\Web\Controller\RoleController::edit
     methods: [GET, POST]
 
-role_delete:
-    path: /role/delete/{id}
-    controller: App\Infrastructure\Http\Web\Controller\RoleController::delete
+role_show:
+    path: admin/role/show/{id}
+    controller: App\Infrastructure\Http\Web\Controller\RoleController::show
     methods: [GET, POST]
 
-    # Routes for Group object
+# Routes for Group object
 group_index:
     path: /group
     controller: App\Infrastructure\Http\Web\Controller\GroupController::index
@@ -95,9 +86,4 @@ group_new:
 group_show:
     path: /group/show/{id}
     controller: App\Infrastructure\Http\Web\Controller\GroupController::show
-    methods: [GET, POST]
-
-group_delete:
-    path: /group/delete/{id}
-    controller: App\Infrastructure\Http\Web\Controller\GroupController::delete
     methods: [GET, POST]

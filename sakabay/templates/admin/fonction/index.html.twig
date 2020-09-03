@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'fonction_title_list_page'|trans }}{% endblock %}
+
+{% block body %}
+    <list-fonction
+    :can-delete="{{ canDelete|json_encode }}"
+    :can-create="{{ canCreate|json_encode }}"
+    ></list-fonction>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  {% if roleId is same as("null") %}
+    {{ 'role_title_create_page'|trans }}
+  {% else %}
+    {{ 'role_title_edit_page'|trans }}
+  {% endif %}
+{% endblock %}
+
+{% block body %}
+  {% if roleId is same as("null") %}
+    <h1 class="fontUbuntu orange-skb text-center p-1">{{ 'role_title_create_page'|trans }}</h1>
+  {% else %}
+    <h1 class="fontUbuntu orange-skb text-center p-1">{{ 'role_title_edit_page'|trans }}</h1>
+  {% endif %}
+<form-role :role-id="{{ roleId }}"></form-role>
+{% endblock %}

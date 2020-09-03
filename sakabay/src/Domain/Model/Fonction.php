@@ -23,7 +23,9 @@ class Fonction
      * @var int
      * @Expose
      * @Groups({
-     * "api_utilisateurs"
+     * "api_utilisateurs",
+     * "api_fonctions",
+     * "api_roles"
      * })
      */
     private $id;
@@ -32,7 +34,9 @@ class Fonction
      * @var string
      * @Expose
      * @Groups({
-     * "api_utilisateurs"
+     * "api_utilisateurs",
+     * "api_fonctions",
+     * "api_roles"
      * })
      */
     private $code;
@@ -41,7 +45,9 @@ class Fonction
      * @var string
      * @Expose
      * @Groups({
-     * "api_utilisateurs"
+     * "api_utilisateurs",
+     * "api_fonctions",
+     * "api_roles"
      * })
      */
     private $description;

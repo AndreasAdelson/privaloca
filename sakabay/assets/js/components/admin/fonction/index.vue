@@ -2,10 +2,9 @@
   <div class="container-fluid skb-body">
     <div class="row my-4">
       <div class="col-4">
-        <h1 class="fontUbuntu orange-skb">{{ this.$t('admin.role.title') }}</h1>
+        <h1 class="fontUbuntu orange-skb">{{ this.$t('admin.fonction.title') }}</h1>
       </div>
-      <div class="col-1">
-      </div>
+      <div class="col-1"></div>
       <div class="col-5">
         <b-form-group
           horizontal
@@ -30,7 +29,7 @@
         class="col-1"
         v-if="canCreate"
       >
-        <a href="/admin/role/new">
+        <a href="/admin/fonction/new">
           <b-button class="button_skb">{{ this.$t('commons.create') }}</b-button>
         </a>
       </div>
@@ -56,27 +55,11 @@
         >
           <template v-slot:cell(actions)="data">
             <b-button-group>
-              <a
-                :href="'/admin/role/show/' + data.value "
-                v-if="canRead"
-              >
-                <b-button><i class="fas fa-eye"></i></b-button>
-              </a>
-              <a
-                v-if="canEdit"
-                :href="'/admin/role/edit/' + data.value "
-                class="mx-1"
-              >
-                <b-button><i class="fas fa-edit"></i></b-button>
-              </a>
               <b-button
                 v-if="canDelete"
                 @click="deleteFonction(data.value)"
               ><i class="fas fa-trash"></i></b-button>
             </b-button-group>
-          </template>
-          <template v-slot:cell(fonctions)="data">
-            <div v-html="data.value"></div>
           </template>
         </b-table>
       </b-col>
@@ -97,19 +80,11 @@
 <script>
 import axios from 'axios';
 import paginationMixin from 'mixins/paginationMixin';
-import _ from 'lodash';
+
 export default {
   mixins: [paginationMixin],
   props: {
     canCreate: {
-      type: Boolean,
-      default: false
-    },
-    canEdit: {
-      type: Boolean,
-      default: false
-    },
-    canRead: {
       type: Boolean,
       default: false
     },
@@ -120,30 +95,27 @@ export default {
   },
   data () {
     return {
-      NB_MAX_DISPLAYED: 5,
       currentFilter: '',
       table: {
         field: [
-          { key: 'name', label: this.$t('admin.role.fields.name'), sortable: true, thClass: "tableitem" },
-          { key: 'code', label: this.$t('admin.role.fields.code'), sortable: true, thClass: "tableitem" },
-          { key: 'fonctions', label: this.$t('admin.role.fields.fonctions'), sortable: true, thClass: "tableitem" },
-          (!this.canDelete & !this.canEdit & !this.canRead) ? null : { key: 'actions', label: this.$t('commons.actions'), class: 'col-size-9', thClass: "tableitem" },
+          { key: 'description', label: this.$t('admin.fonction.fields.description'), sortable: true, thClass: "tableitem" },
+          (!this.canDelete) ? null : { key: 'actions', label: this.$t('commons.actions'), class: 'col-size-4', thClass: "tableitem" },
         ],
-        sortBy: 'code'
+        sortBy: 'description'
       }
     };
   },
   methods: {
-    deleteFonction (roleId) {
-      return axios.delete("/api/admin/roles/" + roleId)
+    deleteFonction (fonctionId) {
+      return axios.delete("/api/admin/fonctions/" + fonctionId)
         .then(response => {
           window.location.assign(response.headers.location);
         });
     },
     refreshData () {
-      return axios.get("/api/admin/roles", {
+      return axios.get("/api/admin/fonctions", {
         params: {
-          filterFields: 'name,code',
+          filterFields: 'description',
           filter: this.currentFilter,
           sortBy: this.table.sortBy,
           sortDesc: this.table.sortDesc,
@@ -151,15 +123,9 @@ export default {
           perPage: this.pager.perPage
         }
       }).then(response => {
-        let items = _.map(response.data, role => _.assign(role, {
-          code: role.code,
-          name: role.name,
-          fonctions: _.take(
-            _.sortBy(
-              _.map(role.fonctions, 'description'), (description) => description), this.NB_MAX_DISPLAYED)
-            .join('<br />')
-            + (role.fonctions.length > this.NB_MAX_DISPLAYED ? '<br />' + this.$tc('commons.et_plus', role.fonctions.length - this.NB_MAX_DISPLAYED) : ''),
-          actions: role.id,
+        let items = _.map(response.data, fonction => _.assign(fonction, {
+          description: fonction.description,
+          actions: fonction.id,
         }));
         this.pager.totalRows = parseInt(response.headers['x-total-count']);
         return items;

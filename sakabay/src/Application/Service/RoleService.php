@@ -12,54 +12,80 @@ class RoleService
     /**
      * @var RoleRepositoryInterface
      */
-    private $RoleRepository;
+    private $roleRepository;
 
     /**
      * RoleRestController constructor.
      */
-    public function __construct(RoleRepositoryInterface $RoleRepository)
+    public function __construct(RoleRepositoryInterface $roleRepository)
     {
-        $this->RoleRepository = $RoleRepository;
+        $this->roleRepository = $roleRepository;
     }
 
     public function addRole(string $name, string $code)
     {
-        $Role = new Role();
-        $Role->setName($name);
-        $Role->setCode($code);
-        $this->RoleRepository->save($Role);
+        $role = new Role();
+        $role->setName($name);
+        $role->setCode($code);
+        $this->roleRepository->save($role);
     }
 
     ///Editer un Role
-    public function editRole(string $name, string $code, int $RoleId)
+    public function editRole(string $name, string $code, int $roleId)
     {
-        $Role = $this->RoleRepository->findById($RoleId);
-        $Role->setName($name);
-        $Role->setCode($code);
+        $role = $this->roleRepository->findById($roleId);
+        $role->setName($name);
+        $role->setCode($code);
 
-        return $Role;
+        return $role;
     }
     // public function findOneBy(array $email): ?Role
     // {
     //     return $this->RoleRepository->findOneBy($email);
     // }
     /// Afficher un Role
-    public function getRole(int $RoleId): ?Role
+    public function getRole(int $roleId): ?Role
     {
-        return $this->RoleRepository->find($RoleId);
+        return $this->roleRepository->find($roleId);
     }
 
     public function getAllRoles(): ?array
     {
-        return $this->RoleRepository->findAll();
+        return $this->roleRepository->findAll();
     }
 
-    public function deleteRole(int $RoleId): void
+    public function deleteRole(int $roleId): void
     {
-        $Role = $this->RoleRepository->find($RoleId);
-        if (!$Role) {
-            throw new EntityNotFoundException('Role with id ' . $RoleId . ' does not exist!');
+        $role = $this->roleRepository->find($roleId);
+        if (!$role) {
+            throw new EntityNotFoundException('Role with id ' . $roleId . ' does not exist!');
         }
-        $this->RoleRepository->delete($Role);
+        $this->roleRepository->delete($role);
+    }
+
+    /**
+     * Retourne une page, potentiellement triée et filtrée.
+     *
+     * @author vbioret
+     *
+     * @param string $sortBy
+     * @param bool   $descending
+     * @param string $filterFields
+     * @param string $filterText
+     * @param int    $currentPage
+     * @param int    $perPage
+     *
+     * @return Pagerfanta
+     */
+    public function getPaginatedList(
+        $sortBy = 'id',
+        $descending = false,
+        $filterFields = '',
+        $filterText = '',
+        $currentPage = 1,
+        $perPage = PHP_INT_MAX ? PHP_INT_MAX : 10
+    ) {
+        return $this->roleRepository
+            ->getPaginatedList($sortBy, $descending, $filterFields, $filterText, $currentPage, $perPage);
     }
 }

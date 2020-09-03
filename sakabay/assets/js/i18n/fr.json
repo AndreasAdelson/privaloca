@@ -1,8 +1,12 @@
 {
   "commons": {
+    "create": "Créer",
     "actions": "Actions",
     "edit": "Modifier",
-    "rechercher": "Rechercher ..."
+    "rechercher": "Rechercher ...",
+    "select_all": "Tout sélectionner",
+    "add": "Ajouter",
+    "remove": "Retirer"
   },
   "admin": {
     "user": {
@@ -18,6 +22,30 @@
         "first_name": "Renseignez votre prénom",
         "last_name": "Renseigne votre nom ",
         "username": "Choisissez un pseudo"
+      }
+    },
+    "fonction": {
+      "title": "Liste des fonctions",
+      "fields": {
+        "code": "Code",
+        "description": "Description"
+      },
+      "placeholder": {
+        "code": "Entrez un code",
+        "description": "Renseignez la description"
+      }
+    },
+    "role": {
+      "title": "Liste des roles",
+      "fields": {
+        "fonctions": "Fonctions",
+        "code": "Code",
+        "name": "Nom"
+      },
+      "placeholder": {
+        "fonctions": "Choisissez quelles fonctions inclure dans ce role",
+        "code": "Entrez un code",
+        "name": "Renseignez un nom"
       }
     }
   },

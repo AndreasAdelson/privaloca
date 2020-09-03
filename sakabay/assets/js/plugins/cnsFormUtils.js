@@ -2,6 +2,20 @@ import _ from 'lodash';
 
 const CnsFormUtils = {
   install(Vue, options) {
+    /**
+     * Remove all fields of given object which are not in the form fields, except the id.
+     * Called when editing an etude
+     * @param {object} entity
+     * @param {array} keptFields
+     */
+    Vue.prototype.$removeFieldsNotInForm = function (entity, keptFields) {
+      Object.keys(entity).forEach(field => {
+        if (!keptFields.includes(field)) {
+          delete entity[field];
+        }
+      });
+    };
+
     Vue.prototype.$handleFormError = function (errorsData) {
       let receivedFormError = errorsData.errors.children;
       Object.keys(receivedFormError).forEach(field => {
@@ -16,7 +30,10 @@ const CnsFormUtils = {
       if (error) {
         this.formErrors[field] = error;
       }
+      console.log(field, 'field');
       let fieldElementHtml = document.getElementsByClassName(field)[0];
+      console.log(fieldElementHtml, 'fieldElementHtml');
+
       let formElement =
         fieldElementHtml.getElementsByTagName('input')[0] ||
         fieldElementHtml.getElementsByTagName('textarea')[0];
@@ -80,6 +97,7 @@ const CnsFormUtils = {
     };
 
     Vue.prototype.$setEditForm = function (data) {
+      console.log(data, 'data');
       Object.keys(this.formFields).forEach(field => {
         let underscoreField = this.$camelCaseToUnderscoreCase(field);
         this.formFields[field] = data[underscoreField];
@@ -142,6 +160,11 @@ const CnsFormUtils = {
       return transformedValue;
     };
 
+    /**
+     * Put formFields values into a formData object, in order to sent it to a PHP form.
+     * @param {Object} formFields
+     * @param {FormData} formData
+     */
     Vue.prototype.$getFormFieldsData = function (formFields = this.formFields, formData = new FormData()) {
       let transformedFormFields = this.$getTransformedValue(formFields);
       _.forEach(_.keys(transformedFormFields), field => {
@@ -158,6 +181,17 @@ const CnsFormUtils = {
         }
       });
       return formData;
+    };
+
+    /**
+     * Called when the event "selectedItemsChange" is triggered from DualList component.
+     * Set the formFields[fieldName] variable to the value given in parameter.
+     * @param {Object} eventArguments Event arguments and other VueJS properties about the event. Must be passed so 'this' is defined.
+     * @param {Array} eventArguments[0] Selected items.
+     * @param {String} fieldName
+     */
+    Vue.prototype.$onSelectedItemsChange = function (eventArguments, fieldName) {
+      this.formFields[fieldName] = _.cloneDeep(eventArguments[0]);
     };
   }
 }

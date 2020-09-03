@@ -706,18 +706,10 @@ a[data-toggle="collapse"] {
   margin-top: 3px;
 }
 
-.register-card .btn {
+.register-card .button_skb {
   font-size: 16px;
   min-width: 140px;
   outline: none !important;
-}
-
-.register-card .row div:first-child {
-  padding-right: 10px;
-}
-
-.register-card .row div:last-child {
-  padding-left: 10px;
 }
 
 .register-card a:hover {
@@ -801,6 +793,10 @@ a[data-toggle="collapse"] {
   background-color: $yellow_login_color;
 }
 
+.col-size-3 {
+  width: 3%;
+}
+
 .col-size-4 {
   width: 4%;
 }
@@ -848,4 +844,45 @@ a[data-toggle="collapse"] {
 
 .page-link {
   color: $orange_login_color !important;
+}
+
+/*---------------------------------
+    Dual List
+-----------------------------------*/
+.dual-list .list-group {
+  height: 350px;
+  max-height: 350px;
+  overflow-y: auto;
+  border: 2px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  display: block;
+}
+
+.list-group-item.active {
+  background-color: $orange_login_color;
+}
+
+.list-group-item,
+.list-group-item:last-child,
+.list-group-item:first-child {
+  border: 0;
+  border-radius: 0;
+}
+
+.list-group-item {
+  border-top: 1px solid rgba(0, 0, 0, 0.125) !important;
+}
+
+.list-group-item:first-child {
+  border-top: 0 !important;
+}
+
+.list-group-item:last-child:not(.not-last-lisere) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
+}
+
+.selector {
+  background-color: $orange_login_color !important;
+  color: $white_color !important;
+  border-color: $orange_login_color !important;
 }

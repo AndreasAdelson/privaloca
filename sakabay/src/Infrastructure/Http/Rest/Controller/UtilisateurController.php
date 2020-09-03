@@ -47,7 +47,7 @@ final class UtilisateurController extends AbstractFOSRestController
      *             description="Filtre"
      * )
      * @QueryParam(name="sortBy",
-     *             default="login",
+     *             default="lastName",
      *             description="Champ unique sur lequel s'opère le tri"
      * )
      * @QueryParam(name="sortDesc",
@@ -126,7 +126,7 @@ final class UtilisateurController extends AbstractFOSRestController
         $this->entityManager->persist($utilisateur);
         $this->entityManager->flush($utilisateur);
 
-        $ressourceLocation = $this->generateUrl('user_admin_index');
+        $ressourceLocation = $this->generateUrl('user_index');
         return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
     }
 
@@ -153,7 +153,9 @@ final class UtilisateurController extends AbstractFOSRestController
             $request->request->set('imageProfil', $newFileName);
             $oldImage = $utilisateur->getImageProfil();
             if (!empty($oldImage)) {
-                $uploader->deleteOldFile($uploadDir, $oldImage);
+                if (file_exists($oldImage)) {
+                    $uploader->deleteOldFile($uploadDir, $oldImage);
+                }
             }
         }
         $formOptions = [
@@ -185,7 +187,7 @@ final class UtilisateurController extends AbstractFOSRestController
         } catch (EntityNotFoundException $e) {
             throw new NotFoundHttpException($e->getMessage());
         }
-        $ressourceLocation = $this->generateUrl('user_admin_index');
+        $ressourceLocation = $this->generateUrl('user_index');
 
         return View::create($utilisateur, Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
     }

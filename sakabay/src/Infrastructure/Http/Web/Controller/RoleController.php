@@ -8,41 +8,55 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class RoleController extends AbstractController
 {
+
     /**
-     * @Route("/", name="home")
+     * @Route("admin/role", name="role_index", methods="GET")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function index()
+    public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
-        $words = [
-            'sky', 'cloud', 'wood', 'rock', 'forest',
-            'mountain', 'breeze'
-        ];
-        return $this->render('role/index.html.twig', [
-            'words' => $words,
-            'controller_name' => 'RoleController',
+        return $this->render('admin/role/index.html.twig', [
+            'canCreate' => $authorizationChecker->isGranted('ROLE_CROLE'),
+            'canRead' => $authorizationChecker->isGranted('ROLE_RROLE'),
+            'canEdit' => $authorizationChecker->isGranted('ROLE_UROLE'),
+            'canDelete' => $authorizationChecker->isGranted('ROLE_DROLE'),
         ]);
     }
 
     /**
+     * @Route("admin/role/new", name="role_new", methods="GET|POST")
      * @Security("is_granted('ROLE_ADMIN')")
-     * @Route("/admin/role", name="user_admin_index")
      */
-    public function usersList(RoleRepository $users)
+    public function new()
     {
-        return $this->render('admin/index.html.twig', []);
+        return $this->render('admin/role/form.html.twig', [
+            'roleId' => 'null'
+        ]);
     }
 
     /**
+     * @Route("admin/role/edit/{id}", name="role_edit", methods="GET|POST")
      * @Security("is_granted('ROLE_ADMIN')")
-     * @Route("/admin/role/edit/{id}", name="modifier_role")
      */
-    public function editUser(int $id)
+    public function edit(int $id)
     {
-        return $this->render('admin/edituser.html.twig', [
+        return $this->render('admin/role/form.html.twig', [
             'roleId' => $id,
+        ]);
+    }
+
+    /**
+     * @Route("admin/role/{id}", name="role_show", methods="GET|POST")
+     */
+    public function show(int $id)
+    {
+        return $this->render('admin/role/show.html.twig', [
+            'controller_name' => 'GroupController',
+            'roleId' => $id
         ]);
     }
 }

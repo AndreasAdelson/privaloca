@@ -23,7 +23,7 @@ class Role
      * @var int
      * @Expose
      * @Groups({
-     * "api_role"
+     * "api_roles"
      * })
      */
     private $id;
@@ -32,7 +32,7 @@ class Role
      * @var string
      * @Expose
      * @Groups({
-     * "api_role"
+     * "api_roles"
      * })
      */
     private $name;
@@ -41,7 +41,7 @@ class Role
      * @var string
      * @Expose
      * @Groups({
-     * "api_role"
+     * "api_roles"
      * })
      */
     private $code;
@@ -50,7 +50,7 @@ class Role
      * @var Fonction[]
      * @Expose
      * @Groups({
-     * "api_role"
+     * "api_roles"
      * })
      */
     private $fonctions;

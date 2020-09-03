@@ -59,5 +59,13 @@ error_generic_title: "Error"
 error_generic_message: "An error occured."
 error_application_access_message: "You do not have access to this part of the application."
 
+#Fonction's pages
+fonction_title_list_page: "Functions list"
+fonction_title_form_page: "Edit a function"
 
+#Role's pages
+role_title_list_page: "Roles list"
+role_title_edit_page: "Edit a role"
+role_title_create_page: "Create a role"
+role_title_show_page: "Role detail"
 

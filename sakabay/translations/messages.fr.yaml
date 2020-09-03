@@ -1,5 +1,6 @@
 sakabay: Sakabay
 
+#User's pages
 user_title_list_page: "Liste des utilisateurs"
 user_title_edit_page: "Modifier un utilisateur"
 user_title_show_page: "Détails de l'utilisateur"
@@ -58,7 +59,15 @@ error_generic_title: "Erreur"
 error_generic_message: "Une erreur est survenue."
 error_application_access_message: "Vous ne disposez pas des droits pour afficher cette page."
 
+#Fonction's pages
+fonction_title_list_page: "Liste des fonctions"
+fonction_title_form_page: "Modifier une fonction"
 
+#Role's pages
+role_title_list_page: "Liste des roles"
+role_title_edit_page: "Modifier un role"
+role_title_create_page: "Créer un role"
+role_title_show_page: "Détails d'un role"
 
 
 

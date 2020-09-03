@@ -1,8 +1,12 @@
 {
   "commons": {
+    "create": "Create",
     "actions": "Actions",
     "edit": "Edit",
-    "rechercher": "Search ..."
+    "rechercher": "Search ...",
+    "select_all": "Select all",
+    "add": "Add",
+    "remove": "Remove"
   },
   "admin": {
     "user": {
@@ -18,6 +22,30 @@
         "first_name": "Enter first name",
         "last_name": "Enter last name",
         "username": "Choose an username"
+      }
+    },
+    "fonction": {
+      "title": "Fonctions list",
+      "fields": {
+        "code": "Code",
+        "description": "Description"
+      },
+      "placeholder": {
+        "code": "Enter a code",
+        "description": "Enter a description"
+      }
+    },
+    "role": {
+      "title": "Roles list",
+      "fields": {
+        "fonctions": "Fonctions",
+        "code": "Code",
+        "name": "Name"
+      },
+      "placeholder": {
+        "fonctions": "Choose which functions to include in this role",
+        "code": "Enter a code",
+        "name": "Enter a name"
       }
     }
   },

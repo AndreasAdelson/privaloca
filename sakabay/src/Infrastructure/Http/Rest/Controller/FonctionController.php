@@ -2,9 +2,9 @@
 
 namespace App\Infrastructure\Http\Rest\Controller;
 
-use App\Application\Form\Type\RoleType;
-use App\Application\Service\RoleService;
-use App\Domain\Model\Role;
+use App\Application\Form\Type\FonctionType;
+use App\Application\Service\FonctionService;
+use App\Domain\Model\Fonction;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
@@ -15,56 +15,57 @@ use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-final class RoleController extends AbstractFOSRestController
+
+final class FonctionController extends AbstractFOSRestController
 {
     private $entityManager;
-    private $roleService;
+    private $fonctionService;
     private $translator;
 
     /**
-     * RoleRestController constructor.
+     * FonctionRestController constructor.
      */
-    public function __construct(EntityManagerInterface $entityManager, RoleService $roleService, TranslatorInterface $translator)
+    public function __construct(EntityManagerInterface $entityManager, FonctionService $fonctionService, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
         $this->translator = $translator;
-        $this->roleService = $roleService;
+        $this->fonctionService = $fonctionService;
     }
 
     /**
      * @Rest\View()
-     * @Rest\Post("admin/roles")
-     * @Security("is_granted('ROLE_CROLE')")
+     * @Rest\Post("admin/fonctions")
+     * @Security("is_granted('ROLE_CFONCTION')")
      * @param Request $request
      *
      * @return View
      */
-    public function createRole(Request $request)
+    public function createFonction(Request $request)
     {
-        $role = new Role();
-        $formOptions = ['translator' => $this->translator];
-        $form = $this->createForm(RoleType::class, $role, $formOptions);
+        $fonction = new Fonction();
+
+        $formOptions = [
+            'translator' => $this->translator,
+        ];
+        $form = $this->createForm(FonctionType::class, $fonction, $formOptions);
         $form->submit($request->request->all());
         if (!$form->isValid()) {
             return $form;
         }
-        $this->entityManager->persist($role);
-        $this->entityManager->flush();
+        $this->entityManager->persist($fonction);
+        $this->entityManager->flush($fonction);
 
-        $ressourceLocation = $this->generateUrl('role_index');
-
-        return View::create([], Response::HTTP_CREATED, ['Location' => $ressourceLocation]);
-
-        return View::create($role, Response::HTTP_CREATED);
+        $ressourceLocation = $this->generateUrl('fonction_index');
+        return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
     }
 
     /**
-     * @Rest\View(serializerGroups={"api_roles"})
-     * @Rest\Get("/admin/roles")
+     * @Rest\View(serializerGroups={"api_fonctions"})
+     * @Rest\Get("/admin/fonctions")
      *
      * @QueryParam(name="filterFields",
      *             default="description",
@@ -92,8 +93,7 @@ final class RoleController extends AbstractFOSRestController
      * )
      * @return View
      */
-
-    public function getRoles(ParamFetcher $paramFetcher): View
+    public function getFonctions(ParamFetcher $paramFetcher): View
     {
         $filterFields = $paramFetcher->get('filterFields');
         $filter = $paramFetcher->get('filter');
@@ -102,75 +102,75 @@ final class RoleController extends AbstractFOSRestController
         $currentPage = $paramFetcher->get('currentPage');
         $perPage = $paramFetcher->get('perPage');
 
-        $pager = $this->roleService
+        $pager = $this->fonctionService
             ->getPaginatedList($sortBy, 'true' === $sortDesc, $filterFields, $filter, $currentPage, $perPage);
-        $roles = $pager->getCurrentPageResults();
+        $fonctions = $pager->getCurrentPageResults();
         $nbResults = $pager->getNbResults();
-        $datas = iterator_to_array($roles);
+        $datas = iterator_to_array($fonctions);
         $view = $this->view($datas, Response::HTTP_OK);
         $view->setHeader('X-Total-Count', $nbResults);
 
         return $view;
     }
+
     /**
-     * @Rest\View(serializerGroups={"api_roles"})
-     * @Rest\Get("admin/roles/{roleId}")
+     * @Rest\View(serializerGroups={"api_fonction"})
+     * @Rest\Get("admin/fonctions/{fonctionId}")
      *
      * @return View
      */
-    public function getRole(int $roleId): View
+    public function getFonction(int $fonctionId): View
     {
-        $role = $this->roleService->getRole($roleId);
+        $fonction = $this->fonctionService->getFonction($fonctionId);
 
-        return View::create($role, Response::HTTP_OK);
+        return View::create($fonction, Response::HTTP_OK);
     }
 
     /**
      * @Rest\View()
-     * @Rest\Post("admin/roles/{roleId}")
-     * @Security("is_granted('ROLE_UROLE')")
-     *
+     * @Rest\Post("admin/fonctions/edit/{fonctionId}")
+     *@Security("is_granted('ROLE_UFONCTION')")
      * @return View
      */
-    public function editRole(int $roleId, Request $request)
+    public function editFonction(int $fonctionId, Request $request)
     {
-        $role = $this->roleService->getRole($roleId);
+        $fonction = $this->fonctionService->getFonction($fonctionId);
 
-        if (!$role) {
-            throw new EntityNotFoundException('Role with id ' . $roleId . ' does not exist!');
+        if (!$fonction) {
+            throw new EntityNotFoundException('Fonction with id ' . $fonctionId . ' does not exist!');
         }
 
         $formOptions = [
             'translator' => $this->translator,
         ];
-        $form = $this->createForm(RoleType::class, $role, $formOptions);
+        $form = $this->createForm(FonctionType::class, $fonction, $formOptions);
         $form->submit($request->request->all());
         if (!$form->isValid()) {
             return $form;
         }
-        $this->entityManager->persist($role);
-        $this->entityManager->flush($role);
+        $this->entityManager->persist($fonction);
+        $this->entityManager->flush($fonction);
 
-        $ressourceLocation = $this->generateUrl('role_index');
+        $ressourceLocation = $this->generateUrl('fonction_index');
         return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
     }
 
     /**
      * @Rest\View()
-     * @Rest\Delete("admin/roles/{roleId}")
-     * @Security("is_granted('ROLE_DROLE')")
+     * @Rest\Delete("admin/fonctions/{fonctionId}")
+     * @Security("is_granted('ROLE_DFONCTION')")
      *
      * @return View
      */
-    public function deleteRoles(int $roleId): View
+    public function deleteFonctions(int $fonctionId): View
     {
         try {
-            $this->roleService->deleteRole($roleId);
+            $fonction = $this->fonctionService->deleteFonction($fonctionId);
         } catch (EntityNotFoundException $e) {
             throw new NotFoundHttpException($e->getMessage());
         }
-        $ressourceLocation = $this->generateUrl('role_index');
+        $ressourceLocation = $this->generateUrl('fonction_index');
 
-        return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
+        return View::create($fonction, Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
     }
 }

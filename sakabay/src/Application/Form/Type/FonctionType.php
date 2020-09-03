@@ -3,52 +3,36 @@
 namespace App\Application\Form\Type;
 
 use Symfony\Component\Validator\Constraints\NotBlank;
-use App\Domain\Model\Utilisateur;
+use Symfony\Component\Validator\Constraints\Length;
+use App\Domain\Model\Fonction;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EditUtilisateurType extends AbstractType
+class FonctionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $translator = $options['translator'];
 
         $builder
-            ->add('email', EmailType::class, [
+            ->add('code', TextType::class, [
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Merci d\'entrer un e-mail',
+                        'message' => $translator->trans('error_message_field_not_empty')
                     ]),
+                    new Length(['max' => 50]),
                 ],
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('login', TextType::class, [
+            ->add('description', TextType::class, [
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Merci d\'entrer un login',
+                        'message' => $translator->trans('error_message_field_not_empty'),
                     ]),
-                ],
-                'required' => true,
-                'attr' => ['class' => 'form-control'],
-            ])
-            ->add('firstName', TextType::class, [
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Merci d\'entrer un first name',
-                    ]),
-                ],
-                'required' => true,
-                'attr' => ['class' => 'form-control'],
-            ])
-            ->add('lastName', TextType::class, [
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Merci d\'entrer un last name',
-                    ]),
+                    new Length(['max' => 191]),
                 ],
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
@@ -58,7 +42,7 @@ class EditUtilisateurType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Utilisateur::class,
+            'data_class' => Fonction::class,
             'csrf_protection' => false,
         ]);
         $resolver->setRequired('translator');

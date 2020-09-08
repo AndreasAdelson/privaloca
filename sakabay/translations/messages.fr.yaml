@@ -69,6 +69,11 @@ role_title_edit_page: "Modifier un role"
 role_title_create_page: "Créer un role"
 role_title_show_page: "Détails d'un role"
 
+#Group's pages
+group_title_list_page: "Liste des groupes"
+group_title_edit_page: "Modifier un groupe"
+group_title_create_page: "Créer un groupe"
+group_title_show_page: "Détails d'un groupe"
 
 
 

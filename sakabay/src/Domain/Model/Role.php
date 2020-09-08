@@ -32,7 +32,8 @@ class Role
      * @var string
      * @Expose
      * @Groups({
-     * "api_roles"
+     * "api_roles",
+     * "api_groups"
      * })
      */
     private $name;
@@ -125,27 +126,6 @@ class Role
     public function setCode(string $code)
     {
         $this->code = $code;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of description
-     * @return  string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set the value of description
-     * @param  string  $description
-     * @return  self
-     */
-    public function setDescription(string $description)
-    {
-        $this->description = $description;
 
         return $this;
     }

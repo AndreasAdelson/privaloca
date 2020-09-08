@@ -62,26 +62,39 @@ final class UtilisateurController extends AbstractFOSRestController
      *             default="1000000",
      *             description="Taille de la page"
      * )
+     *
+     * - - - - - - - - - - - - Autocomplete - - - - - - - - - - - -
+     *
+     * @QueryParam(name="autocomplete",
+     *             default="",
+     *             description="Nom &| Prénom &| Email de l'utilisateur"
+     * )
      * @return View
      */
     public function getUtilisateurs(ParamFetcher $paramFetcher): View
     {
-        $filterFields = $paramFetcher->get('filterFields');
-        $filter = $paramFetcher->get('filter');
-        $sortBy = $paramFetcher->get('sortBy');
-        $sortDesc = $paramFetcher->get('sortDesc');
-        $currentPage = $paramFetcher->get('currentPage');
-        $perPage = $paramFetcher->get('perPage');
+        if ($paramFetcher->get('autocomplete')) {
+            $utilisateurs = $this->utilisateurService->findUsersForAutocomplete($paramFetcher->all());
 
-        $pager = $this->utilisateurService
-            ->getPaginatedList($sortBy, 'true' === $sortDesc, $filterFields, $filter, $currentPage, $perPage);
-        $utilisateurs = $pager->getCurrentPageResults();
-        $nbResults = $pager->getNbResults();
-        $datas = iterator_to_array($utilisateurs);
-        $view = $this->view($datas, Response::HTTP_OK);
-        $view->setHeader('X-Total-Count', $nbResults);
+            return View::create($utilisateurs, Response::HTTP_OK);
+        } else {
+            $filterFields = $paramFetcher->get('filterFields');
+            $filter = $paramFetcher->get('filter');
+            $sortBy = $paramFetcher->get('sortBy');
+            $sortDesc = $paramFetcher->get('sortDesc');
+            $currentPage = $paramFetcher->get('currentPage');
+            $perPage = $paramFetcher->get('perPage');
 
-        return $view;
+            $pager = $this->utilisateurService
+                ->getPaginatedList($sortBy, 'true' === $sortDesc, $filterFields, $filter, $currentPage, $perPage);
+            $utilisateurs = $pager->getCurrentPageResults();
+            $nbResults = $pager->getNbResults();
+            $datas = iterator_to_array($utilisateurs);
+            $view = $this->view($datas, Response::HTTP_OK);
+            $view->setHeader('X-Total-Count', $nbResults);
+
+            return $view;
+        }
     }
 
     /**

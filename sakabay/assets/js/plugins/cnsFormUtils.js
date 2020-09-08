@@ -193,6 +193,19 @@ const CnsFormUtils = {
     Vue.prototype.$onSelectedItemsChange = function (eventArguments, fieldName) {
       this.formFields[fieldName] = _.cloneDeep(eventArguments[0]);
     };
+
+    /**
+     * Called whenever receiving the « after-create » event from the any new entity modal component.
+     * Add the given entity to the formFields[fieldName] list
+     * @param {Object} eventArguments Event arguments and other VueJS properties about the event. Must be passed so 'this' is defined.
+     * @param {Object} eventArguments[0] The entity object
+     * @param {String} fieldName The name of the entity
+     * @param {Object} formFields The object containing fieldName entities  The name of the entity
+     */
+    Vue.prototype.$onAfterCreateEntity = function (eventArguments, fieldName, formFields) {
+      const nextKey = Math.max(-1, ...Object.keys(formFields[fieldName])) + 1;
+      Vue.set(formFields[fieldName], nextKey, eventArguments[0]);
+    };
   }
 }
 

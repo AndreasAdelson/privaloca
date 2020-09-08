@@ -69,3 +69,9 @@ role_title_edit_page: "Edit a role"
 role_title_create_page: "Create a role"
 role_title_show_page: "Role detail"
 
+#Group's pages
+group_title_list_page: "Groups list"
+group_title_edit_page: "Edit a group"
+group_title_create_page: "Create a group"
+group_title_show_page: "Group detail"
+

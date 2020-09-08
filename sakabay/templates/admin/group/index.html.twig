@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'group_title_list_page'|trans }}{% endblock %}
+
+{% block body %}
+
+<div class="group-wrapper">
+    <list-group
+    :can-create="{{ canCreate|json_encode }}"
+    :can-read="{{ canRead|json_encode }}"
+    :can-edit="{{ canEdit|json_encode }}"
+    :can-delete="{{ canDelete|json_encode }}"
+    ></list-group>
+</div>
+{% endblock %}

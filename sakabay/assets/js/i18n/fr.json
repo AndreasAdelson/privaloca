@@ -40,16 +40,32 @@
       "fields": {
         "fonctions": "Fonctions",
         "code": "Code",
-        "name": "Nom"
+        "name": "Nom",
+        "groups": "Groupes"
       },
       "placeholder": {
-        "fonctions": "Choisissez quelles fonctions inclure dans ce role",
         "code": "Entrez un code",
         "name": "Renseignez un nom"
+      }
+    },
+    "group": {
+      "title": "Liste des groups",
+      "fields": {
+        "roles": "Roles",
+        "code": "Code",
+        "name": "Nom",
+        "utilisateurs": "Utilisateurs"
+      },
+      "placeholder": {
+        "code": "Entrez un code",
+        "name": "Renseignez un nom",
+        "utilisateurs": "Renseignez les 3 premières lettre du nom ou prénom ou pseudo"
       }
     }
   },
   "error_message_required": "Ce champ est obligatoire. Merci de bien vouloir le renseigner.",
   "error_message_required_login": "La taille de votre login ne doit pas être inférieure à 5 caractères ni supérieur à 10 caractères",
-  "error_message_email": "Veuillez entrer un email valide"
+  "error_message_email": "Veuillez entrer un email valide",
+  "user_does_not_exist": "Cet utilisateur n'existe pas"
+
 }

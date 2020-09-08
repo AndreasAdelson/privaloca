@@ -20,7 +20,7 @@
                   id="name"
                   class="name"
                 >
-                  <label class="fontUbuntu fontSize14">{{ this.$t('admin.role.fields.name') }}</label>
+                  <label class="fontUbuntu fontSize16">{{ this.$t('admin.role.fields.name') }}</label>
                   <input
                     v-validate="'required'"
                     type="text"
@@ -44,7 +44,7 @@
                   id="code"
                   class="code"
                 >
-                  <label class="fontUbuntu fontSize14">{{ this.$t('admin.role.fields.code') }}</label>
+                  <label class="fontUbuntu fontSize16">{{ this.$t('admin.role.fields.code') }}</label>
                   <input
                     v-validate="'required'"
                     name="code"
@@ -65,7 +65,11 @@
           </div>
           <!-- Second row  -->
           <div class="row">
-            <div class="col-12">
+            <fieldset
+              id="fonctions"
+              class="col-12 fonctions"
+            >
+              <label class="fontUbuntu fontSize16">{{ $t('admin.role.fields.fonctions') }}</label>
               <dual-list
                 v-if="fonctionsAtCreation !== null"
                 :items="fonctions"
@@ -84,9 +88,9 @@
                 :key="'fonctions_' + errorText"
                 class="line-height-1"
               >
-                <span class="fontSize10 redtxt">{{ errorText }}</span>
+                <span class="fontUbuntu fontSize13 red-skb">{{ errorText }}</span>
               </div>
-            </div>
+            </fieldset>
           </div>
           <div class="row my-3">
             <div class="col-6 offset-3">

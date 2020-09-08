@@ -40,16 +40,31 @@
       "fields": {
         "fonctions": "Fonctions",
         "code": "Code",
-        "name": "Name"
+        "name": "Name",
+        "groups": "Groups"
       },
       "placeholder": {
-        "fonctions": "Choose which functions to include in this role",
         "code": "Enter a code",
         "name": "Enter a name"
+      }
+    },
+    "group": {
+      "title": "Groups list",
+      "fields": {
+        "roles": "Roles",
+        "code": "Code",
+        "name": "Name",
+        "utilisateurs": "Users"
+      },
+      "placeholder": {
+        "code": "Enter a code",
+        "name": "Enter a name",
+        "utilisateurs": "Fill in the first 3 letters of the surname or first name or last name."
       }
     }
   },
   "error_message_required": "This field is mandatory. Thank you for filling it in.",
-  "error_message_required_login": "La taille de votre login ne doit pas être inférieure à 5 caractères ni supérieur à 10 caractères",
-  "error_message_email": "Please enter a valid email"
+  "error_message_required_login": "The size of your login must not be less than 5 characters and not more than 10 characters.",
+  "error_message_email": "Please enter a valid email",
+  "user_does_not_exist": "This user does not exists"
 }

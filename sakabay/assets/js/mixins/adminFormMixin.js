@@ -30,7 +30,6 @@ export default {
      * @returns {Promise}
      */
     submitForm() {
-      this.loading = true;
       let fieldsDataFunction = this.getFormFieldsData || this.$getFormFieldsData;
       return axios
         .post(this.API_URL, fieldsDataFunction.bind(this)(this.formFields))
@@ -44,7 +43,7 @@ export default {
           } else {
             this.$handleError(e);
           }
-      });
+        });
     },
 
     /**
@@ -63,7 +62,7 @@ export default {
           }
           this.loading = false;
           this.$handleError(e);
-      });
+        });
     },
   },
 };

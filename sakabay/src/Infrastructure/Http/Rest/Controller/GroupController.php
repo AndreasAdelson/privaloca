@@ -2,9 +2,9 @@
 
 namespace App\Infrastructure\Http\Rest\Controller;
 
-use App\Application\Form\Type\RoleType;
-use App\Application\Service\RoleService;
-use App\Domain\Model\Role;
+use App\Application\Form\Type\GroupType;
+use App\Application\Service\GroupService;
+use App\Domain\Model\Group;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
@@ -19,55 +19,55 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-final class RoleController extends AbstractFOSRestController
+final class GroupController extends AbstractFOSRestController
 {
     private $entityManager;
     private $roleService;
     private $translator;
 
     /**
-     * RoleRestController constructor.
+     * GroupRestController constructor.
      */
-    public function __construct(EntityManagerInterface $entityManager, RoleService $roleService, TranslatorInterface $translator)
+    public function __construct(EntityManagerInterface $entityManager, GroupService $groupService, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
         $this->translator = $translator;
-        $this->roleService = $roleService;
+        $this->groupService = $groupService;
     }
 
     /**
      * @Rest\View()
-     * @Rest\Post("admin/roles")
-     * @Security("is_granted('ROLE_CROLE')")
+     * @Rest\Post("admin/groups")
+     * @Security("is_granted('ROLE_CGROUP')")
      * @param Request $request
      *
      * @return View
      */
-    public function createRole(Request $request)
+    public function createGroup(Request $request)
     {
-        $role = new Role();
+        $group = new Group();
         $formOptions = ['translator' => $this->translator];
-        $form = $this->createForm(RoleType::class, $role, $formOptions);
+        $form = $this->createForm(GroupType::class, $group, $formOptions);
         $form->submit($request->request->all());
         if (!$form->isValid()) {
             return $form;
         }
-        $this->entityManager->persist($role);
+        $this->entityManager->persist($group);
         $this->entityManager->flush();
 
-        $ressourceLocation = $this->generateUrl('role_index');
+        $ressourceLocation = $this->generateUrl('group_index');
 
         return View::create([], Response::HTTP_CREATED, ['Location' => $ressourceLocation]);
 
-        return View::create($role, Response::HTTP_CREATED);
+        return View::create($group, Response::HTTP_CREATED);
     }
 
     /**
-     * @Rest\View(serializerGroups={"api_roles"})
-     * @Rest\Get("/admin/roles")
+     * @Rest\View(serializerGroups={"api_groups"})
+     * @Rest\Get("/admin/groups")
      *
      * @QueryParam(name="filterFields",
-     *             default="name",
+     *             default="description",
      *             description="Liste des champs sur lesquels le filtre s'appuie"
      * )
      * @QueryParam(name="filter",
@@ -75,7 +75,7 @@ final class RoleController extends AbstractFOSRestController
      *             description="Filtre"
      * )
      * @QueryParam(name="sortBy",
-     *             default="name",
+     *             default="description",
      *             description="Champ unique sur lequel s'opère le tri"
      * )
      * @QueryParam(name="sortDesc",
@@ -93,7 +93,7 @@ final class RoleController extends AbstractFOSRestController
      * @return View
      */
 
-    public function getRoles(ParamFetcher $paramFetcher): View
+    public function getGroups(ParamFetcher $paramFetcher): View
     {
         $filterFields = $paramFetcher->get('filterFields');
         $filter = $paramFetcher->get('filter');
@@ -102,74 +102,74 @@ final class RoleController extends AbstractFOSRestController
         $currentPage = $paramFetcher->get('currentPage');
         $perPage = $paramFetcher->get('perPage');
 
-        $pager = $this->roleService
+        $pager = $this->groupService
             ->getPaginatedList($sortBy, 'true' === $sortDesc, $filterFields, $filter, $currentPage, $perPage);
-        $roles = $pager->getCurrentPageResults();
+        $groups = $pager->getCurrentPageResults();
         $nbResults = $pager->getNbResults();
-        $datas = iterator_to_array($roles);
+        $datas = iterator_to_array($groups);
         $view = $this->view($datas, Response::HTTP_OK);
         $view->setHeader('X-Total-Count', $nbResults);
 
         return $view;
     }
     /**
-     * @Rest\View(serializerGroups={"api_roles"})
-     * @Rest\Get("admin/roles/{roleId}")
+     * @Rest\View(serializerGroups={"api_groups"})
+     * @Rest\Get("admin/groups/{groupId}")
      *
      * @return View
      */
-    public function getRole(int $roleId): View
+    public function getGroup(int $groupId): View
     {
-        $role = $this->roleService->getRole($roleId);
+        $group = $this->groupService->getGroup($groupId);
 
-        return View::create($role, Response::HTTP_OK);
+        return View::create($group, Response::HTTP_OK);
     }
 
     /**
      * @Rest\View()
-     * @Rest\Post("admin/roles/{roleId}")
-     * @Security("is_granted('ROLE_UROLE')")
+     * @Rest\Post("admin/groups/{groupId}")
+     * @Security("is_granted('ROLE_UGROUP')")
      *
      * @return View
      */
-    public function editRole(int $roleId, Request $request)
+    public function editGroup(int $groupId, Request $request)
     {
-        $role = $this->roleService->getRole($roleId);
+        $group = $this->groupService->getGroup($groupId);
 
-        if (!$role) {
-            throw new EntityNotFoundException('Role with id ' . $roleId . ' does not exist!');
+        if (!$group) {
+            throw new EntityNotFoundException('Group with id ' . $groupId . ' does not exist!');
         }
 
         $formOptions = [
             'translator' => $this->translator,
         ];
-        $form = $this->createForm(RoleType::class, $role, $formOptions);
+        $form = $this->createForm(GroupType::class, $group, $formOptions);
         $form->submit($request->request->all());
         if (!$form->isValid()) {
             return $form;
         }
-        $this->entityManager->persist($role);
-        $this->entityManager->flush($role);
+        $this->entityManager->persist($group);
+        $this->entityManager->flush($group);
 
-        $ressourceLocation = $this->generateUrl('role_index');
+        $ressourceLocation = $this->generateUrl('group_index');
         return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
     }
 
     /**
      * @Rest\View()
-     * @Rest\Delete("admin/roles/{roleId}")
-     * @Security("is_granted('ROLE_DROLE')")
+     * @Rest\Delete("admin/groups/{groupId}")
+     * @Security("is_granted('ROLE_DGROUP')")
      *
      * @return View
      */
-    public function deleteRoles(int $roleId): View
+    public function deleteGroups(int $groupId): View
     {
         try {
-            $this->roleService->deleteRole($roleId);
+            $this->groupService->deleteGroup($groupId);
         } catch (EntityNotFoundException $e) {
             throw new NotFoundHttpException($e->getMessage());
         }
-        $ressourceLocation = $this->generateUrl('role_index');
+        $ressourceLocation = $this->generateUrl('group_index');
 
         return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
     }

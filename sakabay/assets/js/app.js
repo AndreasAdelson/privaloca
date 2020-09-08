@@ -8,6 +8,7 @@
 // any CSS you import will output into a single css file (app.css in this case)
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
+require('vue2-autocomplete-js/dist/style/vue2-autocomplete.css');
 import '../css/app.css';
 import $ from 'jquery';
 import Vue from 'vue';
@@ -32,6 +33,8 @@ import ListFonction from './components/admin/fonction';
 import FormFonction from './components/admin/fonction/form';
 import ListRole from './components/admin/role';
 import FormRole from './components/admin/role/form';
+import ListGroup from './components/admin/group';
+import FormGroup from './components/admin/group/form';
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
@@ -61,5 +64,7 @@ new Vue({
     ListFonction,
     FormFonction,
     FormRole,
+    FormGroup,
+    ListGroup
   }
 })

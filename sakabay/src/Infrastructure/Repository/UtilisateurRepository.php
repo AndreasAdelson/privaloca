@@ -43,4 +43,26 @@ class UtilisateurRepository extends AbstractRepository implements UtilisateurRep
         $this->_em->remove($utilisateur);
         $this->_em->flush($utilisateur);
     }
+
+    /**
+     * Return a list of User matching given criterias.
+     *
+     * @param string $filter[autocomplete] Name or first name or login of a user
+     */
+    public function findUsersForAutocomplete(array $filter): array
+    {
+        $name = $filter['autocomplete'];
+        $name = mb_strtolower("%$name%");
+        $queryFilter = "LOWER(CONCAT(user.firstName, ' ', user.lastName)) LIKE :name
+                        OR LOWER(CONCAT(user.lastName, ' ', user.firstName)) LIKE :name
+                        OR LOWER(user.login) LIKE :name";
+        $query = $this->createQueryBuilder('user');
+
+        return $query->andWhere($queryFilter)
+            ->setParameter('name', $name)
+            ->addOrderBy('user.lastName')
+            ->addOrderBy('user.firstName')
+            ->getQuery()
+            ->getResult();
+    }
 }

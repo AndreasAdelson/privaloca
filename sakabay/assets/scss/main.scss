@@ -708,7 +708,7 @@ a[data-toggle="collapse"] {
 
 .register-card .button_skb {
   font-size: 16px;
-  min-width: 140px;
+  min-width: 60px;
   outline: none !important;
 }
 
@@ -885,4 +885,31 @@ a[data-toggle="collapse"] {
   background-color: $orange_login_color !important;
   color: $white_color !important;
   border-color: $orange_login_color !important;
+}
+
+/*---------------------------------
+    Autocomplete
+-----------------------------------*/
+.autocomplete-wrapper[disabled="disabled"]>input {
+  pointer-events: none;
+  background-color: #FAFAFA;
+}
+
+.autocomplete-list {
+  border: 1px solid #D9DCE1;
+}
+
+.autocomplete-list ul {
+  list-style-type: none;
+  margin-bottom: 0;
+  margin-left: -40px;
+}
+
+.autocomplete-list li {
+  padding: 5px 8px;
+}
+
+.autocomplete-list li.focus-list {
+  background: $orange_login_color;
+  color: $white_color;
 }

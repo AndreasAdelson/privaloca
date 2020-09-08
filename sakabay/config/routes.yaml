@@ -74,16 +74,21 @@ role_show:
 
 # Routes for Group object
 group_index:
-    path: /group
+    path: admin/group
     controller: App\Infrastructure\Http\Web\Controller\GroupController::index
     methods: [GET]
 
 group_new:
-    path: /group/new
+    path: admin/group/new
     controller: App\Infrastructure\Http\Web\Controller\GroupController::new
     methods: [GET, POST]
 
+group_edit:
+    path: admin/group/edit/{id}
+    controller: App\Infrastructure\Http\Web\Controller\GroupController::edit
+    methods: [GET, POST]
+
 group_show:
-    path: /group/show/{id}
+    path: admin/group/show/{id}
     controller: App\Infrastructure\Http\Web\Controller\GroupController::show
     methods: [GET, POST]

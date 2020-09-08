@@ -56,7 +56,7 @@
                   id="email"
                   class="email"
                 >
-                  <label class="fontUbuntu fontSize14">{{ this.$t('admin.user.fields.email') }}</label>
+                  <label class="fontUbuntu fontSize16">{{ this.$t('admin.user.fields.email') }}</label>
                   <input
                     v-validate="'required|email'"
                     type="text"
@@ -80,7 +80,7 @@
                   id="firstName"
                   class="firstName"
                 >
-                  <label class="fontUbuntu fontSize14">{{ this.$t('admin.user.fields.first_name') }}</label>
+                  <label class="fontUbuntu fontSize16">{{ this.$t('admin.user.fields.first_name') }}</label>
                   <input
                     v-validate="'required'"
                     name="firstName"
@@ -107,7 +107,7 @@
                   id="lastName"
                   class="lastName"
                 >
-                  <label class="fontUbuntu fontSize14">{{ this.$t('admin.user.fields.last_name') }}</label>
+                  <label class="fontUbuntu fontSize16">{{ this.$t('admin.user.fields.last_name') }}</label>
                   <input
                     type="text"
                     class="form-control"
@@ -129,7 +129,7 @@
                   id="login"
                   class="login"
                 >
-                  <label class="fontUbuntu fontSize14">{{ this.$t('admin.user.fields.login') }}</label>
+                  <label class="fontUbuntu fontSize16">{{ this.$t('admin.user.fields.login') }}</label>
                   <input
                     v-validate="'required_login'"
                     type="text"

@@ -76,7 +76,8 @@ class Utilisateur implements UserInterface
      * @var string
      * @Expose
      * @Groups({
-     * "api_utilisateurs"
+     * "api_utilisateurs",
+     * "api_groups"
      * })
      */
     private $login;

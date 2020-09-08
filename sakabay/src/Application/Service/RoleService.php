@@ -39,10 +39,7 @@ class RoleService
 
         return $role;
     }
-    // public function findOneBy(array $email): ?Role
-    // {
-    //     return $this->RoleRepository->findOneBy($email);
-    // }
+
     /// Afficher un Role
     public function getRole(int $roleId): ?Role
     {

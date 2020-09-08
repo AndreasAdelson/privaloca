@@ -83,6 +83,16 @@ class UtilisateurService
             ->getPaginatedList($sortBy, $descending, $filterFields, $filterText, $currentPage, $perPage);
     }
 
+    /**
+     * Return a list of User matching given criterias.
+     *
+     * @param string $filter[autocomplete] Name or first name or login of a user
+     */
+    public function findUsersForAutocomplete(array $filter): array
+    {
+        return $this->utilisateurRepository->findUsersForAutocomplete($filter);
+    }
+
 
     public function deleteUtilisateur(int $utilisateurId): void
     {

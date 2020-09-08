@@ -63,6 +63,28 @@ const CnsRenderUtils = {
     };
 
 
+    Vue.prototype.$getUserLabel = function (user) {
+      let label = '';
+      if (user) {
+        if (user.last_name) {
+          label += user.last_name.toUpperCase();
+        }
+        if (user.first_name) {
+          if (user.last_name) {
+            label += ' ';
+          }
+          label += user.first_name
+        }
+        if (user.login) {
+          if (user.last_name || user.first_name) {
+            label += ' [';
+          }
+          label += user.login + ']'
+        }
+      }
+      return label.trim();
+    }
+
   },
 };
 

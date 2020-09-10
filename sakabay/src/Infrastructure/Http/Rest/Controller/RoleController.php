@@ -58,8 +58,6 @@ final class RoleController extends AbstractFOSRestController
         $ressourceLocation = $this->generateUrl('role_index');
 
         return View::create([], Response::HTTP_CREATED, ['Location' => $ressourceLocation]);
-
-        return View::create($role, Response::HTTP_CREATED);
     }
 
     /**
@@ -149,7 +147,7 @@ final class RoleController extends AbstractFOSRestController
             return $form;
         }
         $this->entityManager->persist($role);
-        $this->entityManager->flush($role);
+        $this->entityManager->flush();
 
         $ressourceLocation = $this->generateUrl('role_index');
         return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);

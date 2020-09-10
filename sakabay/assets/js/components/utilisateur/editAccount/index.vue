@@ -1,7 +1,7 @@
 <template>
   <div class="container skb-body">
     <button
-      title="Annulez les modifications"
+      :title="$t('commons.go_back')"
       type="button"
       class="w-40px p-0 rounded-circle btn-close btn"
       @click="goBack()"

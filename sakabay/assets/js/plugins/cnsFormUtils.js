@@ -30,9 +30,7 @@ const CnsFormUtils = {
       if (error) {
         this.formErrors[field] = error;
       }
-      console.log(field, 'field');
       let fieldElementHtml = document.getElementsByClassName(field)[0];
-      console.log(fieldElementHtml, 'fieldElementHtml');
 
       let formElement =
         fieldElementHtml.getElementsByTagName('input')[0] ||
@@ -97,10 +95,12 @@ const CnsFormUtils = {
     };
 
     Vue.prototype.$setEditForm = function (data) {
-      console.log(data, 'data');
+      let transformedData = _.cloneDeep(data);
       Object.keys(this.formFields).forEach(field => {
         let underscoreField = this.$camelCaseToUnderscoreCase(field);
-        this.formFields[field] = data[underscoreField];
+        if (transformedData[field] || transformedData[field] === 0 || transformedData[underscoreField]) {
+          this.formFields[field] = transformedData[underscoreField];
+        }
       });
     };
 
@@ -205,6 +205,24 @@ const CnsFormUtils = {
     Vue.prototype.$onAfterCreateEntity = function (eventArguments, fieldName, formFields) {
       const nextKey = Math.max(-1, ...Object.keys(formFields[fieldName])) + 1;
       Vue.set(formFields[fieldName], nextKey, eventArguments[0]);
+    };
+
+    /**
+     * Called whenever receiving the « deleteEntity » event from any new card component.
+     * Delete the given entity from formFields[fieldName] list.
+     * @param {object} indexOfDeletedItem Index of the entity in formFields[fieldName]
+     * @param {string} fieldName The name of the entity
+     * @param {object} formFields
+     */
+    Vue.prototype.$onDeleteEntity = function (indexOfDeletedItem, fieldName, formFields) {
+      let refEntity = _.cloneDeep(formFields[fieldName][indexOfDeletedItem].refEntity);
+      if (refEntity) {
+        refEntity.hasDeletedRevision = true;
+        this.refsOfDeletedEntities[fieldName].push(refEntity);
+      }
+      formFields[fieldName] = _.pickBy(formFields[fieldName], (entity, index) => {
+        return index != indexOfDeletedItem;
+      });
     };
   }
 }

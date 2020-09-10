@@ -465,6 +465,16 @@ a[data-toggle="collapse"] {
   color: $white_color;
 }
 
+.btn-delete {
+  background-color: $orange_login_color;
+  color: $white_color;
+  border-color: $orange_login_color;
+}
+
+.btn-delete:hover {
+  color: $white_color;
+}
+
 .btn.active.focus,
 .btn.active:focus,
 .btn.focus,
@@ -827,6 +837,10 @@ a[data-toggle="collapse"] {
 
 .col-size-50 {
   width: 50%;
+}
+
+.minWidth-250px {
+  min-width: 250px;
 }
 
 /*---------------------------------

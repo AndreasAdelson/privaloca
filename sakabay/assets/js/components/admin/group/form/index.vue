@@ -2,7 +2,7 @@
   <div class="container">
     <a href="/admin/group">
       <button
-        title="Annulez les modifications"
+        :title="$t('commons.undo_change')"
         type="button"
         class="w-40px p-0 rounded-circle btn-close btn"
       >
@@ -126,6 +126,13 @@
                 <span class="fontUbuntu fontSize13 red-skb">{{ errorText }}</span>
               </div>
             </fieldset>
+            <user-card
+              v-for="(utilisateur, index) in formFields.utilisateurs"
+              :key="'utilisateurs' + index"
+              :user="utilisateur"
+              @delete-entity="$onDeleteEntity(index, 'utilisateurs', formFields)"
+            >
+            </user-card>
           </div>
           <div class="row my-3">
             <div class="col-6 offset-3">
@@ -147,11 +154,13 @@ import Autocomplete from 'vue2-autocomplete-js';
 import validatorRulesMixin from 'mixins/validatorRulesMixin';
 import adminFormMixin from 'mixins/adminFormMixin';
 import DualList from 'components/commons/dual-list';
+import UserCard from 'components/commons/user-card';
 
 export default {
   components: {
     DualList,
-    Autocomplete
+    Autocomplete,
+    UserCard
   },
   mixins: [
     validatorRulesMixin,
@@ -173,7 +182,8 @@ export default {
         code: [],
         roles: [],
         utilisateurs: []
-      }
+      },
+      includedFormsFields: undefined
     };
   },
   props: {
@@ -196,6 +206,7 @@ export default {
         this.$setEditForm(group);
       }
       this.rolesAtCreation = _.cloneDeep(this.formFields.roles);
+
     }).catch(e => {
       console.log(e);
     });
@@ -225,6 +236,8 @@ export default {
     find (utilisateur) {
       return _.find(this.formFields.utilisateurs, ['id', utilisateur.id]);
     },
+
+
   },
 }
 </script>

@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello FonctionController!{% endblock %}
+{% block title %}{{ 'role_title_show_page'|trans }}{% endblock %}
 
 {% block body %}
-
-<p>show page en cours</p>
+    <show-role
+    :role-id="{{ roleId }}"
+    :can-edit="{{ canEdit|json_encode }}"
+    ></show-role>
 {% endblock %}

@@ -6,7 +6,9 @@
     "rechercher": "Rechercher ...",
     "select_all": "Tout sélectionner",
     "add": "Ajouter",
-    "remove": "Retirer"
+    "remove": "Retirer",
+    "undo_change": "Annulez les modifications",
+    "go_back": "Revenir en arrière"
   },
   "admin": {
     "user": {
@@ -49,7 +51,7 @@
       }
     },
     "group": {
-      "title": "Liste des groups",
+      "title": "Liste des groupes",
       "fields": {
         "roles": "Roles",
         "code": "Code",

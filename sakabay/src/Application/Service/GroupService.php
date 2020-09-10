@@ -29,17 +29,7 @@ class GroupService
         $group->setCode($code);
         $this->groupRepository->save($group);
     }
-
-    ///Editer un Groupe
-    public function editGroup(string $name, string $code, int $groupId)
-    {
-        $group = $this->groupRepository->findById($groupId);
-        $group->setName($name);
-        $group->setCode($code);
-
-        return $group;
-    }
-
+    
     /// Afficher un Group
     public function getGroup(int $groupId): ?Group
     {

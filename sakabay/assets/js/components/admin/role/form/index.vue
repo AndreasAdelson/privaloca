@@ -2,7 +2,7 @@
   <div class="container">
     <a href="/admin/role">
       <button
-        title="Annulez les modifications"
+        :title="$t('commons.undo_change')"
         type="button"
         class="w-40px p-0 rounded-circle btn-close btn"
       >
@@ -92,6 +92,34 @@
               </div>
             </fieldset>
           </div>
+          <!-- Third row  -->
+          <div class="row">
+            <fieldset
+              id="groups"
+              class="col-12 groups"
+            >
+              <label class="fontUbuntu fontSize16">{{ $t('admin.role.fields.groups') }}</label>
+              <dual-list
+                v-if="groupsAtCreation !== null"
+                :items="groups"
+                :item-label-fields="['name']"
+                :selected-items-at-creation="groupsAtCreation"
+                @selected-items-change="$onSelectedItemsChange(arguments, 'groups')"
+              />
+              <input
+                v-model="formFields.groups"
+                name="groups"
+                class="d-none"
+              >
+              <div
+                v-for="errorText in formErrors.groups"
+                :key="'groups_' + errorText"
+                class="line-height-1"
+              >
+                <span class="fontUbuntu fontSize13 red-skb">{{ errorText }}</span>
+              </div>
+            </fieldset>
+          </div>
           <div class="row my-3">
             <div class="col-6 offset-3">
               <button
@@ -124,16 +152,20 @@ export default {
     return {
       API_URL: '/api/admin/roles' + (this.roleId ? `/${this.roleId}` : ''),
       fonctionsAtCreation: null,
+      groupsAtCreation: null,
       fonctions: [],
+      groups: [],
       formFields: {
         name: null,
         code: null,
         fonctions: [],
+        groups: []
       },
       formErrors: {
         name: [],
         code: [],
         fonctions: [],
+        groups: []
       }
     };
   },
@@ -146,18 +178,20 @@ export default {
   created () {
     let promises = [];
     promises.push(axios.get('/api/admin/fonctions'));
+    promises.push(axios.get('/api/admin/groups'));
     if (this.roleId) {
       promises.push(axios.get(this.API_URL));
     }
     return Promise.all(promises).then(res => {
       this.fonctions = res[0].data;
-      console.log(res, 'res');
+      this.groups = res[1].data;
       if (this.roleId) {
-        let role = res[1].data;
+        let role = res[2].data;
         this.$removeFieldsNotInForm(role, Object.keys(this.formFields));
         this.$setEditForm(role);
       }
       this.fonctionsAtCreation = _.cloneDeep(this.formFields.fonctions);
+      this.groupsAtCreation = _.cloneDeep(this.formFields.fonctions);
     }).catch(e => {
       console.log(e);
     });

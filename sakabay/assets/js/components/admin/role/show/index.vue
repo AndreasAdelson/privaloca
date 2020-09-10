@@ -10,13 +10,13 @@
         <div class="col-2 offset-10 justify-content-end">
           <a
             class="float-right"
-            :href="'/admin/group/edit/' + groupId"
+            :href="'/admin/role/edit/' + roleId"
           >
             <b-button class="button_skb">{{ this.$t('commons.edit') }}</b-button>
           </a>
         </div>
       </div>
-      <a href="/admin/group">
+      <a href="/admin/role">
         <button
           :title="$t('commons.go_back')"
           type="button"
@@ -29,48 +29,34 @@
 
         <div class="row">
           <div class="col-6">
-            <span class="fontPatua fontSize20">{{ $t('admin.group.fields.name') }}</span>
+            <span class="fontPatua fontSize20">{{ $t('admin.role.fields.name') }}</span>
           </div>
           <div class="col-6">
-            <span class="fontPatua fontSize20">{{ $t('admin.group.fields.code') }}</span>
+            <span class="fontPatua fontSize20">{{ $t('admin.role.fields.code') }}</span>
           </div>
         </div>
         <div class="row mb-2">
           <div class="col-6">
-            <span class="fontHelveticaOblique fontSize18">{{ this.group.name.toUpperCase() }}</span>
+            <span class="fontHelveticaOblique fontSize18">{{ this.role.name.toUpperCase() }}</span>
           </div>
           <div class="col-6">
-            <span class="fontHelveticaOblique fontSize18">{{ this.group.code }}</span>
+            <span class="fontHelveticaOblique fontSize18">{{ this.role.code }}</span>
           </div>
         </div>
         <div class="row">
           <div class="col-6">
-            <span class="fontPatua fontSize20">{{ $t('admin.group.fields.roles') }}</span>
-          </div>
-          <div class="col-6">
-            <span class="fontPatua fontSize20">{{ $t('admin.group.fields.utilisateurs') }}</span>
+            <span class="fontPatua fontSize20">{{ $t('admin.role.fields.fonctions') }}</span>
           </div>
         </div>
         <div class="row mb-2">
           <div class="col-6">
             <ul>
               <li
-                v-for="(role, index) in group.roles"
-                :key="'role_'+ index"
+                v-for="(fonction, index) in role.fonctions"
+                :key="'fonction_'+ index"
                 class="fontHelveticaOblique fontSize18"
               >
-                {{ role.name }}
-              </li>
-            </ul>
-          </div>
-          <div class="col-6">
-            <ul>
-              <li
-                v-for="(utilisateur, index) in group.utilisateurs"
-                :key="'utilisateur_'+ index"
-                class="fontHelveticaOblique fontSize18"
-              >
-                {{ utilisateur.last_name.toUpperCase() + ' ' + utilisateur.first_name + ' ' + ' [' + utilisateur.login + ']' }}
+                {{ fonction.description }}
               </li>
             </ul>
           </div>
@@ -89,7 +75,7 @@ export default {
     Avatar
   },
   props: {
-    groupId: {
+    roleId: {
       type: Number,
       default: null
     },
@@ -100,16 +86,16 @@ export default {
   },
   data () {
     return {
-      group: null,
+      role: null,
       loading: false
     }
   },
   async created () {
-    if (this.groupId) {
+    if (this.roleId) {
       this.loading = true;
-      return axios.get('/api/admin/groups/' + this.groupId)
+      return axios.get('/api/admin/roles/' + this.roleId)
         .then(response => {
-          this.group = response.data;
+          this.role = response.data;
           this.loading = false;
         }).catch(error => {
           console.log(error);

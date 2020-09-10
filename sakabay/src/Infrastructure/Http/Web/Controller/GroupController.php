@@ -52,10 +52,10 @@ class GroupController extends AbstractController
     /**
      * @Route("admin/group/{id}", name="group_show", methods="GET|POST")
      */
-    public function show(int $id)
+    public function show(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
         return $this->render('admin/group/show.html.twig', [
-            'controller_name' => 'GroupController',
+            'canEdit' => $authorizationChecker->isGranted('ROLE_UGROUP'),
             'groupId' => $id
         ]);
     }

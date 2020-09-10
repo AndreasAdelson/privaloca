@@ -52,10 +52,10 @@ class RoleController extends AbstractController
     /**
      * @Route("admin/role/{id}", name="role_show", methods="GET|POST")
      */
-    public function show(int $id)
+    public function show(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
         return $this->render('admin/role/show.html.twig', [
-            'controller_name' => 'GroupController',
+            'canEdit' => $authorizationChecker->isGranted('ROLE_UROLE'),
             'roleId' => $id
         ]);
     }

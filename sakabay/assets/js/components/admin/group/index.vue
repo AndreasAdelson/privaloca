@@ -130,10 +130,10 @@ export default {
           { key: 'name', label: this.$t('admin.group.fields.name'), sortable: true, thClass: "tableitem" },
           { key: 'code', label: this.$t('admin.group.fields.code'), sortable: true, thClass: "tableitem" },
           { key: 'roles', label: this.$t('admin.group.fields.roles'), sortable: true, thClass: "tableitem" },
-          { key: 'utilisateurs', label: this.$t('admin.group.fields.utilisateurs'), sortable: true, thClass: "tableitem" },
+          { key: 'utilisateurs', label: this.$t('admin.group.fields.utilisateurs'), thClass: "tableitem" },
           (!this.canDelete & !this.canEdit & !this.canRead) ? null : { key: 'actions', label: this.$t('commons.actions'), class: 'col-size-9', thClass: "tableitem" },
         ],
-        sortBy: 'code'
+        sortBy: 'name'
       }
     };
   },
@@ -155,7 +155,6 @@ export default {
           perPage: this.pager.perPage
         }
       }).then(response => {
-        console.log(response.data);
         let items = _.map(response.data, group => _.assign(group, {
           code: group.code,
           name: group.name,

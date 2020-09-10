@@ -45,6 +45,12 @@ class GroupType extends AbstractType
                     ])
                 ],
                 'multiple' => true,
+            ])
+            ->add('utilisateurs', EntityType::class, [
+                'by_reference' => false,
+                'class' => 'App:Utilisateur',
+                'constraints' => [],
+                'multiple' => true
             ]);
     }
 

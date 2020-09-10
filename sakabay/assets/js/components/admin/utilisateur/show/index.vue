@@ -18,7 +18,7 @@
       </div>
       <a href="/admin/utilisateur">
         <button
-          title="Annulez les modifications"
+          :title="$t('go_back')"
           type="button"
           class="w-40px mt-4 p-0 rounded-circle btn-close btn"
         >

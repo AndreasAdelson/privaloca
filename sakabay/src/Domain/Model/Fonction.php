@@ -25,7 +25,8 @@ class Fonction
      * @Groups({
      * "api_utilisateurs",
      * "api_fonctions",
-     * "api_roles"
+     * "api_roles",
+     * "api_groups"
      * })
      */
     private $id;
@@ -36,7 +37,8 @@ class Fonction
      * @Groups({
      * "api_utilisateurs",
      * "api_fonctions",
-     * "api_roles"
+     * "api_roles",
+     * "api_groups"
      * })
      */
     private $code;
@@ -47,7 +49,8 @@ class Fonction
      * @Groups({
      * "api_utilisateurs",
      * "api_fonctions",
-     * "api_roles"
+     * "api_roles",
+     * "api_groups"
      * })
      */
     private $description;

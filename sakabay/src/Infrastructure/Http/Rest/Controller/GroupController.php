@@ -58,8 +58,6 @@ final class GroupController extends AbstractFOSRestController
         $ressourceLocation = $this->generateUrl('group_index');
 
         return View::create([], Response::HTTP_CREATED, ['Location' => $ressourceLocation]);
-
-        return View::create($group, Response::HTTP_CREATED);
     }
 
     /**
@@ -67,7 +65,7 @@ final class GroupController extends AbstractFOSRestController
      * @Rest\Get("/admin/groups")
      *
      * @QueryParam(name="filterFields",
-     *             default="description",
+     *             default="name",
      *             description="Liste des champs sur lesquels le filtre s'appuie"
      * )
      * @QueryParam(name="filter",
@@ -75,7 +73,7 @@ final class GroupController extends AbstractFOSRestController
      *             description="Filtre"
      * )
      * @QueryParam(name="sortBy",
-     *             default="description",
+     *             default="name",
      *             description="Champ unique sur lequel s'opère le tri"
      * )
      * @QueryParam(name="sortDesc",
@@ -149,7 +147,7 @@ final class GroupController extends AbstractFOSRestController
             return $form;
         }
         $this->entityManager->persist($group);
-        $this->entityManager->flush($group);
+        $this->entityManager->flush();
 
         $ressourceLocation = $this->generateUrl('group_index');
         return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);

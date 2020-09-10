@@ -6,7 +6,9 @@
     "rechercher": "Search ...",
     "select_all": "Select all",
     "add": "Add",
-    "remove": "Remove"
+    "remove": "Remove",
+    "undo_change": "Undo change",
+    "go_back": "Revenir en arrière"
   },
   "admin": {
     "user": {

@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello GroupController!{% endblock %}
+{% block title %}{{ 'group_title_show_page'|trans }}{% endblock %}
 
 {% block body %}
-
-<p>show page en cours</p>
+    <show-group
+    :group-id="{{ groupId }}"
+    :can-edit="{{ canEdit|json_encode }}"
+    ></show-group>
 {% endblock %}

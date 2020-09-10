@@ -24,6 +24,7 @@ class Group
      * @var int
      * @Expose
      * @Groups({
+     * "api_utilisateurs",
      * "api_groups"
      * })
      */

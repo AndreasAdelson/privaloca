@@ -29,7 +29,8 @@ class Utilisateur implements UserInterface
      * @var integer
      * @Expose
      * @Groups({
-     * "api_utilisateurs"
+     * "api_utilisateurs",
+     * "api_groups"
      * })
      */
     private $id;
@@ -38,7 +39,8 @@ class Utilisateur implements UserInterface
      * @var string|null
      * @Expose
      * @Groups({
-     * "api_utilisateurs"
+     * "api_utilisateurs",
+     * "api_groups"
      * })
      */
     private $firstName;
@@ -56,7 +58,8 @@ class Utilisateur implements UserInterface
      * @var string|null
      * @Expose
      * @Groups({
-     * "api_utilisateurs"
+     * "api_utilisateurs",
+     * "api_groups"
      * })
      */
     private $lastName;
@@ -66,7 +69,8 @@ class Utilisateur implements UserInterface
      * @Assert\Email()
      * @Expose
      * @Groups({
-     * "api_utilisateurs"
+     * "api_utilisateurs",
+     * "api_groups"
      * })
      */
     private $email;
@@ -109,7 +113,8 @@ class Utilisateur implements UserInterface
      * @var string
      * @Expose
      * @Groups({
-     * "api_utilisateurs"
+     * "api_utilisateurs",
+     * "api_groups"
      * })
      */
     private $imageProfil;
@@ -349,6 +354,17 @@ class Utilisateur implements UserInterface
             }
         }
         $this->roles = array_values(array_unique($tmpRoles));
+    }
+
+    public function hasGroup($groupCode): bool
+    {
+        foreach ($this->getGroups() as $group) {
+            if ($group->getCode() == $groupCode) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

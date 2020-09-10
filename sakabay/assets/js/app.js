@@ -35,8 +35,10 @@ import ListFonction from './components/admin/fonction';
 import FormFonction from './components/admin/fonction/form';
 import ListRole from './components/admin/role';
 import FormRole from './components/admin/role/form';
+import ShowRole from './components/admin/role/show';
 import ListGroup from './components/admin/group';
 import FormGroup from './components/admin/group/form';
+import ShowGroup from './components/admin/group/show';
 import FormCategory from './components/category/form';
 import company from './components/company';
 
@@ -61,7 +63,6 @@ new Vue({
   components: {
     FormCategory,
     company,
-    ListRole,
     Avatar,
     EditUser,
     ListUser,
@@ -73,7 +74,10 @@ new Vue({
     ListFonction,
     FormFonction,
     FormRole,
+    ShowRole,
+    ListRole,
     FormGroup,
-    ListGroup
+    ListGroup,
+    ShowGroup
   }
 })

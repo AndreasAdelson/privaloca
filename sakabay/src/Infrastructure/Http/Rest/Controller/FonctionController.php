@@ -57,7 +57,7 @@ final class FonctionController extends AbstractFOSRestController
             return $form;
         }
         $this->entityManager->persist($fonction);
-        $this->entityManager->flush($fonction);
+        $this->entityManager->flush();
 
         $ressourceLocation = $this->generateUrl('fonction_index');
         return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
@@ -149,7 +149,7 @@ final class FonctionController extends AbstractFOSRestController
             return $form;
         }
         $this->entityManager->persist($fonction);
-        $this->entityManager->flush($fonction);
+        $this->entityManager->flush();
 
         $ressourceLocation = $this->generateUrl('fonction_index');
         return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);

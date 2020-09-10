@@ -1,0 +1,31 @@
+App\Domain\Model\Category:
+    type: entity
+    table: category
+    repositoryClass: App\Infrastructure\Repository\CategoryRepository
+    options:
+        comment: Entité représentant un Category.
+
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+            options:
+                comment: Identifiant technique d'un category
+    fields:
+        name:
+            type: string
+            length: 191
+            column: name
+            nullable: false
+        code:
+            type: string
+            length: 100
+            column: code
+            nullable: false
+    oneToMany:
+        company:
+            targetEntity: Company
+            orphanRemoval: true
+            cascade: [persist, remove]
+            mappedBy: category

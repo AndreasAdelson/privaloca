@@ -29,6 +29,10 @@ class MainMenuBuilder
                 "menu_all_function" => [
                     "route" => "fonction_index",
                     "roles" => ["ROLE_RFONCTION"]
+                ],
+                "menu_all_categories" => [
+                    "route" => "category_index",
+                    "roles" => ["ROLE_ADMIN"]
                 ]
             ],
         ],

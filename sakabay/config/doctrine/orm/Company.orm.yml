@@ -1,0 +1,40 @@
+App\Domain\Model\Company:
+    type: entity
+    table: company
+    options:
+        comment: Entité représentant un Company.
+
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+            options:
+                comment: Identifiant technique d'un company
+    fields:
+        nom:
+            type: string
+            length: 191
+            column: nom
+            nullable: false
+        numSiret:
+            type: integer
+            length: 100
+            column: num_siret
+            nullable: false
+        url_name:
+            type: string
+            length: 100
+            column: url_name
+            nullable: false
+    manyToOne:
+        category:
+            targetEntity: Category
+            cascade: [persist]
+            inversedBy: category
+            joinColumn:
+                name: id_categories
+                referencedColumnName: id
+                nullable: false
+
+

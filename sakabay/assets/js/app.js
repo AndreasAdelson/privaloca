@@ -14,6 +14,8 @@ import $ from 'jquery';
 import Vue from 'vue';
 import * as VeeValidate from 'vee-validate';
 import VueLoaders from 'vue-loaders';
+import MultiSelect from 'vue-multiselect';
+
 import {
   BootstrapVue,
   IconsPlugin
@@ -35,12 +37,15 @@ import ListRole from './components/admin/role';
 import FormRole from './components/admin/role/form';
 import ListGroup from './components/admin/group';
 import FormGroup from './components/admin/group/form';
+import FormCategory from './components/category/form';
+import company from './components/company';
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(cnsRenderUtils);
 Vue.use(cnsFormUtils);
 Vue.use(VueLoaders);
+Vue.use(MultiSelect);
 
 Vue.use(VeeValidate, {
   inject: true,
@@ -48,10 +53,14 @@ Vue.use(VeeValidate, {
   fieldsBagName: 'veeFields',
 });
 
+Vue.component('multiselect', MultiSelect);
+
 new Vue({
   el: '#app',
   i18n,
   components: {
+    FormCategory,
+    company,
     ListRole,
     Avatar,
     EditUser,

@@ -7512,6 +7512,11 @@ vue-loaders@^4.0.0:
   resolved "https://registry.yarnpkg.com/vue-loaders/-/vue-loaders-4.0.0.tgz#dbac607227952652cae39c714a4be7fcbea44438"
   integrity sha512-+O1cIn3rBByIR2uSGacpOco98PyrabHxXFUM/vu/b/lAf1JqQ1xWo9cq7bmb4uYGSzeDVMt5N9dUu3dsVIGQtg==
 
+vue-multiselect@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-2.1.6.tgz#5be5d811a224804a15c43a4edbb7485028a89c7f"
+  integrity sha512-s7jmZPlm9FeueJg1RwJtnE9KNPtME/7C8uRWSfp9/yEN4M8XcS/d+bddoyVwVnvFyRh9msFo0HWeW0vTL8Qv+w==
+
 vue-router@^3.3.4:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.3.4.tgz#4e38abc34a11c41b6c3d8244449a2e363ba6250b"

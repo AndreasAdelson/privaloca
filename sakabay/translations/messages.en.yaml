@@ -20,6 +20,7 @@ menu_all_role: Roles entity
 menu_all_group: Groups entity
 menu_all_user: Users entity
 menu_all_function: Function entity
+menu_all_categories: Category entity
 menu_company_actions: Company action
 menu_company_page: My presentation page
 

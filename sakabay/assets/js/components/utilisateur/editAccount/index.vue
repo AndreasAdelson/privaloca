@@ -221,7 +221,6 @@ export default {
 
   methods: {
     onFileSelected () {
-      console.log(this.$refs.imageProfil.files[0], 'test');
       this.imageProfilSelected = this.$refs.imageProfil.files[0];
       this.imageName = this.$refs.imageProfil.files[0].name;
       this.urlImageProfil = URL.createObjectURL(this.imageProfilSelected);

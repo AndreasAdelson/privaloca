@@ -198,11 +198,11 @@
     "already_validate": "Cette candidature à déjà été acceptée par nos équipes.",
     "already_refused": "Cette candidature à déjà été refusée par nos équipes."
   },
-  "companyStatut": {
+  "company_statut": {
     "title": "Liste des statuts des entreprises",
     "fields": {
       "name": "Statut de l'entreprise",
-      "code": "Code de statut"
+      "code": "Code du statut"
     },
     "placeholder": {
       "name": "Renseignez un statut",
@@ -284,6 +284,35 @@
       "name": "Renseignez un nom d'une catégorie",
       "code": "Renseignez un Code d'une catégorie",
       "category": "Sélectionner une catégorie"
+    }
+  },
+  "besoin_statut": {
+    "title": "Liste des statuts d'un service",
+    "fields": {
+      "name": "Statut du service",
+      "code": "Code du statut"
+    },
+    "placeholder": {
+      "name": "Renseignez un statut",
+      "code": "Renseignez un Code du statut"
+    }
+  },
+  "besoin": {
+    "title_list": "Vos demandes de services",
+    "create_button": "Faire une nouvelle demande",
+    "pending_request": "Demandes en cours",
+    "expired_request": "Demandes expirées",
+    "no_pending_services": "Vous n'avez aucune demande de service en cours",
+    "no_expired_services": "Vous n'avez aucune demande de service expirée",
+    "not_editable": "Ce champ n'est pas modifiable ",
+    "placeholder": {
+      "title": "Titre de la demande",
+      "description": "Décrivez votre besoin",
+      "category":"Sélectionner une catégorie",
+      "activity": "Sélectionner les domaines d'activités concernés"
+    },
+    "label": {
+      "description": "Description"
     }
   },
   "error_message_required": "Ce champ est obligatoire. Merci de bien vouloir le renseigner.",

@@ -2,17 +2,17 @@
 
 {% block title %}
   {% if companyStatutId is same as("null") %}
-    {{ 'companystatut_title_create_page'|trans }}
+    {{ 'company_statut_title_create_page'|trans }}
   {% else %}
-    {{ 'companystatut_title_edit_page'|trans }}
+    {{ 'company_statut_title_edit_page'|trans }}
   {% endif %}
 {% endblock %}
 
 {% block body %}
   {% if companyStatutId is same as("null") %}
-    <h1 class="fontUbuntuItalic orange-skb text-center p-1">{{ 'companystatut_title_create_page'|trans }}</h1>
+    <h1 class="fontUbuntuItalic orange-skb text-center p-1">{{ 'company_statut_title_create_page'|trans }}</h1>
   {% else %}
-    <h1 class="fontUbuntuItalic orange-skb text-center p-1">{{ 'companystatut_title_edit_page'|trans }}</h1>
+    <h1 class="fontUbuntuItalic orange-skb text-center p-1">{{ 'company_statut_title_edit_page'|trans }}</h1>
   {% endif %}
 <form-company-statut :company-statut-id="{{ companyStatutId }}"></form-company-statut>
 {% endblock %}

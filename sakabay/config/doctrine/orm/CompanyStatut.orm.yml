@@ -28,3 +28,6 @@ App\Domain\Model\CompanyStatut:
             orphanRemoval: true
             cascade: [persist, remove]
             mappedBy: companystatut
+    uniqueConstraints:
+        uniqueCompanyStatutCode:
+            columns: [code]

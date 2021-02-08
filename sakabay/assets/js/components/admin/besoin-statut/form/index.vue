@@ -2,17 +2,16 @@
   <div class="container skb-body">
     <div v-show="loading">
       <div class="loader-container-full">
-        <div class="loader">
-        </div>
+        <div class="loader" />
       </div>
     </div>
-    <a href="/admin/companystatut">
+    <a href="/admin/besoin-statut">
       <button
         title="Annulez les modifications"
         type="button"
         class="w-40px p-0 rounded-circle btn-close btn"
       >
-        <i class="fas fa-times "></i>
+        <i class="fas fa-times " />
       </button>
     </a>
     <form>
@@ -26,14 +25,14 @@
                   id="name"
                   class="name"
                 >
-                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('companyStatut.fields.name') }}</label>
+                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('besoin_statut.fields.name') }}</label>
                   <input
+                    v-model="formFields.name"
                     v-validate="'required'"
                     type="text"
                     name="name"
                     class="form-control"
-                    :placeholder="$t('companyStatut.placeholder.name')"
-                    v-model="formFields.name"
+                    :placeholder="$t('besoin_statut.placeholder.name')"
                   >
                   <div
                     v-for="errorText in formErrors.name"
@@ -50,14 +49,14 @@
                   id="code"
                   class="code"
                 >
-                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('companyStatut.fields.code') }}</label>
+                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('besoin_statut.fields.code') }}</label>
                   <input
+                    v-model="formFields.code"
                     v-validate="'required'"
                     name="code"
                     type="text"
                     class="form-control"
-                    :placeholder="$t('companyStatut.placeholder.code')"
-                    v-model="formFields.code"
+                    :placeholder="$t('besoin_statut.placeholder.code')"
                   >
                   <div
                     v-for="errorText in formErrors.code"
@@ -75,7 +74,9 @@
                 type="button"
                 class="btn button_skb fontUbuntuItalic"
                 @click="$validateForm()"
-              >{{ this.companyStatutId ? this.$t('commons.edit') :  this.$t('commons.create')}}</button>
+              >
+                {{ this.besoinStatutId ? this.$t('commons.edit') : this.$t('commons.create') }}
+              </button>
             </div>
           </div>
         </div>
@@ -84,56 +85,52 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-import validatorRulesMixin from 'mixins/validatorRulesMixin';
-import adminFormMixin from 'mixins/adminFormMixin';
+  import axios from 'axios';
+  import validatorRulesMixin from 'mixins/validatorRulesMixin';
+  import adminFormMixin from 'mixins/adminFormMixin';
 
-export default {
-  components: {
-  },
-  mixins: [
-    validatorRulesMixin,
-    adminFormMixin
-  ],
-  data () {
-    return {
-      loading: true,
-      API_URL: '/api/admin/companystatuts' + (this.companyStatutId ? `/${this.companyStatutId}` : ''),
-      formFields: {
-        name: null,
-        code: null,
-      },
-      formErrors: {
-        name: [],
-        code: [],
-      }
-    };
-  },
-  props: {
-    companyStatutId: {
-      type: Number,
-      default: null,
+  export default {
+    components: {
     },
-    nameOfCategory: {
-      type: String,
-      default: null,
-    }
-  },
-  created () {
-    let promises = [];
-    promises.push(axios.get(this.API_URL));
-    return Promise.all(promises).then(res => {
-      let companyStatut = res[0].data;
-      this.$removeFieldsNotInForm(companyStatut, Object.keys(this.formFields));
-      this.$setEditForm(companyStatut);
-      this.loading = false;
-    }).catch(e => {
-      this.$handleError(e);
-      this.loading = false;
-    });
-  },
-  methods: {
+    mixins: [
+      validatorRulesMixin,
+      adminFormMixin
+    ],
+    props: {
+      besoinStatutId: {
+        type: Number,
+        default: null,
+      }
+    },
+    data() {
+      return {
+        loading: true,
+        API_URL: '/api/admin/besoin-statuts' + (this.besoinStatutId ? `/${this.besoinStatutId}` : ''),
+        formFields: {
+          name: null,
+          code: null,
+        },
+        formErrors: {
+          name: [],
+          code: [],
+        }
+      };
+    },
+    created() {
+      let promises = [];
+      promises.push(axios.get(this.API_URL));
+      return Promise.all(promises).then(res => {
+        let besoinStatut = res[0].data;
+        this.$removeFieldsNotInForm(besoinStatut, Object.keys(this.formFields));
+        this.$setEditForm(besoinStatut);
+        this.loading = false;
+      }).catch(e => {
+        this.$handleError(e);
+        this.loading = false;
+      });
+    },
+    methods: {
 
-  },
-}
+    },
+  };
 </script>

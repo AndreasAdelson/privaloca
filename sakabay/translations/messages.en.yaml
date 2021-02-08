@@ -27,6 +27,7 @@ menu_all_user: Users list
 menu_all_function: Function list
 menu_all_categories: Category list
 menu_all_cities: City list
+menu_all_besoinstatut: Services status list
 menu_company_actions: Company action
 menu_company_page: My presentation page
 menu_management_company: Company Management
@@ -90,10 +91,10 @@ role_title_create_page: "Create a role"
 role_title_show_page: "Detail of role"
 
 #Company Status pages
-companystatut_title_list_page: "Company status list"
-companystatut_title_edit_page: "Edit a company status "
-companystatut_title_create_page: "Create a company status "
-companystatut_title_show_page: "Company status  detail"
+company_statut_title_list_page: "Company status list"
+company_statut_title_edit_page: "Edit a company status "
+company_statut_title_create_page: "Create a company status "
+company_statut_title_show_page: "Company status  detail"
 
 #Group's pages
 group_title_list_page: "List of groups"
@@ -152,6 +153,8 @@ validatecompany_subject: "Acceptance of your candidacy"
 validatecompany_message: "Congratulations! You are now part of Sakabay Entrepeneur. In order to welcome you, we offer you 2 months of premium subscriptions. Welcome to Sakabay :)."
 updatepassword_subject: "Confirm password change"
 updatepassword_message: "Your password has been changed successfully. A confirmation email was also sent to you."
+createbesoin_message: "Your « %s » request has been successfully published. We forward it to our partner companies that can meet this need."
+createbesoin_subject: "Création d'un service"
 
 ####Footer:
 company_footer_name: "SAKABAY"
@@ -177,3 +180,13 @@ sous_category_title_list_page: "List of  subcategories"
 sous_category_title_edit_page: "Edit a subcategory"
 sous_category_title_create_page: "Create a subcategory"
 sous_category_title_show_page: "Detail of subcategory"
+
+#Besoin statut pages
+besoin_statut_title_list_page: "Service status list"
+besoin_statut_title_edit_page: "Edit service status"
+besoin_statut_title_create_page: "Create a service status"
+besoin_statut_title_show_page: "Service status detail"
+
+#Besoin/Service pages
+besoin_list_title_page: "Manage yours services"
+besoin_create_title_page: "Request a service"

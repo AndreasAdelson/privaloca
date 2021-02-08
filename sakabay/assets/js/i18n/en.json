@@ -197,7 +197,7 @@
     "already_validate": "This nomination has already been accepted by our teams.",
     "already_refused": "This nomination has already been rejected by our teams."
   },
-  "companyStatut": {
+  "company_statut": {
     "title": "List of company status",
     "fields": {
       "name": "Company status",
@@ -283,6 +283,35 @@
       "name": "Enter a name",
       "code": "Enter code number",
       "category": "Select one category"
+    }
+  },
+  "besoin_statut": {
+    "title": "List of service status",
+    "fields": {
+      "name": "Service status",
+      "code": "Code number"
+    },
+    "placeholder": {
+      "name": "Enter a name",
+      "code": "Enter code number"
+    }
+  },
+  "besoin": {
+    "title_list": "Your service requests",
+    "create_button": "Make a new request",
+    "pending_request": "Pending requests",
+    "expired_request": "Expired requests",
+    "no_pending_services": "You have no current service requests",
+    "no_expired_services": "You have no expired service requests",
+    "not_editable": "This field is not editable ",
+    "placeholder": {
+      "title": "Title of the request",
+      "description": "Describe your need",
+      "category":"Select a category",
+      "activity": "Select the relevant fields of activity"
+    },
+    "label": {
+      "description": "Description"
     }
   },
   "error_message_required": "This field is mandatory. Thank you for filling it in.",

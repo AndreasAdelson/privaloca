@@ -33,6 +33,10 @@ App\Domain\Model\Category:
             targetEntity: SousCategory
             cascade: [persist]
             mappedBy: category
+        besoins:
+            targetEntity: Besoin
+            cascade: [persist]
+            mappedBy: category
     uniqueConstraints:
         uniqueGroupCode:
             columns: [code]

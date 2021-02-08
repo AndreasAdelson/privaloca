@@ -73,6 +73,17 @@ class NotificationFactory
         $this->addNotification($destinataires, $subject, $message, $link = null);
     }
 
+    public function createService(array $destinataires, string $link, $besoin)
+    {
+        $subject = $this->translator->trans('createbesoin_subject');
+        $message = sprintf(
+            $this->translator->trans('createbesoin_message'),
+            $besoin->getTitle()
+        );
+
+        $this->addNotification($destinataires, $subject, $message, $link);
+    }
+
 
     private function addNotification(
         $users,

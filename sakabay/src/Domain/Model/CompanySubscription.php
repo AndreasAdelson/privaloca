@@ -19,7 +19,8 @@ class CompanySubscription
      * @var int
      * @Expose
      * @Groups({
-     * "api_companies"
+     * "api_companies",
+     * "api_admin_companies",
      * })
      */
     private $id;
@@ -29,7 +30,8 @@ class CompanySubscription
      * @Expose
      * @Groups({
      * "api_dashboard_utilisateur",
-     * "api_companies"
+     * "api_companies",
+     * "api_admin_companies",
      * })
      */
     private $dtDebut;
@@ -39,7 +41,8 @@ class CompanySubscription
      * @Expose
      * @Groups({
      * "api_dashboard_utilisateur",
-     * "api_companies"
+     * "api_companies",
+     * "api_admin_companies",
      * })
      */
     private $dtFin;
@@ -49,7 +52,7 @@ class CompanySubscription
      * @Expose
      * @Groups({
      * "api_dashboard_utilisateur",
-     * "api_companies"
+     * "api_companies",
      * })
      */
     private $subscription;
@@ -59,7 +62,7 @@ class CompanySubscription
      * @Expose
      * @Groups({
      * "api_dashboard_utilisateur",
-     * "api_companies"
+     * "api_companies",
      * })
      */
     private $company;

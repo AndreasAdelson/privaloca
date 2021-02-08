@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'besoin_statut_title_show_page'|trans }}{% endblock %}
+
+{% block body %}
+    <show-besoin-statut
+    :besoin-statut-id="{{ besoinStatutId }}"
+    :can-edit="{{ canEdit|json_encode }}"
+    url-precedente="{{ urlPrecedente }}"
+    ></show-besoin-statut>
+{% endblock %}

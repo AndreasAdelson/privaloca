@@ -1,0 +1,102 @@
+<template>
+  <div class="skb-body container">
+    <div v-if="loading">
+      <div class="loader-container-full">
+        <div class="loader" />
+      </div>
+    </div>
+    <div v-else>
+      <div
+        v-if="canEdit"
+        class="row mt-3 "
+      >
+        <div class="col-6">
+          <h1 class="fontUbuntuItalic orange-skb">
+            {{ this.$t('commons.detail') }}
+          </h1>
+        </div>
+        <div class="col-6 justify-content-end">
+          <a
+            class="float-right"
+            :href="'/admin/besoinstatut/edit/' + besoinStatutId"
+          >
+            <b-button class="button_skb">{{ this.$t('commons.edit') }}</b-button>
+          </a>
+        </div>
+      </div>
+      <a @click="goBack()">
+        <button
+          :title="$t('commons.go_back')"
+          type="button"
+          class="w-40px mt-4 p-0 rounded-circle btn-close btn"
+        >
+          <i class="fas fa-times " />
+        </button>
+      </a>
+      <div class="register-card mt-3 w-100 h-100">
+        <div class="row">
+          <div class="col-6">
+            <span class="fontPatua fontSize20">{{ $t('besoinStatut.fields.name') }}</span>
+          </div>
+          <div class="col-6">
+            <span class="fontPatua fontSize20">{{ $t('besoinStatut.fields.code') }}</span>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-6">
+            <span class="fontHelveticaOblique fontSize18">{{ this.besoinStatut.name.toUpperCase() }}</span>
+          </div>
+          <div class="col-6">
+            <span class="fontHelveticaOblique fontSize18">{{ this.besoinStatut.code }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  import axios from 'axios';
+
+  export default {
+    components: {
+    },
+    props: {
+      besoinStatutId: {
+        type: Number,
+        default: null
+      },
+      canEdit: {
+        type: Boolean,
+        default: false
+      },
+      urlPrecedente: {
+        type: String,
+        default: null
+      }
+    },
+    data() {
+      return {
+        besoinStatut: null,
+        loading: false
+      };
+    },
+    async created() {
+      if (this.besoinStatutId) {
+        this.loading = true;
+        return axios.get('/api/admin/besoin-statuts/' + this.besoinStatutId)
+          .then(response => {
+            this.besoinStatut = response.data;
+            this.loading = false;
+          }).catch(error => {
+            this.$handleError(error);
+            this.loading = false;
+          });
+      }
+    },
+    methods: {
+      goBack() {
+        this.$goTo(this.urlPrecedente);
+      },
+    },
+  };
+</script>>

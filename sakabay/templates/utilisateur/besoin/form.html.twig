@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{{ 'besoin_create_title_page'|trans }}
+{% endblock %}
+
+{% block body %}
+ <besoin-form
+ :utilisateur-id="{{ utilisateurId }}"
+ :besoin-id="{{ besoinId|json_encode }}"
+ ></besoin-form>
+{% endblock %}

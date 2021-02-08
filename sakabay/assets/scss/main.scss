@@ -751,6 +751,7 @@ a[data-toggle="collapse"] {
   background: $orange_login_color !important;
   color: white !important;
   border-color: $orange_login_color !important;
+  white-space: normal !important;
 }
 
 .button_skb:focus {
@@ -768,6 +769,7 @@ a[data-toggle="collapse"] {
   background: $blue_light_color !important;
   color: white !important;
   border-color: $blue_light_color !important;
+  white-space: normal !important;
 }
 
 .button_skb_blue:focus {
@@ -785,6 +787,7 @@ a[data-toggle="collapse"] {
   background: $yellow_login_color !important;
   color: white !important;
   border-color: $yellow_login_color !important;
+  white-space: normal !important;
 }
 
 .button_skb_yellow:focus {
@@ -866,6 +869,7 @@ a[data-toggle="collapse"] {
 .form-control,
 .btn {
   border-radius: 3px;
+  white-space: normal !important;
 }
 
 .register-card h2 {
@@ -1451,6 +1455,11 @@ ul.social-footer2 li a {
 
 .title-card-skb {
   padding: 0.5rem;
+  border-bottom: 1px solid $grey_light_color;
+}
+
+.button-row {
+  border-left: 1px solid $grey_light_color;
 }
 
 
@@ -1560,6 +1569,10 @@ ul.social-footer2 li a {
 
 .scroll-h300 {
   height: 300px;
+}
+
+.scroll-h500 {
+  height: 500px;
 }
 
 .dashboard-link {

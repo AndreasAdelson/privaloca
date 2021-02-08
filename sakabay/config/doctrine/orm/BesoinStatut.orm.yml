@@ -1,0 +1,32 @@
+App\Domain\Model\BesoinStatut:
+    type: entity
+    table: besoin_statut
+    options:
+        comment: Entité représentant le statut d'un besoin.
+
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+            options:
+                comment: Identifiant technique d'un Besoin Statut
+    fields:
+        name:
+            type: string
+            length: 191
+            column: name
+            nullable: false
+        code:
+            type: string
+            length: 100
+            column: code
+            nullable: false
+    oneToMany:
+        besoins:
+            targetEntity: Besoin
+            cascade: [persist]
+            mappedBy: besoinStatut
+    uniqueConstraints:
+        uniqueBesoinStatutCode:
+            columns: [code]

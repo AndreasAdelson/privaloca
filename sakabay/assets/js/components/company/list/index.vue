@@ -1,11 +1,11 @@
 <template>
-  <div class="container-fluid skb-body">
+  <div class="container-fluid skb-body p-4 dashboard">
     <div v-show="loading">
       <div class="loader-container-full">
         <div class="loader" />
       </div>
     </div>
-    <div class="row pt-4 mb-4">
+    <!-- <div class="row pt-4 mb-4">
       <div class="col">
         <a
           href="/dashboard"
@@ -13,7 +13,12 @@
         >
           <i class="fas fa-long-arrow-alt-left" />
         </a>
-        <h1 class="text-center">
+      </div>
+    </div> -->
+    <div class="row justify-content-between pt-4 mb-4">
+      <div class="col-4 align-self-center">
+        <i class="fas fa-city grey-skb fontSize20 mr-2" />
+        <h1 class="text-center fontPoppins fontSize20 dashboard-title">
           {{ $tc('company.title_list_user', companies.length) }}
         </h1>
       </div>
@@ -262,15 +267,15 @@
         let icon;
         switch(companyStatutCode) {
         case 'VAL':
-          label = this.$t('companyStatut.state.validate');
+          label = this.$t('company_statut.state.validate');
           icon = 'fa-check';
           break;
         case 'ENC':
-          label = this.$t('companyStatut.state.pending');
+          label = this.$t('company_statut.state.pending');
           icon = 'fa-history';
           break;
         case 'REF':
-          label = this.$t('companyStatut.state.refused');
+          label = this.$t('company_statut.state.refused');
           icon = 'fa-times';
           break;
         }

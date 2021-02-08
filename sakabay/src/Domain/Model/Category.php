@@ -27,6 +27,7 @@ class Category
      * "api_companies",
      * "api_admin_companies",
      * "api_sous_categories",
+     * "api_besoins"
      * })
      */
     private $id;
@@ -38,7 +39,8 @@ class Category
      * "api_categories",
      * "api_companies",
      * "api_admin_companies",
-     * "api_sous_categories"
+     * "api_sous_categories",
+     * "api_besoins"
      * })
      */
     private $name;
@@ -48,7 +50,8 @@ class Category
      * @Expose
      * @Groups({
      * "api_categories",
-     * "api_sous_categories"
+     * "api_sous_categories",
+     * "api_besoins"
      * })
      */
     private $code;
@@ -67,15 +70,25 @@ class Category
      * @Expose
      * @Groups({
      * "api_categories",
+     * "api_besoins"
      * })
      */
     private $sousCategorys;
+
+    /**
+     * @var Besoin[]
+     * @Expose
+     * @Groups({
+     * })
+     */
+    private $besoins;
 
 
     public function __construct()
 
     {
         $this->companys = new ArrayCollection();
+        $this->besoins = new ArrayCollection();
         $this->sousCategorys = new ArrayCollection();
     }
 
@@ -183,8 +196,32 @@ class Category
         }
         $sousCategory->setCategory(null);
 
-        // dump($this);
+        return $this;
+    }
 
+    /**
+     * @return Collection|Besoin[]
+     */
+    public function getBesoins(): Collection
+    {
+        return $this->besoins;
+    }
+
+    public function addBesoin(Besoin $besoin): self
+    {
+        if (!$this->besoins->contains($besoin)) {
+            $this->besoins[] = $besoin;
+            $besoin->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBesoin(Besoin $besoin): self
+    {
+        if ($this->besoins->contains($besoin)) {
+            $this->besoins->removeElement($besoin);
+        }
         return $this;
     }
 }

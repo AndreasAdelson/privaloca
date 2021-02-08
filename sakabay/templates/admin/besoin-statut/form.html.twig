@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  {% if besoinStatutId is same as("null") %}
+    {{ 'besoin_statut_title_create_page'|trans }}
+  {% else %}
+    {{ 'besoin_statut_title_edit_page'|trans }}
+  {% endif %}
+{% endblock %}
+
+{% block body %}
+  {% if besoinStatutId is same as("null") %}
+    <h1 class="fontUbuntuItalic orange-skb text-center p-1">{{ 'besoin_statut_title_create_page'|trans }}</h1>
+  {% else %}
+    <h1 class="fontUbuntuItalic orange-skb text-center p-1">{{ 'besoin_statut_title_edit_page'|trans }}</h1>
+  {% endif %}
+<form-besoin-statut :besoin-statut-id="{{ besoinStatutId }}"></form-besoin-statut>
+{% endblock %}

@@ -36,6 +36,9 @@ App\Domain\Model\SousCategory:
         companys:
             targetEntity: Company
             mappedBy: sousCategorys
+        besoins:
+            targetEntity: Besoin
+            mappedBy: sousCategorys
     uniqueConstraints:
-        uniqueGroupCode:
+        uniqueSousCategoryCode:
             columns: [code]

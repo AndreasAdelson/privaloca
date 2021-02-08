@@ -26,12 +26,16 @@ CCITY; Création d'une ville
 RCITY; Consultation d'une ville
 UCITY; Modification d'une ville
 DCITY; Suppression d'une ville
-CCOMPANYSTATUT; Création d'une catégorie
-RCOMPANYSTATUT; Consultation d'une catégorie
-UCOMPANYSTATUT; Modification d'une catégorie
-DCOMPANYSTATUT; Suppression d'une catégorie
+CCOMPANYSTATUT; Création d'un statut d'entreprise
+RCOMPANYSTATUT; Consultation d'un statut d'entreprise
+UCOMPANYSTATUT; Modification d'un statut d'entreprise
+DCOMPANYSTATUT; Suppression d'un statut d'entreprise
 CSOUSCATEGORY; Création d'une sous catégorie
 RSOUSCATEGORY; Consultation d'une sous catégorie
 USOUSCATEGORY; Modification d'une sous catégorie
 DSOUSCATEGORY; Suppression d'une sous catégorie
+CBESOINSTATUT; Création d'un besoin d'entreprise
+RBESOINSTATUT; Consultation d'un besoin d'entreprise
+UBESOINSTATUT; Modification d'un besoin d'entreprise
+DBESOINSTATUT; Suppression d'un besoin d'entreprise
 ADMIN; Administrateur du site

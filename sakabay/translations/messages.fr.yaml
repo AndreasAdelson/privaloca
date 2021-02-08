@@ -27,6 +27,7 @@ menu_all_user: Liste Utilisateurs
 menu_all_function: Liste Fonctions
 menu_all_categories: Liste Catégories
 menu_all_cities: Liste Villes
+menu_all_besoinstatut: Liste des statuts d'un service
 menu_company_actions: Actions entreprise
 menu_company_page: Ma page de présentation
 menu_management_company: Gestion des entreprises
@@ -90,10 +91,10 @@ role_title_create_page: "Créer un role"
 role_title_show_page: "Détails d'un role"
 
 #Company statut pages
-companystatut_title_list_page: "Liste des statut des entreprises"
-companystatut_title_edit_page: "Modifier un statut d'entreprise"
-companystatut_title_create_page: "Créer un statut d'entreprise"
-companystatut_title_show_page: "Détails d'un statut d'entreprise"
+company_statut_title_list_page: "Liste des statut des entreprises"
+company_statut_title_edit_page: "Modifier un statut d'entreprise"
+company_statut_title_create_page: "Créer un statut d'entreprise"
+company_statut_title_show_page: "Détails d'un statut d'entreprise"
 
 #Group's pages
 group_title_list_page: "Liste des groupes"
@@ -152,6 +153,8 @@ validatecompany_subject: "Acceptation de votre candidature"
 validatecompany_message: "Félicitations ! Vous faîtes désormais partis de Sakabay Entrepeneur. Afin de vous souhaiter la bienvenue nous vous offrons 2 mois d'abonnements premium. Bienvenue chez Sakabay :)."
 updatepassword_subject: "Confirmation changement de mot de passe"
 updatepassword_message: "Votre mot de passe a bien été modifié. Un email de confirmation vous a également été envoyé."
+createbesoin_message: "Votre demande « %s » à été publiée avec succès. Nous la transmettons à nos entreprises partenaires pouvant répondre à ce besoin."
+createbesoin_subject: "Création d'un service"
 
 ####Footer:
 company_footer_name: "SAKABAY"
@@ -177,3 +180,13 @@ sous_category_title_list_page: "Liste des sous-categories"
 sous_category_title_edit_page: "Modifier une sous-categorie"
 sous_category_title_create_page: "Créer une sous-categorie"
 sous_category_title_show_page: "Détails d'une sous-categorie"
+
+#Besoin statut pages
+besoin_statut_title_list_page: "Liste des statut d'un service"
+besoin_statut_title_edit_page: "Modifier un statut de service"
+besoin_statut_title_create_page: "Créer un statut de service"
+besoin_statut_title_show_page: "Détails d'un statut de service"
+
+#Besoin/Service pages
+besoin_list_title_page: "Gestion de vos services"
+besoin_create_title_page: "Demander un service"

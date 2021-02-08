@@ -8,10 +8,10 @@
     <!-- Content -->
     <div class="row py-3">
       <div class="col-3">
+        <i class="fas fa-home grey-skb fontSize20 mr-2" />
         <h1 class="fontPoppins fontSize20 dashboard-title">
           {{ $t('dashboard.title') }}
         </h1>
-        <i class="fas fa-home grey-skb fontSize20" />
       </div>
     </div>
     <div
@@ -63,6 +63,7 @@
           icon-label="fas fa-edit"
           :button-text="$t('dashboard.link.request_service')"
           class-color="flat-color-1"
+          url="/services/list"
           :small-text="false"
         />
       </div>

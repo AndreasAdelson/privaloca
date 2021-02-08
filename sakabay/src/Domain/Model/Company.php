@@ -95,7 +95,7 @@ class Company
     /**
      * @Expose
      * @Groups({
-     * "api_companystatut",
+     * "api_company_statut",
      * "api_admin_companies",
      * "api_dashboard_utilisateur"
      * })

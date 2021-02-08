@@ -48,6 +48,10 @@ class MainMenuBuilder
                     "route" => "city_index",
                     "roles" => ["ROLE_RCITY"]
                 ],
+                "menu_all_besoinstatut" => [
+                    "route" => "besoin_statut_index",
+                    "roles" => ["ROLE_RBESOINSTATUT"]
+                ],
             ],
             "menu_management_company" => [
                 "menu_subscribed_company" => [

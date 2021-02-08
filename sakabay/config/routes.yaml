@@ -177,17 +177,17 @@ company_list:
 
 ######### routes for company status ###########
 company_statut_index:
-    path: admin/companystatut
+    path: admin/company-statut
     controller: App\Infrastructure\Http\Web\Controller\CompanyStatutController::index
     methods: [GET]
 
 company_statut_show:
-    path: admin/companystatut/show/{id}
+    path: admin/company-statut/show/{id}
     controller: App\Infrastructure\Http\Web\Controller\CompanyStatutController::show
     methods: [GET, POST]
 
 company_statut_new:
-    path: admin/companystatut/new
+    path: admin/company-statut/new
     controller: App\Infrastructure\Http\Web\Controller\CompanyStatutController::new
     methods: [GET, POST]
 
@@ -195,6 +195,7 @@ company_statut_edit:
     path: company/edit/{id}
     controller: App\Infrastructure\Http\Web\Controller\CompanyStatutController::edit
     methods: [GET, POST]
+
 # Routes for Group object
 group_index:
     path: admin/group
@@ -271,5 +272,40 @@ sous_category_edit:
 sous_category_show:
     path: admin/sous-category/show/{id}
     controller: App\Infrastructure\Http\Web\Controller\SousCategoryController::show
+    methods: [GET, POST]
+
+    ######### routes for besoin status ###########
+besoin_statut_index:
+    path: admin/besoin-statut
+    controller: App\Infrastructure\Http\Web\Controller\BesoinStatutController::index
+    methods: [GET]
+
+besoin_statut_show:
+    path: admin/besoin-statut/show/{id}
+    controller: App\Infrastructure\Http\Web\Controller\BesoinStatutController::show
+    methods: [GET, POST]
+
+besoin_statut_new:
+    path: admin/besoin-statut/new
+    controller: App\Infrastructure\Http\Web\Controller\BesoinStatutController::new
+    methods: [GET, POST]
+
+besoin_statut_edit:
+    path: besoin/edit/{id}
+    controller: App\Infrastructure\Http\Web\Controller\BesoinStatutController::edit
+    methods: [GET, POST]
+
+# Page de gestion des demandes de services
+service_list:
+    path: services/list
+    controller: App\Infrastructure\Http\Web\Controller\BesoinController::manageBesoinList
+    methods: [GET]
+service_new:
+    path: services/new
+    controller: App\Infrastructure\Http\Web\Controller\BesoinController::new
+    methods: [GET, POST]
+service_edit:
+    path: services/edit/{id}
+    controller: App\Infrastructure\Http\Web\Controller\BesoinController::edit
     methods: [GET, POST]
 

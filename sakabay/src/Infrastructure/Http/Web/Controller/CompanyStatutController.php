@@ -14,12 +14,12 @@ class CompanyStatutController extends AbstractController
 {
 
     /**
-     * @Route("admin/companystatut", name="company_statut_index", methods="GET")
+     * @Route("admin/company-statut", name="company_statut_index", methods="GET")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
-        return $this->render('admin/companystatut/index.html.twig', [
+        return $this->render('admin/company-statut/index.html.twig', [
             'canCreate' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'canRead' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'canEdit' => $authorizationChecker->isGranted('ROLE_ADMIN'),
@@ -28,33 +28,33 @@ class CompanyStatutController extends AbstractController
     }
 
     /**
-     * @Route("admin/companystatut/new", name="company_statut_new", methods="GET|POST")
+     * @Route("admin/company-statut/new", name="company_statut_new", methods="GET|POST")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function new()
     {
-        return $this->render('admin/companystatut/form.html.twig', [
+        return $this->render('admin/compan-statut/form.html.twig', [
             'companyStatutId' => 'null'
         ]);
     }
 
     /**
-     * @Route("admin/companystatut/edit/{id}", name="companyStatut_edit", methods="GET|POST")
+     * @Route("admin/company-statut/edit/{id}", name="companyStatut_edit", methods="GET|POST")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function edit(int $id)
     {
-        return $this->render('admin/companystatut/form.html.twig', [
+        return $this->render('admin/company-statut/form.html.twig', [
             'companyStatutId' => $id,
         ]);
     }
 
     /**
-     * @Route("admin/companystatut/show/{id}", name="company_statut_show", methods="GET|POST")
+     * @Route("admin/company-statut/show/{id}", name="company_statut_show", methods="GET|POST")
      */
     public function show(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
-        return $this->render('admin/companystatut/show.html.twig', [
+        return $this->render('admin/company-statut/show.html.twig', [
             'canEdit' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'companyStatutId' => $id,
             'urlPrecedente' => $this->urlPrecedente()

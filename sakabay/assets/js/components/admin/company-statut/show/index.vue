@@ -36,10 +36,10 @@
       <div class="register-card mt-3 w-100 h-100">
         <div class="row">
           <div class="col-6">
-            <span class="fontPatua fontSize20">{{ $t('companyStatut.fields.name') }}</span>
+            <span class="fontPatua fontSize20">{{ $t('company_statut.fields.name') }}</span>
           </div>
           <div class="col-6">
-            <span class="fontPatua fontSize20">{{ $t('companyStatut.fields.code') }}</span>
+            <span class="fontPatua fontSize20">{{ $t('company_statut.fields.code') }}</span>
           </div>
         </div>
         <div class="row mb-2">
@@ -56,11 +56,9 @@
 </template>
 <script>
   import axios from 'axios';
-  import Avatar from 'vue-avatar';
 
   export default {
     components: {
-      Avatar
     },
     props: {
       companyStatutId: {
@@ -85,7 +83,7 @@
     async created() {
       if (this.companyStatutId) {
         this.loading = true;
-        return axios.get('/api/admin/companystatuts/' + this.companyStatutId)
+        return axios.get('/api/admin/company-statuts/' + this.companyStatutId)
           .then(response => {
             this.companyStatut = response.data;
             this.loading = false;

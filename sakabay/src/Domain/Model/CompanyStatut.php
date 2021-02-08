@@ -22,7 +22,7 @@ class CompanyStatut
      * @var int
      * @Expose
      * @Groups({
-     * "api_companystatut",
+     * "api_company_statut",
      * "api_admin_companies",
      * "api_companies"
      * })
@@ -33,7 +33,7 @@ class CompanyStatut
      * @var string
      * @Expose
      * @Groups({
-     * "api_companystatut",
+     * "api_company_statut",
      * "api_admin_companies",
      * "api_companies"
      * })
@@ -44,7 +44,7 @@ class CompanyStatut
      * @var string
      * @Expose
      * @Groups({
-     * "api_companystatut",
+     * "api_company_statut",
      * "api_admin_companies",
      * "api_companies",
      * "api_dashboard_utilisateur"
@@ -64,8 +64,6 @@ class CompanyStatut
 
     {
         $this->companys = new ArrayCollection();
-        $this->fonctions = new ArrayCollection();
-        $this->groups = new ArrayCollection();
     }
 
     public function getId()

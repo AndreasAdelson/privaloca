@@ -2,16 +2,28 @@
 
 namespace App\Infrastructure\Http\Web\Controller;
 
+use App\Application\Service\CompanyService;
 use App\Domain\Model\Besoin;
 use App\Infrastructure\Repository\BesoinRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class BesoinController extends AbstractController
 {
+
+    private $companyService;
+
+    /**
+     * BesoinWebController constructor.
+     */
+    public function __construct(CompanyService $companyService)
+    {
+        $this->companyService = $companyService;
+    }
 
     /**
      * @Route("admin/group", name="group_index", methods="GET")
@@ -79,6 +91,35 @@ class BesoinController extends AbstractController
         }
         $utilisateurId = $this->getUser()->getId();
         return $this->render('utilisateur/besoin/list.html.twig', [
+            'utilisateurId' => $utilisateurId,
+        ]);
+    }
+
+    /**
+     * @Route("opportunities/list", name="opportunity_list", methods="GET")
+     */
+    public function opportunityList()
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+        $utilisateurId = $this->getUser()->getId();
+        $companies = $this->companyService->getCompanyByUserId($utilisateurId);
+        if (empty($companies)) {
+            throw new NotFoundHttpException('Page does not exist');
+        }
+        $subscribedCompaniesId = [];
+        foreach ($companies as $company) {
+            $subscribtionActive = $this->companyService->isCompanySubscribtionActive($company);
+            if ($subscribtionActive) {
+                array_push($subscribedCompaniesId, $company->getId());
+            }
+        }
+        if (empty($subscribedCompaniesId)) {
+            throw new NotFoundHttpException('Page does not exist');
+        }
+
+        return $this->render('opportunity/list.html.twig', [
             'utilisateurId' => $utilisateurId,
         ]);
     }

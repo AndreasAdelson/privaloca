@@ -528,7 +528,6 @@ final class CompanyController extends AbstractFOSRestController
             ->from('no-reply@sakabay.com')
             ->to($receiver)
             // ->addTo('andreasadelson@gmail.com')
-            // ->cc('karii.salman@gmail.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             ->priority(Email::PRIORITY_HIGH)

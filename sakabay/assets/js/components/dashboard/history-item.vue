@@ -59,7 +59,6 @@
     },
     methods: {
       getDtDebutLabel($date) {
-        console.log($date);
         return moment($date,'DD/MM/YYYY HH:mm:ss').format('[le] DD/MM/YYYY, [à] HH:mm');
       },
 

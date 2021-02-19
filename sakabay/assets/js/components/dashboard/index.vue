@@ -44,6 +44,7 @@
           :button-text="$t('dashboard.link.opportunity')"
           class-color="flat-color-6"
           :small-text="true"
+          url="/opportunities/list"
           :disabled="!hasOneSusbcribed"
         />
       </div>

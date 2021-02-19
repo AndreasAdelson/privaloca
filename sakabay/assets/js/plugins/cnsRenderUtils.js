@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import _ from 'lodash';
+import moment from 'moment';
 
 const CnsRenderUtils = {
   install(Vue, options) {
@@ -129,6 +130,19 @@ const CnsRenderUtils = {
 
     Vue.prototype.$getNbCharactersLeft = function(text, nbMaxChars) {
       return nbMaxChars - _.get(text, 'length', 0);
+    };
+
+    Vue.prototype.$getDateLabel = function(date) {
+      return moment(date, 'DD/MM/YYYY H:m:ss').fromNow();
+      // return moment(date,'DD/MM/YYYY HH:mm:ss').format('[le] DD/MM/YYYY, [à] HH:mm');
+    };
+
+    Vue.prototype.$capitalise = function(text) {
+      if (typeof text !== 'string') {
+        console.log('not a string');
+        return '';
+      }
+      return text.charAt(0).toUpperCase() + text.slice(1);
     };
   },
 };

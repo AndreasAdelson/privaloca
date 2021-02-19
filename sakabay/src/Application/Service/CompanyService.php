@@ -128,7 +128,7 @@ class CompanyService
     ) {
         //Trie des entreprises recherchées.
         $companys = $this->companyRepository
-            ->getPaginatedListUser($sortBy, $descending, $filterFields, $filterText, $currentPage, $perPage, $codeStatut, $category, $city, $sousCategory);
+            ->getPaginatedListUser($sortBy, $descending, $filterFields, $filterText, $codeStatut, $category, $city, $sousCategory);
 
         //Entreprises abonnées
         $subscribedCompanys = array_filter($companys, function ($company) {

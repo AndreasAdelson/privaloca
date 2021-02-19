@@ -1,4 +1,4 @@
-#Fixture.FixCompany
+#Fixture.FixCompanyStatut
 #Fixture.References.0:"companyStatut_".code
 
 #Structure

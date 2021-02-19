@@ -51,7 +51,8 @@ class Category
      * @Groups({
      * "api_categories",
      * "api_sous_categories",
-     * "api_besoins"
+     * "api_besoins",
+     * "api_admin_companies"
      * })
      */
     private $code;

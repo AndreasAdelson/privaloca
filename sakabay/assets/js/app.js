@@ -21,6 +21,7 @@ import MultiSelect from 'vue-multiselect';
 import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 import { Icon } from 'leaflet';
 import vuescroll from 'vuescroll';
+import VueObserveVisibility from 'vue-observe-visibility';
 
 import {
   BootstrapVue,
@@ -64,7 +65,7 @@ import ShowCity from './components/admin/city/show';
 import ListCity from './components/admin/city';
 import moment from 'moment';
 import Dashboard from './components/dashboard';
-import Abonnement from './components/company/abonnement';
+import Abonnement from './components/abonnement';
 import Subscription from './components/subscription';
 import AbonnementDetails from './components/subscription/details';
 import CompanyRefusedShow from './components/admin/company/refused/show';
@@ -79,6 +80,7 @@ import ShowBesoinStatut from './components/admin/besoin-statut/show';
 import ListBesoinStatut from './components/admin/besoin-statut';
 import BesoinList from './components/utilisateur/besoin/list';
 import BesoinForm from './components/utilisateur/besoin/form';
+import OpportunityList from './components/opportunity';
 import 'utils/logger';
 import Nl2br from 'vue-nl2br';
 
@@ -88,6 +90,7 @@ Vue.use(cnsRenderUtils);
 Vue.use(cnsFormUtils);
 Vue.use(VueLoaders);
 Vue.use(MultiSelect);
+Vue.use(VueObserveVisibility);
 Vue.use(VeeValidate, {
   inject: true,
   events: '', // Automatic validation is desactivated
@@ -198,7 +201,8 @@ new Vue({
     ShowBesoinStatut,
     FormBesoinStatut,
     BesoinList,
-    BesoinForm
+    BesoinForm,
+    OpportunityList
   }
 });
 

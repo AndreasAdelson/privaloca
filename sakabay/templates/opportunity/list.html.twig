@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'opportunity_list_title_page'|trans }}{% endblock %}
+
+{% block body %}
+<opportunity-list
+:utilisateur-id="{{ utilisateurId }}"
+></opportunity-list>
+{% endblock %}

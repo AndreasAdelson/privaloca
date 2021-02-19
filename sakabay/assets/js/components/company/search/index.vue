@@ -198,7 +198,6 @@
        */
       categoryIsSet(newValue) {
         if (newValue) {
-          console.log(newValue, 'value');
           this.sousCategory = newValue.sous_categorys;
           this.filters.sousCategory = [];
         }

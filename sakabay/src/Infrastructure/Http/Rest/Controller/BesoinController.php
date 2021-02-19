@@ -210,4 +210,72 @@ final class BesoinController extends AbstractFOSRestController
 
         return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
     }
+
+    /**
+     * @Rest\View(serializerGroups={"api_besoins"})
+     * @Rest\Get("/opportunities")
+     *
+     * @QueryParam(name="category",
+     *             default="",
+     *             description="Category de l'entreprise"
+     * )
+     * @QueryParam(name="sousCategory",
+     *             default="",
+     *             description="sousCategorys de l'entreprise"
+     * )
+     * @QueryParam(name="sortDesc",
+     *             default=false,
+     *             description="Sens du tri"
+     * )
+     * @QueryParam(name="sortBy",
+     *             default="name",
+     *             description="Champ unique sur lequel s'opère le tri"
+     * )
+     * @QueryParam(name="currentPage",
+     *             default="1",
+     *             description="Page courante"
+     * )
+     * @QueryParam(name="perPage",
+     *             default="10",
+     *             description="Taille de la page"
+     * )
+     *
+     * @QueryParam(name="count",
+     *             default=false,
+     *             description="Avoir le total de résultats"
+     * )
+     * @return View
+     */
+
+    public function getOpportunities(ParamFetcher $paramFetcher): View
+    {
+        $category = $paramFetcher->get('category');
+        $sousCategory = $paramFetcher->get('sousCategory');
+        $sortBy = $paramFetcher->get('sortBy');
+        $sortDesc = $paramFetcher->get('sortDesc');
+        $currentPage = $paramFetcher->get('currentPage');
+        $perPage = $paramFetcher->get('perPage');
+        $isCounting = $paramFetcher->get('count');
+        /**
+         * Oblige à ce que le paramètre category soit donné pour effectuer la requête.
+         * Sans cela un petit malin pourrait récupérer tous les besoins depuis cette route.
+         */
+        if (empty($category)) {
+            throw new NotFoundHttpException('Bad request');
+        }
+        //Avoir le total
+        if ($isCounting) {
+            $response = $this->besoinService
+                ->getCountOpportunities($sortBy, $sortDesc, $category, $sousCategory, $isCounting);
+            return View::create($response, Response::HTTP_OK);
+        }
+        $pager = $this->besoinService
+            ->getPaginatedOpportunityList($sortBy, $sortDesc, $category, $sousCategory, $currentPage, $perPage);
+        $besoins = $pager->getCurrentPageResults();
+        $nbResults = $pager->getNbResults();
+        $view = $this->view($besoins, Response::HTTP_OK);
+        $view->setHeader('X-Total-Count', $nbResults);
+
+        return $view;
+    }
 }

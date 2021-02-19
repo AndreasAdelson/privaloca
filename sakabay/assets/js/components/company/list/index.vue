@@ -179,7 +179,7 @@
                 class="row my-2"
               >
                 <div class="col-10 offset-1">
-                  <div class="row">
+                  <div class="row align-items-center">
                     <div class="col-2">
                       <a
                         :href="'/entreprise/' + company.url_name"

@@ -309,3 +309,8 @@ service_edit:
     controller: App\Infrastructure\Http\Web\Controller\BesoinController::edit
     methods: [GET, POST]
 
+# Page des opportunités
+opportunity_list:
+    path: opportunities/list
+    controller: App\Infrastructure\Http\Web\Controller\BesoinController::opportunityList
+    methods: [GET]

@@ -39,6 +39,8 @@ $green_light_color: #6be6a0;
 
 $white_color: #fff;
 $black_color: #000;
+$black_light_color: #706b6b;
+
 
 body {
   font-family: 'Alice', sans-serif;
@@ -461,6 +463,10 @@ a[data-toggle="collapse"] {
   border: solid 1px #dee2e5 !important;
 }
 
+.border-top {
+  border-top: 1px solid $grey_light_color;
+}
+
 .search {
   background-color: $white_color;
   border-radius: 5px;
@@ -558,9 +564,11 @@ a[data-toggle="collapse"] {
 }
 
 .blue-skb {
-  //   $blue_light_color:#2798a0;
-  // $blue_logo_color: #60a3bc;
   color: $blue_logo_color;
+}
+
+.black-light-skb {
+  color: $black_light_color;
 }
 
 /*---------------------------------
@@ -797,6 +805,24 @@ a[data-toggle="collapse"] {
 
 .button_skb_yellow:hover {
   background: $yellow_color !important;
+}
+
+// transparent one
+.button_skb_transparent {
+  width: 100%;
+  background: $white_color !important;
+  color: $black_light_color !important;
+  border-color: transparent !important;
+  white-space: normal !important;
+}
+
+.button_skb_transparent:focus {
+  box-shadow: none !important;
+  outline: 0px !important;
+}
+
+.button_skb_transparent:hover {
+  background: $grey_light_color !important;
 }
 
 .login_container {
@@ -1519,6 +1545,19 @@ ul.social-footer2 li a {
   animation: loader 0.75s linear infinite;
 }
 
+.loader4 {
+  width: 80px;
+  height: 80px;
+  border: 12px solid $grey_light_color;
+  border-top: 10px solid $yellow_login_color;
+  border-radius: 50%;
+  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: loader 0.75s linear infinite;
+}
+
 @keyframes loader {
   0% {
     transform: translate(-50%, -50%) rotate(0deg);
@@ -1575,6 +1614,10 @@ ul.social-footer2 li a {
   height: 500px;
 }
 
+.scroll-h650 {
+  height: 650px;
+}
+
 .dashboard-link {
   background-clip: content-box;
   height: 200px;
@@ -1624,6 +1667,14 @@ ul.social-footer2 li a {
 
 .no-cursor {
   cursor: not-allowed !important;
+}
+
+/*---------------------------------
+   Opportunities Style
+-----------------------------------*/
+
+.card-body-opportunities {
+  padding: 15px 15px 0px 15px;
 }
 
 // Multiselect rework

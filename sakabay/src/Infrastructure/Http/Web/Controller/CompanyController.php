@@ -15,7 +15,7 @@ class CompanyController extends AbstractController
     private $companyService;
 
     /**
-     * CompanyRestController constructor.
+     * CompanyWebController constructor.
      */
     public function __construct(CompanyService $companyService)
     {

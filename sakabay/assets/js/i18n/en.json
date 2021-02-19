@@ -314,6 +314,9 @@
       "description": "Description"
     }
   },
+  "opportunity": {
+    "title_list": "Opportunities"
+  },
   "error_message_required": "This field is mandatory. Thank you for filling it in.",
   "error_message_required_username": "The size of your username must not be less than 5 characters and not more than 10 characters.",
   "error_message_email": "Please enter a valid email",

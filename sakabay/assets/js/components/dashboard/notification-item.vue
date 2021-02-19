@@ -75,7 +75,7 @@
       notificationDate() {
         let actualDate = moment(this.notif.notification.date, 'YYYY-MM-DD H:m:s').format('DD/MM/YYYY H:m:ss');
         if (moment().diff(moment(this.notif.notification.date), 'days') >  7) {
-          return 'le ' + moment(this.notif.notification.date, 'YYYY-MM-DD H:m:s').format('D MMMM, H:m');
+          return 'le ' + moment(this.notif.notification.date, 'YYYY-MM-DD H:m:s').format('D MMMM, H:mm');
         }
         else {
           return moment(actualDate, 'DD/MM/YYYY H:m:ss').fromNow();

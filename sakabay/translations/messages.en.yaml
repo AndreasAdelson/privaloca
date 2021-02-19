@@ -190,3 +190,6 @@ besoin_statut_title_show_page: "Service status detail"
 #Besoin/Service pages
 besoin_list_title_page: "Manage yours services"
 besoin_create_title_page: "Request a service"
+
+#Opportunity pages
+opportunity_list_title_page: "Opportunities"

@@ -52,7 +52,8 @@ class SousCategory
      * @Groups({
      * "api_sous_categories",
      * "api_categories",
-     * "api_besoins"
+     * "api_besoins",
+     * "api_admin_companies"
      * })
      */
     private $code;

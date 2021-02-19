@@ -89,8 +89,6 @@ class CompanyRepository extends AbstractRepository implements CompanyRepositoryI
         $descending = false,
         $filterFields = '',
         $filterText = '',
-        $currentPage = 1,
-        $perPage = PHP_INT_MAX,
         $codeStatut = '',
         $category = '',
         $city = '',
@@ -133,7 +131,6 @@ class CompanyRepository extends AbstractRepository implements CompanyRepositoryI
         }
 
         return $qb->getQuery()->getResult();
-        // return $this->paginate($qb, $perPage, $currentPage);
     }
 
     public function getCompanyByUserId($utilisateur = '')

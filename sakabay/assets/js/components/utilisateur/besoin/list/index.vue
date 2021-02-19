@@ -50,7 +50,7 @@
               v-else
               class="row scroll-h500"
             >
-              <vuescroll :ops="opsButton">
+
                 <div class="col">
                   <div
                     v-for="(pendingBesoin, index) in pendingBesoins"

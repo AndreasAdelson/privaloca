@@ -2,16 +2,16 @@
   <div class="container-fluid skb-body">
     <div v-show="loading">
       <div class="loader-container-full">
-        <div class="loader">
-        </div>
+        <div class="loader" />
       </div>
     </div>
     <div class="row my-4">
       <div class="col-4">
-        <h1 class="fontUbuntuItalic orange-skb">{{ this.$t('group.title') }}</h1>
+        <h1 class="fontUbuntuItalic orange-skb">
+          {{ this.$t('group.title') }}
+        </h1>
       </div>
-      <div class="col-1">
-      </div>
+      <div class="col-1" />
       <div class="col-5">
         <b-form-group
           horizontal
@@ -27,14 +27,16 @@
               <b-btn
                 :disabled="!currentFilter"
                 @click="applyFilter()"
-              ><i class="fas fa-search"></i></b-btn>
+              >
+                <font-awesome-icon :icon="['fas', 'search']" /></i>
+              </b-btn>
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
       </div>
       <div
-        class="col-1"
         v-if="canCreate"
+        class="col-1"
       >
         <a href="/admin/group/new">
           <b-button class="button_skb">{{ this.$t('commons.create') }}</b-button>
@@ -45,8 +47,8 @@
     <b-row>
       <b-col cols="12">
         <b-table
-          class="tablestyle"
           ref="table"
+          class="tablestyle"
           :items="refreshData"
           :fields="table.field"
           :current-page="pager.currentPage"
@@ -60,34 +62,36 @@
           responsive
           fixed
         >
-          <template v-slot:cell(actions)="data">
+          <template #cell(actions)="data">
             <b-button-group>
               <a
-                :href="'/admin/group/show/' + data.value "
                 v-if="canRead"
+                :href="'/admin/group/show/' + data.value "
               >
-                <b-button><i class="fas fa-eye"></i></b-button>
+                <b-button><font-awesome-icon :icon="['fas', 'eye']" /></i></b-button>
               </a>
               <a
                 v-if="canEdit"
                 :href="'/admin/group/edit/' + data.value "
                 class="mx-1"
               >
-                <b-button><i class="fas fa-edit"></i></b-button>
+                <b-button><font-awesome-icon :icon="['fas', 'edit']" /></i></b-button>
               </a>
               <b-button
                 v-if="canDelete"
                 data-toggle="modal"
                 :data-target="'#' + DELETE_CONFIRM_MODAL_ID"
                 @click="currentId = data.value"
-              ><i class="fas fa-trash"></i></b-button>
+              >
+                <font-awesome-icon :icon="['fas', 'trash']" /></i>
+              </b-button>
             </b-button-group>
           </template>
-          <template v-slot:cell(roles)="data">
-            <div v-html="data.value"></div>
+          <template #cell(roles)="data">
+            <div v-html="data.value" />
           </template>
-          <template v-slot:cell(utilisateurs)="data">
-            <div v-html="data.value"></div>
+          <template #cell(utilisateurs)="data">
+            <div v-html="data.value" />
           </template>
         </b-table>
       </b-col>
@@ -99,7 +103,7 @@
           :total-rows="pager.totalRows"
           :per-page="pager.perPage"
           align="center"
-        ></b-pagination>
+        />
       </b-col>
     </b-row>
     <confirm-modal
@@ -115,90 +119,90 @@
 </template>
 
 <script>
-import axios from 'axios';
-import paginationMixin from 'mixins/paginationMixin';
-import ConfirmModal from 'components/commons/confirm-modal';
-import _ from 'lodash';
+  import axios from 'axios';
+  import paginationMixin from 'mixins/paginationMixin';
+  import ConfirmModal from 'components/commons/confirm-modal';
+  import _ from 'lodash';
 
-export default {
-  components: {
-    ConfirmModal
-  },
-  mixins: [paginationMixin],
-  props: {
-    canCreate: {
-      type: Boolean,
-      default: false
+  export default {
+    components: {
+      ConfirmModal
     },
-    canEdit: {
-      type: Boolean,
-      default: false
-    },
-    canRead: {
-      type: Boolean,
-      default: false
-    },
-    canDelete: {
-      type: Boolean,
-      default: false
-    },
-  },
-  data () {
-    return {
-      DELETE_CONFIRM_MODAL_ID: 'delete_confirmModal',
-      currentId: null,
-      NB_MAX_DISPLAYED: 5,
-      currentFilter: '',
-      table: {
-        field: [
-          { key: 'name', label: this.$t('group.fields.name'), sortable: true, thClass: "tableitem" },
-          { key: 'code', label: this.$t('group.fields.code'), sortable: true, thClass: "tableitem" },
-          { key: 'roles', label: this.$t('group.fields.roles'), sortable: true, thClass: "tableitem" },
-          { key: 'utilisateurs', label: this.$t('group.fields.utilisateurs'), thClass: "tableitem" },
-          (!this.canDelete & !this.canEdit & !this.canRead) ? null : { key: 'actions', label: this.$t('commons.actions'), class: 'col-size-9', thClass: "tableitem" },
-        ],
-        sortBy: 'name'
+    mixins: [paginationMixin],
+    props: {
+      canCreate: {
+        type: Boolean,
+        default: false
       },
-      loading: false
-    };
-  },
-  methods: {
-    refreshData () {
-      this.loading = true;
-      return axios.get("/api/admin/groups", {
-        params: {
-          filterFields: 'name,code',
-          filter: this.currentFilter,
-          sortBy: this.table.sortBy,
-          sortDesc: this.table.sortDesc,
-          currentPage: this.pager.currentPage,
-          perPage: this.pager.perPage
-        }
-      }).then(response => {
-        let items = _.map(response.data, group => _.assign(group, {
-          code: group.code,
-          name: group.name,
-          roles: _.take(
-            _.sortBy(
-              _.map(group.roles, 'name'), (name) => name), this.NB_MAX_DISPLAYED)
-            .join('<br />')
-            + (group.roles.length > this.NB_MAX_DISPLAYED ? '<br />' + this.$tc('commons.et_plus', group.roles.length - this.NB_MAX_DISPLAYED) : ''),
-          utilisateurs: _.take(
-            _.sortBy(
-              _.map(group.utilisateurs, 'username'), (username) => username), this.NB_MAX_DISPLAYED)
-            .join('<br />')
-            + (group.utilisateurs.length > this.NB_MAX_DISPLAYED ? '<br />' + this.$tc('commons.et_plus', group.utilisateurs.length - this.NB_MAX_DISPLAYED) : ''),
-          actions: group.id,
-        }));
-        this.pager.totalRows = parseInt(response.headers['x-total-count']);
-        this.loading = false;
-        return items;
-      }).catch(error => {
-        this.$handleError(error);
-        this.loading = false;
-        return [];
-      });
+      canEdit: {
+        type: Boolean,
+        default: false
+      },
+      canRead: {
+        type: Boolean,
+        default: false
+      },
+      canDelete: {
+        type: Boolean,
+        default: false
+      },
     },
-  },
-}
+    data() {
+      return {
+        DELETE_CONFIRM_MODAL_ID: 'delete_confirmModal',
+        currentId: null,
+        NB_MAX_DISPLAYED: 5,
+        currentFilter: '',
+        table: {
+          field: [
+            { key: 'name', label: this.$t('group.fields.name'), sortable: true, thClass: 'tableitem' },
+            { key: 'code', label: this.$t('group.fields.code'), sortable: true, thClass: 'tableitem' },
+            { key: 'roles', label: this.$t('group.fields.roles'), sortable: true, thClass: 'tableitem' },
+            { key: 'utilisateurs', label: this.$t('group.fields.utilisateurs'), thClass: 'tableitem' },
+            (!this.canDelete & !this.canEdit & !this.canRead) ? null : { key: 'actions', label: this.$t('commons.actions'), class: 'col-size-9', thClass: 'tableitem' },
+          ],
+          sortBy: 'name'
+        },
+        loading: false
+      };
+    },
+    methods: {
+      refreshData() {
+        this.loading = true;
+        return axios.get('/api/admin/groups', {
+          params: {
+            filterFields: 'name,code',
+            filter: this.currentFilter,
+            sortBy: this.table.sortBy,
+            sortDesc: this.table.sortDesc,
+            currentPage: this.pager.currentPage,
+            perPage: this.pager.perPage
+          }
+        }).then(response => {
+          let items = _.map(response.data, group => _.assign(group, {
+            code: group.code,
+            name: group.name,
+            roles: _.take(
+              _.sortBy(
+                _.map(group.roles, 'name'), (name) => name), this.NB_MAX_DISPLAYED)
+              .join('<br />')
+              + (group.roles.length > this.NB_MAX_DISPLAYED ? '<br />' + this.$tc('commons.et_plus', group.roles.length - this.NB_MAX_DISPLAYED) : ''),
+            utilisateurs: _.take(
+              _.sortBy(
+                _.map(group.utilisateurs, 'username'), (username) => username), this.NB_MAX_DISPLAYED)
+              .join('<br />')
+              + (group.utilisateurs.length > this.NB_MAX_DISPLAYED ? '<br />' + this.$tc('commons.et_plus', group.utilisateurs.length - this.NB_MAX_DISPLAYED) : ''),
+            actions: group.id,
+          }));
+          this.pager.totalRows = parseInt(response.headers['x-total-count']);
+          this.loading = false;
+          return items;
+        }).catch(error => {
+          this.$handleError(error);
+          this.loading = false;
+          return [];
+        });
+      },
+    },
+  };
 </script>

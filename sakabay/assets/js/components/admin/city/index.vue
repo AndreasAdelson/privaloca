@@ -28,7 +28,7 @@
                 :disabled="!currentFilter"
                 @click="applyFilter()"
               >
-                <i class="fas fa-search" />
+                <font-awesome-icon :icon="['fas', 'search']" />
               </b-btn>
             </b-input-group-append>
           </b-input-group>
@@ -68,14 +68,14 @@
                 v-if="canRead"
                 :href="'/admin/city/show/' + data.value "
               >
-                <b-button><i class="fas fa-eye" /></b-button>
+                <b-button><font-awesome-icon :icon="['fas', 'eye']" /></b-button>
               </a>
               <a
                 v-if="canEdit"
                 :href="'/admin/city/edit/' + data.value "
                 class="mx-1"
               >
-                <b-button><i class="fas fa-edit" /></b-button>
+                <b-button><font-awesome-icon :icon="['fas', 'edit']" /></b-button>
               </a>
             </b-button-group>
           </template>
@@ -108,72 +108,72 @@
 </template>
 
 <script>
-import axios from 'axios';
-import paginationMixin from 'mixins/paginationMixin';
-import ConfirmModal from 'components/commons/confirm-modal';
-import _ from 'lodash';
-export default {
-  components: {
-    ConfirmModal
-  },
-  mixins: [paginationMixin],
-  props: {
-    canCreate: {
-      type: Boolean,
-      default: false
+  import axios from 'axios';
+  import paginationMixin from 'mixins/paginationMixin';
+  import ConfirmModal from 'components/commons/confirm-modal';
+  import _ from 'lodash';
+  export default {
+    components: {
+      ConfirmModal
     },
-    canEdit: {
-      type: Boolean,
-      default: false
-    },
-    canRead: {
-      type: Boolean,
-      default: false
-    },
-  },
-  data () {
-    return {
-      DELETE_CONFIRM_MODAL_ID: 'delete_confirmModal',
-      currentId: null,
-      currentFilter: '',
-      table: {
-        field: [
-          { key: 'name', label: this.$t('city.fields.name'), sortable: true, thClass: 'tableitem' },
-          (!this.canEdit & !this.canRead) ? null : { key: 'actions', label: this.$t('commons.actions'), class: 'col-size-6', thClass: 'tableitem' },
-        ],
-        sortBy: 'name'
+    mixins: [paginationMixin],
+    props: {
+      canCreate: {
+        type: Boolean,
+        default: false
       },
-      loading: false
-
-    };
-  },
-  methods: {
-    refreshData () {
-      this.loading = true;
-      return axios.get('/api/admin/cities', {
-        params: {
-          filterFields: 'name',
-          filter: this.currentFilter,
-          sortBy: this.table.sortBy,
-          sortDesc: this.table.sortDesc,
-          currentPage: this.pager.currentPage,
-          perPage: this.pager.perPage
-        }
-      }).then(response => {
-        let items = _.map(response.data, city => _.assign(city, {
-          name: city.name,
-          actions: city.id,
-        }));
-
-        this.pager.totalRows = parseInt(response.headers['x-total-count']);
-        this.loading = false;
-        return items;
-      }).catch(error => {
-        this.$handleError(error);
-        this.loading = false;
-        return [];
-      });
+      canEdit: {
+        type: Boolean,
+        default: false
+      },
+      canRead: {
+        type: Boolean,
+        default: false
+      },
     },
-  },
-};
+    data() {
+      return {
+        DELETE_CONFIRM_MODAL_ID: 'delete_confirmModal',
+        currentId: null,
+        currentFilter: '',
+        table: {
+          field: [
+            { key: 'name', label: this.$t('city.fields.name'), sortable: true, thClass: 'tableitem' },
+            (!this.canEdit & !this.canRead) ? null : { key: 'actions', label: this.$t('commons.actions'), class: 'col-size-6', thClass: 'tableitem' },
+          ],
+          sortBy: 'name'
+        },
+        loading: false
+
+      };
+    },
+    methods: {
+      refreshData() {
+        this.loading = true;
+        return axios.get('/api/admin/cities', {
+          params: {
+            filterFields: 'name',
+            filter: this.currentFilter,
+            sortBy: this.table.sortBy,
+            sortDesc: this.table.sortDesc,
+            currentPage: this.pager.currentPage,
+            perPage: this.pager.perPage
+          }
+        }).then(response => {
+          let items = _.map(response.data, city => _.assign(city, {
+            name: city.name,
+            actions: city.id,
+          }));
+
+          this.pager.totalRows = parseInt(response.headers['x-total-count']);
+          this.loading = false;
+          return items;
+        }).catch(error => {
+          this.$handleError(error);
+          this.loading = false;
+          return [];
+        });
+      },
+    },
+  };
 </script>

@@ -22,7 +22,10 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <i class="fas fa-map-marker-alt orange-login-skb" />
+                  <font-awesome-icon
+                    class="orange-login-skb"
+                    :icon="['fas', 'map-marker-alt']"
+                  />
                   <span class="fontPoppins fontSize14 fontW600 "> {{ company.city.name }} </span>
                 </div>
               </div>

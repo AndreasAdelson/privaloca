@@ -34,7 +34,8 @@ class Company
      * "api_companies",
      * "api_admin_companies",
      * "api_utilisateurs",
-     * "api_dashboard_utilisateur"
+     * "api_dashboard_utilisateur",
+     * "api_besoins",
      * })
      */
     private $id;
@@ -46,7 +47,8 @@ class Company
      * "api_companies",
      * "api_admin_companies",
      * "api_utilisateurs",
-     * "api_dashboard_utilisateur"
+     * "api_dashboard_utilisateur",
+     * "api_besoins_utilisateur"
      * })
      */
     private $name;
@@ -66,7 +68,8 @@ class Company
      * @Groups({
      * "api_companies",
      * "api_admin_companies",
-     * "api_dashboard_utilisateur"
+     * "api_dashboard_utilisateur",
+     * "api_besoins_utilisateur"
      * })
      */
     private $urlName;
@@ -175,6 +178,15 @@ class Company
      */
     private $sousCategorys;
 
+    /**
+     * @var Answer
+     * @Expose
+     * @Groups({
+     * "api_companies",
+     * "api_admin_companies"
+     * })
+     */
+    private $answers;
 
 
     /**
@@ -182,6 +194,7 @@ class Company
      * @Expose
      * @Groups({
      * "api_companies",
+     * "api_besoins_utilisateur"
      * })
      */
     private $imageProfil;
@@ -197,6 +210,7 @@ class Company
     {
         $this->companySubscriptions = new ArrayCollection();
         $this->sousCategorys =  new ArrayCollection();
+        $this->answers =  new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -463,6 +477,33 @@ class Company
             $this->sousCategorys->removeElement($sousCategory);
             $sousCategory->removeCompany($this);
         }
+        return $this;
+    }
+
+    /**
+     * @return Collection|Answer[]
+     */
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
+    }
+
+    public function addAnswer(Answer $answer): self
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers[] = $answer;
+            $answer->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswer(Answer $answer): self
+    {
+        if ($this->answers->contains($answer)) {
+            $this->answers->removeElement($answer);
+        }
+
         return $this;
     }
 

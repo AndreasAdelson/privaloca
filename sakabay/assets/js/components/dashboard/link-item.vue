@@ -13,9 +13,9 @@
               :class="classColor"
               class="stat-icon dib"
             >
-              <i
-                :class="iconLabel"
-                style="font-size:30px"
+              <font-awesome-icon
+                class="mr-2"
+                :icon="['fas', iconLabel]"
               />
             </div>
             <div class="stat-content">
@@ -49,9 +49,9 @@
             :class="classColor"
             class="stat-icon dib"
           >
-            <i
-              :class="iconLabel"
-              style="font-size:30px"
+            <font-awesome-icon
+              class="mr-2"
+              :icon="['fas', iconLabel]"
             />
           </div>
           <div class="stat-content">

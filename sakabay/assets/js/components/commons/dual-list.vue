@@ -19,7 +19,9 @@
                 :title="$t('commons.select_all')"
                 @click="toggleAllUnselectedItems()"
               >
-                <i class="far fa-arrow-alt-circle-down" />
+                <font-awesome-icon
+                  :icon="['fas', 'arrow-alt-circle-down']"
+                />
               </a>
             </div>
           </div>
@@ -52,7 +54,9 @@
         class="btn button_skb move-right mb-4"
         @click="selectItems()"
       >
-        <i class="far fa-arrow-alt-circle-right" />
+        <font-awesome-icon
+          :icon="['fas', 'arrow-alt-circle-right']"
+        />
       </button>
       <br>
       <button
@@ -61,7 +65,9 @@
         class="btn button_skb move-left mb-4"
         @click="unselectItems()"
       >
-        <i class="far fa-arrow-alt-circle-left" />
+        <font-awesome-icon
+          :icon="['fas', 'arrow-alt-circle-left']"
+        />
       </button>
     </div>
 
@@ -75,7 +81,9 @@
                 :title="$t('commons.select_all')"
                 @click="toggleAllSelectedItems()"
               >
-                <i class="far fa-arrow-alt-circle-down" />
+                <font-awesome-icon
+                  :icon="['fas', 'arrow-alt-circle-down']"
+                />
               </a>
             </div>
           </div>

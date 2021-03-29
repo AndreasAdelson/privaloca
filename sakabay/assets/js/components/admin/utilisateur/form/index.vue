@@ -3,8 +3,7 @@
     <div class="container skb-body">
       <div v-show="loading">
         <div class="loader-container-full">
-          <div class="loader">
-          </div>
+          <div class="loader" />
         </div>
       </div>
       <a href="/admin/utilisateur">
@@ -13,7 +12,7 @@
           type="button"
           class="w-40px p-0 rounded-circle btn-close btn"
         >
-          <i class="fas fa-times "></i>
+          <font-awesome-icon :icon="['fas', 'times']" />
         </button>
       </a>
       <form>
@@ -29,12 +28,12 @@
                   >
                     <label class="fontUbuntuItalic fontSize16">{{ this.$t('user.fields.email') }}</label>
                     <input
+                      v-model="formFields.email"
                       v-validate="'required|email'"
                       type="text"
                       name="email"
                       class="form-control"
                       placeholder="Enter email"
-                      v-model="formFields.email"
                     >
                     <div
                       v-for="errorText in formErrors.email"
@@ -53,18 +52,18 @@
                   >
                     <label class="fontUbuntuItalic fontSize16">{{ this.$t('user.fields.first_name') }}</label>
                     <input
+                      v-model="formFields.firstName"
                       v-validate="'required'"
                       name="firstName"
                       type="text"
                       class="form-control"
                       placeholder="Enter first name"
-                      v-model="formFields.firstName"
                     >
                     <div
                       v-for="errorText in formErrors.firstName"
                       :key="'firstName_' + errorText"
                     >
-                      <span class="fontUbuntuItalic fontSize13 red-skb">{{errorText }}</span>
+                      <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
                     </div>
                   </fieldset>
                 </div>
@@ -80,16 +79,16 @@
                   >
                     <label class="fontUbuntuItalic fontSize16">{{ this.$t('user.fields.last_name') }}</label>
                     <input
+                      v-model="formFields.lastName"
                       type="text"
                       class="form-control"
                       placeholder="Enter first name"
-                      v-model="formFields.lastName"
                     >
                     <div
                       v-for="errorText in formErrors.lastName"
                       :key="'lastName_' + errorText"
                     >
-                      <span class="fontUbuntuItalic fontSize13 red-skb">{{errorText }}</span>
+                      <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
                     </div>
                   </fieldset>
                 </div>
@@ -102,18 +101,18 @@
                   >
                     <label class="fontUbuntuItalic fontSize16">{{ this.$t('user.fields.username') }}</label>
                     <input
+                      v-model="formFields.username"
                       v-validate="'required_username'"
                       type="text"
                       name="username"
                       class="form-control"
                       placeholder="Enter username"
-                      v-model="formFields.username"
                     >
                     <div
                       v-for="errorText in formErrors.username"
                       :key="'username_' + errorText"
                     >
-                      <span class="fontUbuntuItalic fontSize13 red-skb">{{errorText }}</span>
+                      <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
                     </div>
                   </fieldset>
                 </div>
@@ -125,7 +124,9 @@
                   type="button"
                   class="btn button_skb fontUbuntuItalic"
                   @click="$validateForm()"
-                >{{ this.$t('commons.edit') }}</button>
+                >
+                  {{ this.$t('commons.edit') }}
+                </button>
               </div>
             </div>
           </div>
@@ -135,60 +136,60 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-import validatorRulesMixin from 'mixins/validatorRulesMixin';
+  import axios from 'axios';
+  import validatorRulesMixin from 'mixins/validatorRulesMixin';
 
-export default {
-  mixins: [
-    validatorRulesMixin
-  ],
-  data () {
-    return {
-      loading: false,
-      formFields: {
-        email: null,
-        firstName: null,
-        lastName: null,
-        username: null,
-      },
-      formErrors: {
-        email: [],
-        firstName: [],
-        lastName: [],
-        username: []
+  export default {
+    mixins: [
+      validatorRulesMixin
+    ],
+    props: {
+      utilisateurId: {
+        type: Number,
+        default: null,
       }
-    };
-  },
-  props: {
-    utilisateurId: {
-      type: Number,
-      default: null,
-    }
-  },
-  created () {
-    if (this.utilisateurId) {
-      this.loading = true;
-      return axios.get("/api/admin/utilisateurs/" + this.utilisateurId)
-        .then(response => {
-          this.$setEditForm(response.data);
-          this.loading = false;
-        }).catch(e => {
-          console.log(e);
-          this.loading = false;
-        });
-    }
-  },
-  methods: {
-    submitForm () {
-      return axios.post("/api/admin/utilisateurs/" + this.utilisateurId, this.formFields)
-        .then(response => {
-          window.location.assign(response.headers.location);
-        }).catch(e => {
-          if (e.response && e.response.status && e.response.status == 400) {
-            this.$handleFormError(e.response.data);
-          }
-        });
     },
-  },
-}
+    data() {
+      return {
+        loading: false,
+        formFields: {
+          email: null,
+          firstName: null,
+          lastName: null,
+          username: null,
+        },
+        formErrors: {
+          email: [],
+          firstName: [],
+          lastName: [],
+          username: []
+        }
+      };
+    },
+    created() {
+      if (this.utilisateurId) {
+        this.loading = true;
+        return axios.get('/api/admin/utilisateurs/' + this.utilisateurId)
+          .then(response => {
+            this.$setEditForm(response.data);
+            this.loading = false;
+          }).catch(e => {
+            console.log(e);
+            this.loading = false;
+          });
+      }
+    },
+    methods: {
+      submitForm() {
+        return axios.post('/api/admin/utilisateurs/' + this.utilisateurId, this.formFields)
+          .then(response => {
+            window.location.assign(response.headers.location);
+          }).catch(e => {
+            if (e.response && e.response.status && e.response.status == 400) {
+              this.$handleFormError(e.response.data);
+            }
+          });
+      },
+    },
+  };
 </script>

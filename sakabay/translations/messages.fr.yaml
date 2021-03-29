@@ -155,6 +155,8 @@ updatepassword_subject: "Confirmation changement de mot de passe"
 updatepassword_message: "Votre mot de passe a bien été modifié. Un email de confirmation vous a également été envoyé."
 createbesoin_message: "Votre demande « %s » à été publiée avec succès. Nous la transmettons à nos entreprises partenaires pouvant répondre à ce besoin."
 createbesoin_subject: "Création d'un service"
+createanswer_message: "L'entreprise « %s » vient de répondre à votre demande de service « %s ». Vous pouvez dès à présent vous rendre sur sa page de détail et lui faire une demande de devis si vous trouvez que son offre peut vous convenir."
+createanswer_subject: "Réponse à une opportunité"
 
 ####Footer:
 company_footer_name: "SAKABAY"

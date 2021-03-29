@@ -1,0 +1,46 @@
+App\Domain\Model\Answer:
+    type: entity
+    table: answer
+    repositoryClass: App\Infrastructure\Repository\AnswerRepository
+    options:
+        comment: Entité représentant une Anwser.
+
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+            options:
+                comment: Identifiant technique d'une answer
+    fields:
+        message:
+            type: string
+            length: 1500
+            column: message
+            nullable: false
+        dtCreated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+            options:
+                default: CURRENT_TIMESTAMP
+    manyToOne:
+        company:
+            targetEntity: Company
+            cascade: [persist]
+            onDelete: CASCADE
+            inversedBy: answers
+            nullable: false
+        besoin:
+            targetEntity: Besoin
+            onDelete: CASCADE
+            inversedBy: answers
+            cascade: [persist]
+            nullable: false
+    uniqueConstraints:
+        besoin_company_index:
+            columns: besoin_id, company_id
+
+
+

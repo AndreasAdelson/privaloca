@@ -75,5 +75,11 @@ App\Domain\Model\Besoin:
                     id_besoin:
                         referencedColumnName: id
             nullable: false
+    oneToMany:
+        answers:
+            targetEntity: Answer
+            orphanRemoval: true
+            cascade: [persist]
+            mappedBy: besoin
 
 

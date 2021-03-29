@@ -12,7 +12,7 @@
           type="button"
           class="w-40px p-0 rounded-circle btn-close btn"
         >
-          <i class="fas fa-times " />
+          <font-awesome-icon :icon="['fas', 'times']" />
         </button>
       </a>
       <form>

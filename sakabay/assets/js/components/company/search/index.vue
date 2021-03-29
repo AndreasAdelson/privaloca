@@ -65,7 +65,7 @@
                         disabled
                         style="height:min-content"
                       >
-                        <i class="fas fa-map-marker-alt" />
+                        <font-awesome-icon :icon="['fas', 'map-marker-alt']" />
                       </b-btn>
                     </b-input-group-append>
                   </b-input-group>
@@ -78,7 +78,7 @@
                   :class="!filters.filter && !filters.category && !filters.city ? 'no-cursor' : ''"
                   @click="applyFilter()"
                 >
-                  <span class="mr-2 fontAlice">{{ $t('commons.search_button') }}</span><i class="ml-2 fas fa-search" />
+                  <span class="mr-2 fontAlice">{{ $t('commons.search_button') }}</span><font-awesome-icon :icon="['fas', 'search']" />
                 </b-button>
               </div>
             </div>
@@ -235,7 +235,6 @@
         }
       },
       // companysList() {
-      //   console.log('oui');
       //   return this.companies.slice((this.pager.currentPage - 1) * this.pager.perPage,
       //                               this.pager.currentPage * this.pager.perPage);
       // }

@@ -25,7 +25,8 @@ class BesoinStatut
      * "api_besoin_statut",
      * "api_admin_companies",
      * "api_companies",
-     * "api_besoins"
+     * "api_besoins",
+     * "api_besoins_utilisateur"
      * })
      */
     private $id;
@@ -37,7 +38,8 @@ class BesoinStatut
      * "api_besoin_statut",
      * "api_admin_companies",
      * "api_companies",
-     * "api_besoins"
+     * "api_besoins",
+     * "api_besoins_utilisateur"
      * })
      */
     private $name;
@@ -50,7 +52,8 @@ class BesoinStatut
      * "api_admin_companies",
      * "api_companies",
      * "api_dashboard_utilisateur",
-     * "api_besoins"
+     * "api_besoins",
+     * "api_besoins_utilisateur"
      * })
      */
     private $code;

@@ -29,7 +29,7 @@
                   :disabled="!currentFilter"
                   @click="applyFilter()"
                 >
-                  <i class="fas fa-search" />
+                  <font-awesome-icon :icon="['fas', 'search']" />
                 </b-btn>
               </b-input-group-append>
             </b-input-group>
@@ -61,14 +61,14 @@
                   v-if="canRead"
                   :href="'/admin/refused/entreprise/show/' + data.value "
                 >
-                  <b-button><i class="fas fa-eye" /></b-button>
+                  <b-button><font-awesome-icon :icon="['fas', 'eye']" /></b-button>
                 </a>
                 <a
                   v-if="canEdit"
                   :href="'/admin/refused/entreprise/edit/' + data.value "
                   class="mx-1"
                 >
-                  <b-button><i class="fas fa-edit" /></b-button>
+                  <b-button><font-awesome-icon :icon="['fas', 'edit']" /></b-button>
                 </a>
               </b-button-group>
             </template>

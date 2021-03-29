@@ -50,11 +50,11 @@
     </div>
     <div class="col-1 mr-1 button-row">
       <button class="btn btn-success w-100 mb-1">
-        <i class="fas fa-sync-alt" />
+        <font-awesome-icon :icon="['fas', 'fa-sync-alt']" />
         Relancer
       </button>
       <button class="btn button_skb mb-1">
-        <i class="fas fa-ban" />
+        <font-awesome-icon :icon="['fas', 'fa-ban']" />
         Supprimer
       </button>
     </div>

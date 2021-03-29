@@ -315,7 +315,8 @@
     }
   },
   "opportunity": {
-    "title_list": "Opportunities"
+    "title_list": "Opportunities",
+    "default_message": "Hello, \nWe are interested in your request for: {0} and believe we can respond favorably. \nYou will be able to have a detailed estimate, by making a request to us following this answer. \n\nWe look forward to hearing from you. \n\n{1} "
   },
   "error_message_required": "This field is mandatory. Thank you for filling it in.",
   "error_message_required_username": "The size of your username must not be less than 5 characters and not more than 10 characters.",

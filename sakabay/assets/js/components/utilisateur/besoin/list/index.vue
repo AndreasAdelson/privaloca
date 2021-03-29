@@ -7,7 +7,10 @@
     </div>
     <div class="row justify-content-between pt-4 mb-4">
       <div class="col-4 align-self-center">
-        <i class="fas fa-edit grey-skb fontSize20 mr-2" />
+        <font-awesome-icon
+          class="grey-skb fontSize20 mr-2"
+          :icon="['fas', 'edit']"
+        />
         <h1 class="text-center fontPoppins fontSize20 dashboard-title">
           {{ $t('besoin.title_list') }}
         </h1>
@@ -50,12 +53,12 @@
               v-else
               class="row scroll-h500"
             >
-
+              <vuescroll>
                 <div class="col">
                   <div
                     v-for="(pendingBesoin, index) in pendingBesoins"
                     :key="'pendingBesoin_' + index"
-                    class="service-card mb-2 p-3 border"
+                    class="service-card mb-2 px-3 pt-3 border"
                   >
                     <pending-besoin
                       :pending-besoin="pendingBesoin"
@@ -100,7 +103,7 @@
                   <div
                     v-for="(expiredBesoin, index) in expiredBesoins"
                     :key="'expiredBesoin_' + index"
-                    class="service-card mb-2 p-3 border"
+                    class="service-card mb-2 px-3 pt-3 border"
                   >
                     <expired-besoin
                       :expired-besoin="expiredBesoin"
@@ -207,7 +210,6 @@
 
       },
       deleteRequest() {
-        console.log(this.currentPendingId ? '/api/besoins/' + this.currentPendingId : '/api/besoins/' + this.currentExpiredId);
         axios.delete(this.currentPendingId ? '/api/besoins/' + this.currentPendingId : '/api/besoins/' + this.currentExpiredId)
           .then(res => {
             if (this.currentPendingId) {
@@ -223,8 +225,6 @@
             this.indexExpired = null;
           })
           .catch(e => {
-            console.log('non');
-
             this.$handleError(e);
           });
       }

@@ -139,7 +139,6 @@
           return axios.get('/api/companies/utilisateur/' + this.utilisateurId)
             .then(response => {
               this.formFields.company = response.data[0];
-              console.log(response.data);
               this.loading = false;
             }).catch(error => {
               this.$handleError(error);

@@ -7,7 +7,10 @@
     </div>
     <div class="row justify-content-between pt-4 mb-4">
       <div class="col-4 align-self-center">
-        <i class="far fa-copy grey-skb fontSize20 mr-2" />
+        <font-awesome-icon
+          class="grey-skb fontSize20 mr-2"
+          :icon="['fas', 'copy']"
+        />
         <h1 class="text-center fontPoppins fontSize20 dashboard-title">
           {{ $t('opportunity.title_list') }} <span class="fontPoppins fontSize12 py-1 px-2 orange-gradiant white-skb rounded">{{ nbResult }}</span>
         </h1>
@@ -41,7 +44,9 @@
                   v-for="(opportunity, index) in printedOpportunities"
                   :key="'opp_' + index"
                   :opportunity="opportunity"
+                  :index="index"
                   class="row mb-2 card"
+                  @modal-openned="currentOpportunity = opportunity"
                 />
                 <div
                   class="w-100 whitebg text-center"
@@ -61,10 +66,16 @@
                   name="spy"
                 />
                 <div
-                  v-if="bottom"
+                  v-if="bottom && printedOpportunities.length > 0"
                   class="text-center mt-4"
                 >
                   <span>Fin des résultats</span>
+                </div>
+                <div
+                  v-else-if="bottom && printedOpportunities.length === 0"
+                  class="text-center mt-4"
+                >
+                  <span>Il n'y a aucune demande de besoin dans votre secteur actuellement</span>
                 </div>
               </div>
             </div>
@@ -72,17 +83,26 @@
         </div>
       </div>
     </div>
-  </div>
+    <answer-opportunity-modal
+      :opportunity="currentOpportunity"
+      :opportunity-title="currentOpportunity ? currentOpportunity.title : null"
+      :company="companySelected"
+      :company-name="companySelected ? companySelected.name : null"
+      @cancel-form="currentOpportunity = new Object()"
+    />
   </div>
 </template>
 <script>
   import axios from 'axios';
   import _ from 'lodash';
   import OpportunityCard from './opportunity-card.vue';
+  import AnswerOpportunityModal from './answer-opportunity-modal.vue';
+  import { EventBus } from 'plugins/eventBus';
 
   export default {
     components: {
-      OpportunityCard
+      OpportunityCard,
+      AnswerOpportunityModal
     },
     props: {
       utilisateurId: {
@@ -120,7 +140,8 @@
         bottom: false,
         nbResult: 0,
         nbMaxResult: 10,
-        currentPage: 1
+        currentPage: 1,
+        currentOpportunity: null
       };
     },
     computed: {
@@ -143,7 +164,15 @@
         this.getOpportunities();
       }
     },
-    created() {
+    async created() {
+      EventBus.$on('answer-modal-submited', async event => {
+        let index = _.findIndex(this.printedOpportunities, opportunity => {
+          return opportunity.id === event.id;
+        });
+        await this.$nextTick(() => {
+          this.printedOpportunities[index].isAnswered = event.value;
+        });
+      });
       let promises = [];
       promises.push(axios.get('/api/companies/utilisateur/' + this.utilisateurId));
       return Promise.all(promises).then(res => {
@@ -180,7 +209,7 @@
         }
         return Promise.all(promises).then(res => {
           this.loading = false;
-          this.printedOpportunities = _.cloneDeep(res[0].data);
+          this.printedOpportunities = this.checkAnswer(_.cloneDeep(res[0].data));
           if (this.printedOpportunities.length < this.nbMaxResult) {
             this.bottom = true;
           }
@@ -192,6 +221,26 @@
           this.$handleError(e);
           this.loading = false;
         });
+      },
+
+      /**
+       * Check if the selected company already answer to the opportunity
+       * Return the same array with the isAnswered field completed
+       * @param {Array} opportunities
+       */
+      checkAnswer(opportunities) {
+        opportunities.forEach(opportunity => {
+          let companyAnswer = _.find(opportunity.answers, answer => {
+            return answer.company.id === this.companySelected.id;
+          });
+          if (companyAnswer) {
+            opportunity.isAnswered = true;
+          } else {
+            opportunity.isAnswered = false;
+          }
+        });
+
+        return opportunities;
       },
 
       /**
@@ -215,9 +264,8 @@
             }).then(res => {
               this.loading2 = false;
               this.isScrolling = false;
-              console.log(res.data.length > 0);
               if (res.data.length > 0) {
-                this.printedOpportunities = _.unionBy(this.printedOpportunities, res.data, 'id');
+                this.printedOpportunities = _.unionBy(this.printedOpportunities, this.checkAnswer(res.data), 'id');
                 if (res.data.length < this.nbMaxResult) this.bottom = true;
               }
               else {
@@ -240,6 +288,5 @@
         this.currentPage = 1;
       },
     }
-
   };
 </script>

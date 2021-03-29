@@ -33,7 +33,7 @@
         href="#"
         @click.prevent="markAsSeen()"
       >
-        <i class="fas fa-check" />
+        <font-awesome-icon :icon="['fas', 'check']" />
       </a>
       <a
         v-else
@@ -43,7 +43,7 @@
         href="#"
         @click.prevent="markAsUnSeen()"
       >
-        <i class="fas fa-check" />
+        <font-awesome-icon :icon="['fas', 'check']" />
       </a>
       <a
         class="text-center badge orange-gradiant"
@@ -52,7 +52,7 @@
         href="#"
         @click.prevent="deleteNotification()"
       >
-        <i class="fas fa-times" />
+        <font-awesome-icon :icon="['fas', 'times']" />
       </a>
     </div>
   </li>

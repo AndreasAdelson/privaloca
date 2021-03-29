@@ -84,6 +84,7 @@ App\Domain\Model\Company:
                 nullable: false
             cascade: [persist,remove]
 
+
     oneToOne:
         address:
             targetEntity: Address
@@ -101,6 +102,12 @@ App\Domain\Model\Company:
             orphanRemoval: true
             cascade: [persist, remove]
             mappedBy: company
+        answers:
+            targetEntity: Answer
+            orphanRemoval: true
+            cascade: [persist]
+            mappedBy: company
+
 
     manyToMany:
         sousCategorys:

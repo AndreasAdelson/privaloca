@@ -68,9 +68,7 @@
         this.loading = true;
         return axios.get('/api/subscribes')
           .then(response => {
-
             this.subscriptions = response.data;
-            console.log(response.data);
             this.loading = false;
           }).catch(error => {
             this.$handleError(error);

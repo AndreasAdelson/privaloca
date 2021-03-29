@@ -24,7 +24,8 @@ class Besoin
      * @var int
      * @Expose
      * @Groups({
-     * "api_besoins"
+     * "api_besoins",
+     * "api_besoins_utilisateur"
      * })
      */
     private $id;
@@ -33,7 +34,8 @@ class Besoin
      * @var string
      * @Expose
      * @Groups({
-     * "api_besoins"
+     * "api_besoins",
+     * "api_besoins_utilisateur"
      * })
      */
     private $title;
@@ -42,7 +44,8 @@ class Besoin
      * @var string
      * @Expose
      * @Groups({
-     * "api_besoins"
+     * "api_besoins",
+     * "api_besoins_utilisateur"
      * })
      */
     private $description;
@@ -51,7 +54,8 @@ class Besoin
      * @var DateTime
      * @Expose
      * @Groups({
-     * "api_besoins"
+     * "api_besoins",
+     * "api_besoins_utilisateur"
      * })
      */
     private $dtCreated;
@@ -61,7 +65,8 @@ class Besoin
      * @var DateTime
      * @Expose
      * @Groups({
-     * "api_besoins"
+     * "api_besoins",
+     * "api_besoins_utilisateur"
      * })
      */
     private $dtUpdated;
@@ -70,7 +75,8 @@ class Besoin
      * @var Category
      * @Expose
      * @Groups({
-     * "api_besoins"
+     * "api_besoins",
+     * "api_besoins_utilisateur"
      * })
      */
     private $category;
@@ -79,7 +85,6 @@ class Besoin
      * @var Utilisateur
      * @Expose
      * @Groups({
-     * "api_besoins"
      * })
      */
     private $author;
@@ -88,7 +93,8 @@ class Besoin
      * @var BesoinStatut
      * @Expose
      * @Groups({
-     * "api_besoins"
+     * "api_besoins",
+     * "api_besoins_utilisateur"
      * })
      */
     private $besoinStatut;
@@ -97,16 +103,28 @@ class Besoin
      * @var SousCategory[]
      * @Expose
      * @Groups({
-     * "api_besoins"
+     * "api_besoins",
+     * "api_besoins_utilisateur"
      * })
      */
     private $sousCategorys;
+
+    /**
+     * @var Answer[]
+     * @Expose
+     * @Groups({
+     * "api_besoins",
+     * "api_besoins_utilisateur"
+     * })
+     */
+    private $answers;
 
 
     public function __construct()
 
     {
         $this->sousCategorys = new ArrayCollection();
+        $this->answers = new ArrayCollection();
     }
 
     public function getId()
@@ -221,6 +239,33 @@ class Besoin
         if ($this->sousCategorys->contains($sousCategory)) {
             $this->sousCategorys->removeElement($sousCategory);
             $sousCategory->removeBesoin($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Answer[]
+     */
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
+    }
+
+    public function addAnswer(Answer $answer): self
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers[] = $answer;
+            $answer->setBesoin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswer(Answer $answer): self
+    {
+        if ($this->answers->contains($answer)) {
+            $this->answers->removeElement($answer);
         }
 
         return $this;

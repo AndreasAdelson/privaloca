@@ -316,7 +316,8 @@
     }
   },
   "opportunity": {
-    "title_list": "Opportunitées"
+    "title_list": "Opportunitées",
+    "default_message": "Bonjour, \nNous suscitions un intérêt pour votre demande concernant : « {0} » et pensons pouvoir y répondre favorablement. \nVous pourrez avoir un devis détaillé, en nous effectuant une demande à la suite de cette réponse. \n\nDans l'attente de votre retour. \n\n{1} "
   },
   "error_message_required": "Ce champ est obligatoire. Merci de bien vouloir le renseigner.",
   "error_message_required_username": "La taille de votre pseudonyme ne doit pas être inférieure à 5 caractères ni supérieur à 10 caractères",

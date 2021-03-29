@@ -18,30 +18,78 @@
       </div>
       <div class="row no-gutters py-2 border-top">
         <div class="col-6 text-center mx-auto">
-          <button class="btn button_skb_transparent">
-            <!-- <i class="far fa-handshake fa-lg mt-2 mr-1" /> -->
-            <i class="far fa-hand-point-up fa-lg mt-2 mr-1" />
+          <button
+            v-if="!isAnswered"
+            data-toggle="modal"
+            data-target="#answerOpportunityModal"
+            class="btn button_skb_transparent"
+            @click="openModal()"
+          >
+            <span
+              v-show="!isAnswered"
+              :key="'fa-pencil' + index"
+            ><font-awesome-icon
+              class="mt-2 mr-1"
+              :icon="['fas', 'pencil-alt']"
+              size="lg"
+            /></span>
+            <span>Se proposer</span>
+          </button>
+          <button
+            v-else
+            data-toggle="modal"
+            data-target="#answerOpportunityModal"
+            class="btn button_skb_transparent_answered"
+            @click="openModal()"
+          >
+            <span
+              v-show="isAnswered"
+              :key="'fa-check' + index"
+            >
+              <font-awesome-icon
+                class="mt-2 mr-1"
+                :icon="['fas', 'check']"
+                size="lg"
+              />
+            </span>
             <span>Se proposer</span>
           </button>
         </div>
-
-        <!-- <div class="col-6 text-center">
-          <button class="btn button_skb_transparent">
-            <i class="far fa-thumbs-down fa-lg mt-2 mr-1" />
-            <span>Pas intéressé</span>
-          </button>
-        </div> -->
       </div>
     </div>
   </div>
 </template>
 <script>
+  import EventBus from 'plugins/eventBus';
+  import _ from 'lodash';
+
   export default {
+    components: {
+    },
     props: {
       opportunity: {
         type: Object,
         default: () => new Object()
+      },
+      index: {
+        type: Number,
+        default: null
       }
-    }
+    },
+    data() {
+      return {
+        currentAnswer: new Object()
+      };
+    },
+    computed: {
+      isAnswered() {
+        return this.opportunity.isAnswered;
+      }
+    },
+    methods: {
+      openModal() {
+        this.$emit('modal-openned');
+      }
+    },
   };
 </script>

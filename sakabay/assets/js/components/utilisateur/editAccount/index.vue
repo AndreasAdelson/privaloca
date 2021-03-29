@@ -6,7 +6,7 @@
       class="w-40px p-0 rounded-circle btn-close btn"
       @click.prevent="goBack()"
     >
-      <i class="fas fa-times " />
+      <font-awesome-icon :icon="['fas', 'times']" />
     </button>
     <form>
       <div class="">

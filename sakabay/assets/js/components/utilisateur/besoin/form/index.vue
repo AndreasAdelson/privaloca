@@ -11,7 +11,7 @@
         type="button"
         class="w-40px p-0 rounded-circle btn-close btn"
       >
-        <i class="fas fa-times " />
+        <font-awesome-icon :icon="['fas', 'times']" />
       </button>
     </a>
     <form>
@@ -130,7 +130,7 @@
                     :placeholder="$tc('commons.maximum_n_characters', 1000)"
                   />
                   <div
-                    :class="!$getNbCharactersLeft(formFields.description, 2000) ? 'red-skb' : 'black-skb'"
+                    :class="!$getNbCharactersLeft(formFields.description, 1000) ? 'red-skb' : 'black-skb'"
                     class="text-right pt-2 fontSize12"
                   >
                     {{ $tc('commons.n_charaters_left', $getNbCharactersLeft(formFields.description, 1000)) }}
@@ -162,7 +162,6 @@
         </div>
       </div>
     </form>
-
   </div>
 </template>
 <script>

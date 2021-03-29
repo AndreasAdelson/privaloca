@@ -28,7 +28,7 @@ class SousCategory
      * "api_categories",
      * "api_companies",
      * "api_admin_companies",
-     * "api_besoins"
+     * "api_besoins_utilisateur"
      * })
      */
     private $id;
@@ -41,7 +41,7 @@ class SousCategory
      * "api_categories",
      * "api_companies",
      * "api_admin_companies",
-     * "api_besoins"
+     * "api_besoins_utilisateur"
      * })
      */
     private $name;
@@ -53,6 +53,7 @@ class SousCategory
      * "api_sous_categories",
      * "api_categories",
      * "api_besoins",
+     * "api_besoins_utilisateur",
      * "api_admin_companies"
      * })
      */

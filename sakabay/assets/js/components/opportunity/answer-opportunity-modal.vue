@@ -1,0 +1,196 @@
+<template>
+  <div class="answerOpportunityModal">
+    <div
+      id="answerOpportunityModal"
+      class="modal fade"
+      data-backdrop="static"
+      data-keyboard="false"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="answerOpportunityModal"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-xl modal-opportunity-centered"
+        role="document"
+      >
+        <div>
+          <div class="modal-content w-100">
+            <div class="modal-header border-bototm-0">
+              <h5
+                id="answerOpportunityLabel"
+                class="modal-title"
+              >
+                Répondre à la demande de service:<br> <span
+                  v-if="opportunity && opportunity.title"
+                  class="bold"
+                >{{ opportunity.title }}</span>
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                @click="onCancelButton()"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12">
+                  <fieldset class="message">
+                    <label>Votre réponse</label>
+                    <textarea
+                      v-model="formFields.message"
+                      v-validate="'required'"
+                      class="form-control"
+                      :placeholder="'Votre réponse'"
+                      name="message"
+                      :rows="8"
+                    />
+                    <div
+                      :class="!$getNbCharactersLeft(formFields.message, 1500) ? 'red-skb' : 'black-skb'"
+                      class="text-right pt-2 fontSize12"
+                    >
+                      {{ $tc('commons.n_charaters_left', $getNbCharactersLeft(formFields.message, 1500)) }}
+                    </div>
+                    <div
+                      v-for="errorText in formErrors.message"
+                      :key="'message_' + errorText"
+                      class="line-height-1"
+                    >
+                      <span class="fontSize10 redtxt">{{ errorText }}</span>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+            <div
+              class="modal-footer border-top-0"
+            >
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                  @click="$emit('cancel-form')"
+                >
+                  <span class="whitetxt">Annuler</span>
+                </button>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  data-dismiss="modal"
+                  @click="submitForm()"
+                >
+                  <span class="whitetxt">Répondre</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  import axios from 'axios';
+  import _ from 'lodash';
+  import { EventBus } from 'plugins/eventBus';
+
+  export default {
+    components: {
+      // ConfirmModal
+    },
+    props: {
+      opportunity: {
+        type: Object,
+        default: () => new Object()
+      },
+      company: {
+        type: Object,
+        default: () => new Object()
+      }
+    },
+    data() {
+      return {
+        loading: false,
+        CONFIRM_MODAL_ID: 'ANSWER_OPPORTUNITY_MODAL',
+        formFields: {
+          message: '',
+          besoin: null,
+          company: null,
+        },
+        formErrors: {
+          message: [],
+          besoin: [],
+          company: []
+        },
+        emptyFormFields: {
+          message: '',
+          besoin: null,
+          company: null,
+        }
+      };
+    },
+    watch: {
+      opportunity(newValue) {
+        if (newValue) {
+          this.formFields.besoin = _.cloneDeep(newValue);
+          if(newValue.title && this.company && this.company.name) {
+            this.formFields.message = this.$t('opportunity.default_message', [
+              newValue.title,
+              this.company.name
+            ]);
+          }
+        }
+
+      },
+
+      company(newValue) {
+        if (newValue) {
+          this.formFields.company = _.cloneDeep(newValue);
+          if(newValue.name && this.opportunity && this.opportunity.title) {
+            this.formFields.message = this.$t('opportunity.default_message', [
+              this.opportunity.title,
+              newValue.name
+            ]);
+          }
+        }
+      }
+    },
+    methods: {
+      resetForm() {
+        setTimeout(() => {
+          this.loading = false;
+          this.formFields = _.cloneDeep(this.emptyFormFields);
+          // this.initialFormFields = _.cloneDeep(this.emptyFormFields);
+          // this.$removeFormErrors();
+          this.$emit('cancel-form');
+        }, 150);
+      },
+
+      onCancelButton() {
+        this.resetForm();
+      },
+
+      async submitForm() {
+        this.$emit('answer-modal-submit-called');
+        let formData = this.$getFormFieldsData(this.formFields);
+        return axios.post('/api/answer', formData).then(response => {
+          EventBus.$emit('answer-modal-submited', {id: this.opportunity.id, value: true});
+        }).catch(e => {
+          if (e.response && e.response.status && e.response.status == 400) {
+            // this.$handleFormError(e.response.data);
+            console.log(e.response.data);
+          }
+          this.$emit('answer-modal-submit-error');
+        });
+      }
+    },
+
+  };
+</script>

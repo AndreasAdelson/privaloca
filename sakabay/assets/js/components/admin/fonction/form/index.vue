@@ -7,7 +7,7 @@
           type="button"
           class="w-40px p-0 rounded-circle btn-close btn"
         >
-          <i class="fas fa-times "></i>
+          <font-awesome-icon :icon="['fas', 'times']" />
         </button>
       </a>
       <form>
@@ -23,12 +23,12 @@
                   >
                     <label class="fontUbuntuItalic fontSize16">{{ this.$t('fonction.fields.code') }}</label>
                     <input
+                      v-model="formFields.code"
                       v-validate="'required'"
                       type="text"
                       name="code"
                       class="form-control"
                       :placeholder="$t('fonction.placeholder.code')"
-                      v-model="formFields.code"
                     >
                     <div
                       v-for="errorText in formErrors.code"
@@ -47,18 +47,18 @@
                   >
                     <label class="fontUbuntuItalic fontSize16">{{ this.$t('fonction.placeholder.description') }}</label>
                     <input
+                      v-model="formFields.description"
                       v-validate="'required'"
                       name="description"
                       type="text"
                       class="form-control"
                       :placeholder="$t('fonction.placeholder.description')"
-                      v-model="formFields.description"
                     >
                     <div
                       v-for="errorText in formErrors.description"
                       :key="'description_' + errorText"
                     >
-                      <span class="fontUbuntuItalic fontSize13 red-skb">{{errorText }}</span>
+                      <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
                     </div>
                   </fieldset>
                 </div>
@@ -71,7 +71,9 @@
                   type="button"
                   class="btn button_skb fontUbuntuItalic"
                   @click="$validateForm()"
-                >{{ this.$t('commons.create') }}</button>
+                >
+                  {{ this.$t('commons.create') }}
+                </button>
               </div>
             </div>
           </div>
@@ -81,39 +83,39 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-import validatorRulesMixin from 'mixins/validatorRulesMixin';
+  import axios from 'axios';
+  import validatorRulesMixin from 'mixins/validatorRulesMixin';
 
-export default {
-  mixins: [
-    validatorRulesMixin
-  ],
-  data () {
-    return {
-      formFields: {
-        code: null,
-        description: null,
-      },
-      formErrors: {
-        code: [],
-        description: [],
-      }
-    };
-  },
-  props: {
-  },
-
-  methods: {
-    submitForm () {
-      return axios.post("/api/admin/fonctions", this.formFields)
-        .then(response => {
-          window.location.assign(response.headers.location);
-        }).catch(e => {
-          if (e.response && e.response.status && e.response.status == 400) {
-            this.$handleFormError(e.response.data);
-          }
-        });
+  export default {
+    mixins: [
+      validatorRulesMixin
+    ],
+    props: {
     },
-  },
-}
+    data() {
+      return {
+        formFields: {
+          code: null,
+          description: null,
+        },
+        formErrors: {
+          code: [],
+          description: [],
+        }
+      };
+    },
+
+    methods: {
+      submitForm() {
+        return axios.post('/api/admin/fonctions', this.formFields)
+          .then(response => {
+            window.location.assign(response.headers.location);
+          }).catch(e => {
+            if (e.response && e.response.status && e.response.status == 400) {
+              this.$handleFormError(e.response.data);
+            }
+          });
+      },
+    },
+  };
 </script>

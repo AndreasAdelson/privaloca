@@ -11,13 +11,16 @@
           href="/dashboard"
           class="btn btn-back py-2"
         >
-          <i class="fas fa-long-arrow-alt-left" />
+          <font-awesome-icon :icon="['fas', 'fa-long-arrow-alt-left']" />
         </a>
       </div>
     </div> -->
     <div class="row justify-content-between pt-4 mb-4">
       <div class="col-4 align-self-center">
-        <i class="fas fa-city grey-skb fontSize20 mr-2" />
+        <font-awesome-icon
+          class="grey-skb fontSize20 mr-2"
+          :icon="['fas', 'city']"
+        />
         <h1 class="text-center fontPoppins fontSize20 dashboard-title">
           {{ $tc('company.title_list_user', companies.length) }}
         </h1>
@@ -60,15 +63,24 @@
                   <!-- Category & Address & Statut -->
                   <div class="row justify-content-between">
                     <div class="col-3 fontSize18 fontPoppins">
-                      <i class="fas fa-cube mr-1" />
+                      <font-awesome-icon
+                        class=" mr-1"
+                        :icon="['fas', 'city']"
+                      />
                       <span class="bold">{{ $t('company.card.label.category') }}</span>
                     </div>
                     <div class="col-3 fontSize18 fontPoppins">
-                      <i class="fas fa-building mr-1" />
+                      <font-awesome-icon
+                        class=" mr-1"
+                        :icon="['fas', 'building']"
+                      />
                       <span class="bold">{{ $t('company.card.label.address') }}</span>
                     </div>
                     <div class="col-3 fontSize18 fontPoppins">
-                      <i class="fas fa-inbox mr-1" />
+                      <font-awesome-icon
+                        class=" mr-1"
+                        :icon="['fas', 'inbox']"
+                      />
                       <span class="bold">{{ $t('company.card.label.statut') }}</span>
                       <!-- TODO rajouter modale d'info sur le traitement des inscriptions. -->
                       <span class="link fontSize10 cursor-pointer">{{ $t('commons.more_details') }}</span>
@@ -85,10 +97,8 @@
                       :class="getStatutsClass(company.companystatut.code)"
                       class="col-3"
                     >
-                      <i
-                        class="mr-1"
-                        :class="'fas ' + getStatutsLabel(company.companystatut.code)[1] "
-                      />
+                      <font-awesome-icon :icon="['fas', getStatutsLabel(company.companystatut.code)[1]]" />
+
                       <span class="bold fontSize16">{{ getStatutsLabel(company.companystatut.code)[0] }}</span>
                     </div>
                   </div>
@@ -96,16 +106,25 @@
                   <!-- Num siret & url name & date de validation -->
                   <div class="row justify-content-between">
                     <div class="col-3 fontSize18 fontPoppins">
-                      <i class="far fa-calendar-alt mr-1" />
+                      <font-awesome-icon
+                        class=" mr-1"
+                        :icon="['fas', 'calendar']"
+                      />
 
                       <span class="bold">{{ $t('company.card.label.dt_created') }}</span>
                     </div>
                     <div class="col-3 fontSize18 fontPoppins">
-                      <i class="fas fa-map-pin mr-1" />
+                      <font-awesome-icon
+                        class=" mr-1"
+                        :icon="['fas', 'map-pin']"
+                      />
                       <span class="bold">{{ $t('company.card.label.code') }}</span>
                     </div>
                     <div class="col-3 fontSize18 fontPoppins">
-                      <i class="far fa-calendar-alt mr-1" />
+                      <font-awesome-icon
+                        class=" mr-1"
+                        :icon="['fas', 'calendar-alt']"
+                      />
                       <span class="bold">{{ $t('company.card.label.dt_fin') }}</span>
                     </div>
                   </div>
@@ -124,15 +143,24 @@
                   <!-- Address & postal code & city -->
                   <div class="row justify-content-between">
                     <div class="col-3 fontSize18 fontPoppins">
-                      <i class="fas fa-info-circle mr-1" />
+                      <font-awesome-icon
+                        class=" mr-1"
+                        :icon="['fas', 'info-circle']"
+                      />
                       <span class="bold">{{ $t('company.card.label.siret') }}</span>
                     </div>
                     <div class="col-3 fontSize18 fontPoppins">
-                      <i class="fas fa-city mr-1" />
+                      <font-awesome-icon
+                        class=" mr-1"
+                        :icon="['fas', 'city']"
+                      />
                       <span class="bold">{{ $t('company.card.label.city') }}</span>
                     </div>
                     <div class="col-3 fontSize18 fontPoppins">
-                      <i class="fas fa-desktop mr-1" />
+                      <font-awesome-icon
+                        class=" mr-1"
+                        :icon="['fas', 'desktop']"
+                      />
                       <span class="bold">{{ $t('company.card.label.url_name') }}</span>
                     </div>
                   </div>
@@ -156,7 +184,10 @@
                     class="row mb-1"
                   >
                     <div class="col-12 fontSize18 fontPoppins">
-                      <i class="fas fa-cubes mr-1" />
+                      <font-awesome-icon
+                        class=" mr-1"
+                        :icon="['fas', 'cubes']"
+                      />
                       <span class="bold">{{ $t('company.card.label.sous_category') }}</span>
                     </div>
                   </div>
@@ -185,7 +216,10 @@
                         :href="'/entreprise/' + company.url_name"
                         class="btn button_skb_blue mb-1"
                       >
-                        <i class="fas fa-eye mr-1" />
+                        <font-awesome-icon
+                          class=" mr-1"
+                          :icon="['fas', 'eye']"
+                        />
                         {{ $t('commons.presentation') }}
                       </a>
                     </div>
@@ -194,7 +228,10 @@
                         :href="'/entreprise/edit/' + company.url_name"
                         class="btn button_skb_yellow"
                       >
-                        <i class="fas fa-edit mr-1" />
+                        <font-awesome-icon
+                          class=" mr-1"
+                          :icon="['fas', 'edit']"
+                        />
                         {{ $t('commons.edit') }}
                       </a>
                     </div>
@@ -268,15 +305,15 @@
         switch(companyStatutCode) {
         case 'VAL':
           label = this.$t('company_statut.state.validate');
-          icon = 'fa-check';
+          icon = 'check';
           break;
         case 'ENC':
           label = this.$t('company_statut.state.pending');
-          icon = 'fa-history';
+          icon = 'history';
           break;
         case 'REF':
           label = this.$t('company_statut.state.refused');
-          icon = 'fa-times';
+          icon = 'times';
           break;
         }
         return [label, icon];

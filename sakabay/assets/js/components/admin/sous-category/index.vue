@@ -28,7 +28,7 @@
                 :disabled="!currentFilter"
                 @click="applyFilter()"
               >
-                <i class="fas fa-search" />
+                <font-awesome-icon :icon="['fas', 'search']" />
               </b-btn>
             </b-input-group-append>
           </b-input-group>
@@ -68,14 +68,14 @@
                 v-if="canRead"
                 :href="'/admin/sous-category/show/' + data.value "
               >
-                <b-button><i class="fas fa-eye" /></b-button>
+                <b-button><font-awesome-icon :icon="['fas', 'eye']" /></b-button>
               </a>
               <a
                 v-if="canEdit"
                 :href="'/admin/sous-category/edit/' + data.value "
                 class="mx-1"
               >
-                <b-button><i class="fas fa-edit" /></b-button>
+                <b-button><font-awesome-icon :icon="['fas', 'edit']" /></b-button>
               </a>
               <b-button
                 v-if="canDelete"
@@ -83,7 +83,7 @@
                 :data-target="'#' + DELETE_CONFIRM_MODAL_ID"
                 @click="currentId = data.value"
               >
-                <i class="fas fa-trash" />
+                <font-awesome-icon :icon="['fas', 'trash']" />
               </b-button>
             </b-button-group>
           </template>

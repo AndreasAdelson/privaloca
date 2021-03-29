@@ -11,7 +11,7 @@
         type="button"
         class="w-40px p-0 rounded-circle btn-close btn"
       >
-        <i class="fas fa-times " />
+        <font-awesome-icon :icon="['fas', 'times']" />
       </button>
     </a>
     <form>
@@ -157,7 +157,10 @@
               </v-map>
             </div>
             <div class="col-12 warning-message">
-              <span class="fontUbuntuItalic fontSize16 red-skb"><i class="fas fa-exclamation-triangle mx-1" />{{ $t('company.table.fields.address.warning_message') }}</span>
+              <span class="fontUbuntuItalic fontSize16 red-skb"><font-awesome-icon
+                class="mx-1"
+                :icon="['fas', 'exclamation-triangle']"
+              />{{ $t('company.table.fields.address.warning_message') }}</span>
             </div>
           </div>
           <!-- third row -->

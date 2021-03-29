@@ -10,6 +10,7 @@ use App\Infrastructure\Factory\NotificationFactory;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -146,7 +147,7 @@ final class BesoinController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\View(serializerGroups={"api_besoins"})
+     * @Rest\View(serializerGroups={"api_besoins_utilisateur"})
      * @Rest\Get("besoins/utilisateur/{utilisateurId}")
      *
      * @QueryParam(name="codeStatut",
@@ -244,6 +245,7 @@ final class BesoinController extends AbstractFOSRestController
      *             default=false,
      *             description="Avoir le total de résultats"
      * )
+     *
      * @return View
      */
 

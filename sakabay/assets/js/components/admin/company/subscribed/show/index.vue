@@ -25,7 +25,7 @@
           type="button"
           class="w-40px mt-4 p-0 rounded-circle btn-close btn"
         >
-          <i class="fas fa-times " />
+          <font-awesome-icon :icon="['fas', 'times']" />
         </button>
       </a>
       <div class="register-card mt-3 w-100 h-100">

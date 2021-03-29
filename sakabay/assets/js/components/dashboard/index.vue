@@ -8,7 +8,10 @@
     <!-- Content -->
     <div class="row py-3">
       <div class="col-3">
-        <i class="fas fa-home grey-skb fontSize20 mr-2" />
+        <font-awesome-icon
+          class="grey-skb fontSize20 mr-2"
+          :icon="['fas', 'home']"
+        />
         <h1 class="fontPoppins fontSize20 dashboard-title">
           {{ $t('dashboard.title') }}
         </h1>
@@ -20,7 +23,7 @@
     >
       <div class="col-3">
         <link-item
-          icon-label="fas fa-city"
+          icon-label="city"
           :button-text="$tc('dashboard.link.n_company', companies.length)"
           class-color="flat-color-5"
           :small-text="false"
@@ -30,7 +33,7 @@
       </div>
       <div class="col-3">
         <link-item
-          icon-label="fas fa-gem"
+          icon-label="gem"
           :button-text="$t('dashboard.link.subscription')"
           class-color="yellow-login-skb"
           :small-text="true"
@@ -40,7 +43,7 @@
       </div>
       <div class="col-3">
         <link-item
-          icon-label="far fa-copy"
+          icon-label="copy"
           :button-text="$t('dashboard.link.opportunity')"
           class-color="flat-color-6"
           :small-text="true"
@@ -50,7 +53,7 @@
       </div>
       <div class="col-3">
         <link-item
-          icon-label="fas fa-paste"
+          icon-label="paste"
           :button-text="$t('dashboard.link.recruit')"
           class-color="blue-skb"
           :small-text="true"
@@ -61,7 +64,7 @@
     <div class="row">
       <div class="col-3">
         <link-item
-          icon-label="fas fa-edit"
+          icon-label="edit"
           :button-text="$t('dashboard.link.request_service')"
           class-color="flat-color-1"
           url="/services/list"
@@ -70,7 +73,7 @@
       </div>
       <div class="col-3">
         <link-item
-          icon-label="fas fa-book-open"
+          icon-label="book-open"
           :button-text="$t('dashboard.link.documents')"
           class-color="flat-color-4"
           :small-text="true"
@@ -78,7 +81,7 @@
       </div>
       <div class="col-3">
         <link-item
-          icon-label="far fa-address-card"
+          icon-label="address-card"
           :button-text="$t('dashboard.link.nomination')"
           class-color="flat-color-2"
           :small-text="true"
@@ -176,37 +179,37 @@
           <info-item
             title="87500"
             sub-title="Visitors"
-            icon-class="fa fa-users"
+            icon-class="users"
             color-class="bg-flat-color-1"
           />
           <info-item
             title="385"
             sub-title="New Clients"
-            icon-class="fa fa-user-plus"
+            icon-class="user-plus"
             color-class="bg-flat-color-2"
           />
           <info-item
             title="1238"
             sub-title="Products sold"
-            icon-class="fa fa-cart-plus"
+            icon-class="cart-plus"
             color-class="bg-flat-color-3"
           />
           <info-item
             title="28%"
             sub-title="Returning Visitors"
-            icon-class="fas fa-undo-alt"
+            icon-class="undo-alt"
             color-class="bg-flat-color-4"
           />
           <info-item
             title="5:34:11"
             sub-title="Avg. Time"
-            icon-class="fa fa-clock"
+            icon-class="clock"
             color-class="bg-flat-color-5"
           />
           <info-item
             title="973"
             sub-title="COMMENTS"
-            icon-class="fa fa-users"
+            icon-class="users"
             color-class="bg-flat-color-1"
           />
         </div>
@@ -307,7 +310,6 @@
       getNotifications() {
         return axios.get('/notification/all/' + this.utilisateurId)
           .then(response => {
-            console.log(response);
             this.notifications = response.data;
           }).catch(e => {
             this.$handleError(e);
@@ -335,7 +337,6 @@
       getUser() {
         return axios.get('api/admin/utilisateurs/' + this.utilisateurId, {params: { 'serial_group': 'api_dashboard_utilisateur' }})
           .then(response => {
-            console.log(response);
             this.utilisateur = _.cloneDeep(response.data);
             this.companies = _.cloneDeep(this.utilisateur.companys);
           }).catch(e => {

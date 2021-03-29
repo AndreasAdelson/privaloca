@@ -2,15 +2,16 @@
   <div class="container-fluid skb-body">
     <div v-show="loading">
       <div class="loader-container-full">
-        <div class="loader">
-        </div>
+        <div class="loader" />
       </div>
     </div>
     <div class="row my-4">
       <div class="col-4">
-        <h1 class="fontUbuntuItalic orange-skb">{{ this.$t('fonction.title') }}</h1>
+        <h1 class="fontUbuntuItalic orange-skb">
+          {{ this.$t('fonction.title') }}
+        </h1>
       </div>
-      <div class="col-1"></div>
+      <div class="col-1" />
       <div class="col-5">
         <b-form-group
           horizontal
@@ -26,14 +27,16 @@
               <b-btn
                 :disabled="!currentFilter"
                 @click="applyFilter()"
-              ><i class="fas fa-search"></i></b-btn>
+              >
+                <font-awesome-icon :icon="['fas', 'search']" /></i>
+              </b-btn>
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
       </div>
       <div
-        class="col-1"
         v-if="canCreate"
+        class="col-1"
       >
         <a href="/admin/fonction/new">
           <b-button class="button_skb">{{ this.$t('commons.create') }}</b-button>
@@ -44,8 +47,8 @@
     <b-row>
       <b-col cols="12">
         <b-table
-          class="tablestyle"
           ref="table"
+          class="tablestyle"
           :items="refreshData"
           :fields="table.field"
           :current-page="pager.currentPage"
@@ -59,14 +62,16 @@
           responsive
           fixed
         >
-          <template v-slot:cell(actions)="data">
+          <template #cell(actions)="data">
             <b-button-group>
               <b-button
                 v-if="canDelete"
                 data-toggle="modal"
                 :data-target="'#' + DELETE_CONFIRM_MODAL_ID"
                 @click="currentId = data.value"
-              ><i class="fas fa-trash"></i></b-button>
+              >
+                <font-awesome-icon :icon="['fas', 'trash']" /></i>
+              </b-button>
             </b-button-group>
           </template>
         </b-table>
@@ -79,7 +84,7 @@
           :total-rows="pager.totalRows"
           :per-page="pager.perPage"
           align="center"
-        ></b-pagination>
+        />
       </b-col>
     </b-row>
     <confirm-modal
@@ -95,66 +100,66 @@
 </template>
 
 <script>
-import axios from 'axios';
-import paginationMixin from 'mixins/paginationMixin';
-import ConfirmModal from 'components/commons/confirm-modal';
+  import axios from 'axios';
+  import paginationMixin from 'mixins/paginationMixin';
+  import ConfirmModal from 'components/commons/confirm-modal';
 
-export default {
-  components: {
-    ConfirmModal
-  },
-  mixins: [paginationMixin],
-  props: {
-    canCreate: {
-      type: Boolean,
-      default: false
+  export default {
+    components: {
+      ConfirmModal
     },
-    canDelete: {
-      type: Boolean,
-      default: false
-    },
-  },
-  data () {
-    return {
-      DELETE_CONFIRM_MODAL_ID: 'delete_confirmModal',
-      currentId: null,
-      currentFilter: '',
-      table: {
-        field: [
-          { key: 'description', label: this.$t('fonction.fields.description'), sortable: true, thClass: "tableitem" },
-          (!this.canDelete) ? null : { key: 'actions', label: this.$t('commons.actions'), class: 'col-size-4', thClass: "tableitem" },
-        ],
-        sortBy: 'description'
+    mixins: [paginationMixin],
+    props: {
+      canCreate: {
+        type: Boolean,
+        default: false
       },
-      loading: false
-    };
-  },
-  methods: {
-    refreshData () {
-      this.loading = true;
-      return axios.get("/api/admin/fonctions", {
-        params: {
-          filterFields: 'description',
-          filter: this.currentFilter,
-          sortBy: this.table.sortBy,
-          sortDesc: this.table.sortDesc,
-          currentPage: this.pager.currentPage,
-          perPage: this.pager.perPage
-        }
-      }).then(response => {
-        let items = _.map(response.data, fonction => _.assign(fonction, {
-          description: fonction.description,
-          actions: fonction.id,
-        }));
-        this.pager.totalRows = parseInt(response.headers['x-total-count']);
-        this.loading = false;
-        return items;
-      }).catch(error => {
-        this.$handleError(error);
-        this.loading = false;
-        return [];
-      });
+      canDelete: {
+        type: Boolean,
+        default: false
+      },
     },
-  },
-}
+    data() {
+      return {
+        DELETE_CONFIRM_MODAL_ID: 'delete_confirmModal',
+        currentId: null,
+        currentFilter: '',
+        table: {
+          field: [
+            { key: 'description', label: this.$t('fonction.fields.description'), sortable: true, thClass: 'tableitem' },
+            (!this.canDelete) ? null : { key: 'actions', label: this.$t('commons.actions'), class: 'col-size-4', thClass: 'tableitem' },
+          ],
+          sortBy: 'description'
+        },
+        loading: false
+      };
+    },
+    methods: {
+      refreshData() {
+        this.loading = true;
+        return axios.get('/api/admin/fonctions', {
+          params: {
+            filterFields: 'description',
+            filter: this.currentFilter,
+            sortBy: this.table.sortBy,
+            sortDesc: this.table.sortDesc,
+            currentPage: this.pager.currentPage,
+            perPage: this.pager.perPage
+          }
+        }).then(response => {
+          let items = _.map(response.data, fonction => _.assign(fonction, {
+            description: fonction.description,
+            actions: fonction.id,
+          }));
+          this.pager.totalRows = parseInt(response.headers['x-total-count']);
+          this.loading = false;
+          return items;
+        }).catch(error => {
+          this.$handleError(error);
+          this.loading = false;
+          return [];
+        });
+      },
+    },
+  };
 </script>

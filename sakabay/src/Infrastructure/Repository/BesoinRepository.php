@@ -43,6 +43,22 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
         return $qb->getQuery()->getResult();
     }
 
+    public function getBesoinAnsweredByCompany($besoinId = '', $companyId = '')
+    {
+        $qb = $this->createQueryBuilder('b');
+
+        $qb->leftJoin('b.answers', 'answer')
+            ->where('b.id = :besoinId')
+            ->andWhere('answer.company = :companyId')
+            ->setParameters([
+                'besoinId' => $besoinId,
+                'companyId' => $companyId
+            ])->addSelect('answer');
+
+
+        return $qb->getQuery()->getSingleResult();
+    }
+
     /**
      * Ici on sépare les cas particulier par requêtes.
      *
@@ -58,8 +74,6 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
      * et qui correspondent à la catégorie de l'entreprise.
      */
     public function getPaginatedOpportunityList(
-        $sortBy = 'id',
-        $descending = false,
         $category = '',
         $sousCategory = null,
         $isCounting = false
@@ -86,6 +100,33 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
                 ->setParameter('category', $category);
             $qb->leftJoin('b.sousCategorys', 'sousCategory')
                 ->andWhere('sousCategory.id is NULL');
+        }
+
+        if ($isCounting) {
+            return $qb->getQuery()->getSingleScalarResult();
+        }
+
+        $qb->orderBy('b.dtCreated', 'DESC');
+        return $qb->getQuery()->getResult();
+    }
+
+
+    public function getPaginatedOpportunityWithRequestedQuoteList(
+        $company = '',
+        $isCounting = false
+    ) {
+        $qb = $this->createQueryBuilder('b');
+        if ($isCounting) {
+            $qb->select('count(DISTINCT b.id)');
+        }
+        $qb->leftJoin('b.answers', 'answer')
+            ->andWhere('answer.requestQuote = 1')
+            ->andWhere('answer.company = :companyId');
+        $qb->leftJoin('answer.company', 'company')
+            ->andWhere('company.id = :companyId')
+            ->setParameter('companyId', $company);
+        if (!$isCounting) {
+            $qb->addSelect('answer');
         }
 
         if ($isCounting) {

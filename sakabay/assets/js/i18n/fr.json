@@ -1,6 +1,7 @@
 {
   "commons": {
     "create": "Créer",
+    "cancel": "Annuler",
     "actions": "Actions",
     "edit": "Modifier",
     "detail": "Page de détail",
@@ -305,6 +306,9 @@
     "no_pending_services": "Vous n'avez aucune demande de service en cours",
     "no_expired_services": "Vous n'avez aucune demande de service expirée",
     "not_editable": "Ce champ n'est pas modifiable ",
+    "close": "Clôturer",
+    "request_quote": "Demander un devis",
+    "quote_requested": "Devis demandé",
     "placeholder": {
       "title": "Titre de la demande",
       "description": "Décrivez votre besoin",
@@ -312,12 +316,47 @@
       "activity": "Sélectionner les domaines d'activités concernés"
     },
     "label": {
-      "description": "Description"
+      "description": "Description",
+      "category": "Catégorie",
+      "activity": "Activités",
+      "dt_created":"Date de publication"
+    },
+    "modal_request_quote": {
+      "title": "Demande de devis",
+      "text": "Vous êtes sur le point de demander un devis à l'entreprise « {0} », pour votre demande : « {1} ».\n Le devis vous sera envoyé directement sur votre boîte email.\n Êtes-vous sûr de vouloir réaliser cette demande ?"
     }
   },
   "opportunity": {
-    "title_list": "Opportunitées",
-    "default_message": "Bonjour, \nNous suscitions un intérêt pour votre demande concernant : « {0} » et pensons pouvoir y répondre favorablement. \nVous pourrez avoir un devis détaillé, en nous effectuant une demande à la suite de cette réponse. \n\nDans l'attente de votre retour. \n\n{1} "
+    "cancel": "Annuler",
+    "validate": "Répondre",
+    "customer": {
+      "title_list": "Opportunités particuliers",
+      "default_message": "Bonjour, \nNous suscitions un intérêt pour votre demande concernant : « {0} » et pensons pouvoir y répondre favorablement. \nVous pourrez avoir un devis détaillé, en nous effectuant une demande à la suite de cette réponse. \n\nDans l'attente de votre retour. \n\n{1} ",
+      "nb_answers": "Réponse | Réponse | Réponses",
+      "answered": "dont la votre",
+      "propose_yourself": "Se proposer",
+      "no_opportunity": "Il n'y a aucune demande de besoin dans votre secteur actuellement",
+      "end_of_results": "Fin des résultats",
+
+      "modal_answer": {
+        "title": "Répondre à la demande de service : ",
+        "your_answer": "Votre réponse"
+      }
+    },
+    "quote": {
+      "title": "Demandes de devis",
+      "individual_request": "Demandes de devis particuliers",
+      "company_request": "Demandes de devis entreprises",
+      "no_individual_request": "Vous n'avez aucune demande de devis particuliers.",
+      "no_company_request": "Vous n'avez aucune demande de devis entreprises.",
+      "recap": {
+        "title": "Récapitulatif de l'opportunité"
+      },
+      "modal_answer": {
+        "title": "Réponse à la demande de devis",
+        "your_answer": "Votre réponse"
+      }
+    }
   },
   "error_message_required": "Ce champ est obligatoire. Merci de bien vouloir le renseigner.",
   "error_message_required_username": "La taille de votre pseudonyme ne doit pas être inférieure à 5 caractères ni supérieur à 10 caractères",

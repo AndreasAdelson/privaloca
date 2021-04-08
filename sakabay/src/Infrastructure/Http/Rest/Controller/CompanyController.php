@@ -360,16 +360,14 @@ final class CompanyController extends AbstractFOSRestController
         $file = $request->files->get('file');
 
         if (!empty($file)) {
-            $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFileName);
-            $newFileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
-            $uploadDir = $uploadDir . '/' . $companyUrlName;
-            $uploader->upload($uploadDir, $file, $newFileName);
+            $newFileName = $uploader->setFileName($file);
+            $uploadDirectory = $uploadDir . '/' . $companyUrlName;
+            $uploader->upload($uploadDirectory, $file, $newFileName);
             $request->request->set('imageProfil', $newFileName);
             $oldImage = $company->getImageProfil();
             if (!empty($oldImage)) {
                 if (file_exists($oldImage)) {
-                    $uploader->deleteOldFile($uploadDir, $oldImage);
+                    $uploader->deleteOldFile($uploadDirectory, $oldImage);
                 }
             }
         }

@@ -19,9 +19,16 @@ class FileUploader
         try {
             $file->move($uploadDir, $filename);
         } catch (FileException $e) {
-            $this->logger->error('failed to upload image: ' . $e->getMessage());
+            $this->logger->error('failed to upload file: ' . $e->getMessage());
             throw new FileException('Failed to upload file');
         }
+    }
+
+    public function setFileName($file): ?string
+    {
+        $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFileName);
+        return $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
     }
 
     public function deleteOldFile($uploadDir, $filename)

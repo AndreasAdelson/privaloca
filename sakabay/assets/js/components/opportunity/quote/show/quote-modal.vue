@@ -1,17 +1,17 @@
 <template>
-  <div class="answerOpportunityModal">
+  <div class="quoteModal">
     <div
-      id="answerOpportunityModal"
+      id="quoteModal"
       class="modal fade"
       data-backdrop="static"
       data-keyboard="false"
       tabindex="-1"
       role="dialog"
-      aria-labelledby="answerOpportunityModal"
+      aria-labelledby="quoteModal"
       aria-hidden="true"
     >
       <div
-        class="modal-dialog modal-xl modal-opportunity-centered"
+        class="modal-dialog modal-xl modal-quote-centered"
         role="document"
       >
         <div>
@@ -21,7 +21,7 @@
                 id="answerOpportunityLabel"
                 class="modal-title"
               >
-                Répondre à la demande de service:<br> <span
+                {{ $t('opportunity.quote.modal_answer.title') }}<br> <span
                   v-if="opportunity && opportunity.title"
                   class="bold"
                 >{{ opportunity.title }}</span>
@@ -39,30 +39,60 @@
             <div class="modal-body">
               <div class="row">
                 <div class="col-12">
-                  <fieldset class="message">
-                    <label>Votre réponse</label>
+                  <fieldset class="messageEmail">
+                    <label>{{ $t('opportunity.quote.modal_answer.your_answer') }}</label>
                     <textarea
-                      v-model="formFields.message"
+                      v-model="formFields.messageEmail"
                       v-validate="'required'"
                       class="form-control"
                       :placeholder="'Votre réponse'"
-                      name="message"
+                      name="messageEmail"
                       :rows="8"
                     />
                     <div
-                      :class="!$getNbCharactersLeft(formFields.message, 1500) ? 'red-skb' : 'black-skb'"
+                      :class="!$getNbCharactersLeft(formFields.messageEmail, 1500) ? 'red-skb' : 'black-skb'"
                       class="text-right pt-2 fontSize12"
                     >
-                      {{ $tc('commons.n_charaters_left', $getNbCharactersLeft(formFields.message, 1500)) }}
+                      {{ $tc('commons.n_charaters_left', $getNbCharactersLeft(formFields.messageEmail, 1500)) }}
                     </div>
                     <div
-                      v-for="errorText in formErrors.message"
-                      :key="'message_' + errorText"
+                      v-for="errorText in formErrors.messageEmail"
+                      :key="'messageEmail_' + errorText"
                       class="line-height-1"
                     >
                       <span class="fontSize10 redtxt">{{ errorText }}</span>
                     </div>
                   </fieldset>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-4">
+                  <div class="form-group mb-0">
+                    <fieldset
+                      id="file"
+                      class="file"
+                    >
+                      <input
+                        ref="file"
+                        name="file"
+                        type="file"
+                        accept="application/pdf"
+                        @change="onFileSelected"
+                      >
+                      <div
+                        v-for="errorText in formErrors.file"
+                        :key="'file_' + errorText"
+                      >
+                        <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
+                      </div>
+                      <div
+                        v-if="errorMessage"
+                        :key="'file_' + errorMessage"
+                      >
+                        <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorMessage }}</span>
+                      </div>
+                    </fieldset>
+                  </div>
                 </div>
               </div>
             </div>
@@ -76,17 +106,16 @@
                   data-dismiss="modal"
                   @click="$emit('cancel-form')"
                 >
-                  <span class="whitetxt">Annuler</span>
+                  <span class="whitetxt">{{ $t('opportunity.cancel') }}</span>
                 </button>
               </div>
               <div>
                 <button
                   type="button"
                   class="btn btn-success"
-                  data-dismiss="modal"
                   @click="submitForm()"
                 >
-                  <span class="whitetxt">Répondre</span>
+                  <span class="whitetxt">{{ $t('opportunity.validate') }}</span>
                 </button>
               </div>
             </div>
@@ -113,6 +142,10 @@
       company: {
         type: Object,
         default: () => new Object()
+      },
+      utilisateurId: {
+        type: Number,
+        default: null
       }
     },
     data() {
@@ -120,31 +153,31 @@
         loading: false,
         CONFIRM_MODAL_ID: 'ANSWER_OPPORTUNITY_MODAL',
         formFields: {
-          message: '',
-          besoin: null,
-          company: null,
+          messageEmail: ''
         },
         formErrors: {
-          message: [],
-          besoin: [],
-          company: []
+          messageEmail: [],
+          quote: [],
+          file: []
         },
-        emptyFormFields: {
-          message: '',
-          besoin: null,
+        emptyModalFields: {
+          messageEmail:'',
           company: null,
-        }
+        },
+        quoteDocumentSelected: null,
+        documentName: null,
+        errorMessage: null
       };
     },
     watch: {
       opportunity(newValue) {
         if (newValue) {
-          this.formFields.besoin = _.cloneDeep(newValue);
           if(newValue.title && this.company && this.company.name) {
-            this.formFields.message = this.$t('opportunity.default_message', [
+            this.formFields.messageEmail = this.$t('opportunity.customer.default_message', [
               newValue.title,
               this.company.name
             ]);
+
           }
         }
 
@@ -152,9 +185,8 @@
 
       company(newValue) {
         if (newValue) {
-          this.formFields.company = _.cloneDeep(newValue);
           if(newValue.name && this.opportunity && this.opportunity.title) {
-            this.formFields.message = this.$t('opportunity.default_message', [
+            this.formFields.messageEmail = this.$t('opportunity.customer.default_message', [
               this.opportunity.title,
               newValue.name
             ]);
@@ -166,9 +198,7 @@
       resetForm() {
         setTimeout(() => {
           this.loading = false;
-          this.formFields = _.cloneDeep(this.emptyFormFields);
-          // this.initialFormFields = _.cloneDeep(this.emptyFormFields);
-          // this.$removeFormErrors();
+          // this.formFields = _.cloneDeep(this.emptyFormFields);
           this.$emit('cancel-form');
         }, 150);
       },
@@ -177,19 +207,36 @@
         this.resetForm();
       },
 
+      onFileSelected() {
+        this.quoteDocumentSelected = this.$refs.file.files[0];
+        this.documentName = this.$refs.file.files[0].name;
+      },
+
       async submitForm() {
-        this.$emit('answer-modal-submit-called');
+        this.$removeFormErrors();
+        EventBus.$emit('answer-modal-submit-called');
+        this.formFields.utilisateur = _.cloneDeep(this.utilisateurId);
         let formData = this.$getFormFieldsData(this.formFields);
-        return axios.post('/api/answer', formData).then(response => {
-          EventBus.$emit('answer-modal-submited', {id: this.opportunity.id, value: true});
+        if (this.quoteDocumentSelected) {
+          formData.append('file', this.quoteDocumentSelected);
+        }
+        console.log(this.formFields);
+        return axios.post('/api/answers/quote/' + this.opportunity.answers[0].id  + '/send/'+ this.utilisateurId, formData).then(response => {
+          // $('#' + this.ANSWER_OPPORTUNITY_MODAL).hide();
+          window.location.assign(response.headers.location);
         }).catch(e => {
-          if (e.response && e.response.status && e.response.status == 400) {
-            // this.$handleFormError(e.response.data);
+          if (e.response && e.response.status && e.response.status === 400) {
+            if (e.response.headers['x-message']) {
+              this.errorMessage = decodeURIComponent(e.response.headers['x-message']);
+            } else {
+              this.$handleFormError(e.response.data);
+            }
+          } else {
             console.log(e.response.data);
+            this.$handleError(e);
           }
-          this.$emit('answer-modal-submit-error');
         });
-      }
+      },
     },
 
   };

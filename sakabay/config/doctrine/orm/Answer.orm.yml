@@ -25,6 +25,20 @@ App\Domain\Model\Answer:
                     on: create
             options:
                 default: CURRENT_TIMESTAMP
+        requestQuote:
+            type: boolean
+            nullable: true
+        quote:
+            type: string
+            length: 100
+            column: quote
+            nullable: true
+        messageEmail:
+            type: string
+            length: 1500
+            column: message_email
+            nullable: true
+
     manyToOne:
         company:
             targetEntity: Company

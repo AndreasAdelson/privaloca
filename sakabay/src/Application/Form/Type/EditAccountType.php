@@ -56,7 +56,7 @@ class EditAccountType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])->add('imageProfil', TextType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,

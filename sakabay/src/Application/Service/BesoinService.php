@@ -48,6 +48,10 @@ class BesoinService
         return $this->besoinRepository->getBesoinByUserId($utilisateur, $codeStatut);
     }
 
+    public function getBesoinAnsweredByCompany(int $besoinId, int $companyId) {
+        return $this->besoinRepository->getBesoinAnsweredByCompany($besoinId, $companyId);
+    }
+
     /**
      * Retourne une page, potentiellement triée et filtrée pour les admins.
      *
@@ -75,7 +79,7 @@ class BesoinService
     }
 
     /**
-     * Retourne une page, potentiellement triée et filtrée pour les entreprises abonnées.
+     * Retourne une page, potentiellement triée et filtrée des besoins particuliers pour les entreprises abonnées.
      *
 
      *
@@ -87,8 +91,6 @@ class BesoinService
      * @return Pagerfanta
      */
     public function getPaginatedOpportunityList(
-        $sortBy = 'id',
-        $descending = false,
         $category = '',
         $sousCategory = '',
         $currentPage = 1,
@@ -96,19 +98,49 @@ class BesoinService
     ) {
 
         $opportunities =  $this->besoinRepository
-            ->getPaginatedOpportunityList($sortBy, $descending, $category, $sousCategory, false);
+            ->getPaginatedOpportunityList($category, $sousCategory, false);
         return $this->paginateArray($opportunities, $perPage, $currentPage);
     }
 
     public function getCountOpportunities(
-        $sortBy = 'id',
-        $descending = false,
         $category = '',
         $sousCategory = '',
         $isCounting = true
     ) {
         return $this->besoinRepository
-            ->getPaginatedOpportunityList($sortBy, $descending, $category, $sousCategory, $isCounting);
+            ->getPaginatedOpportunityList($category, $sousCategory, $isCounting);
+    }
+
+    /**
+     * Retourne une page, potentiellement triée et filtrée des besoins avec demande de devis pour les entreprises abonnées.
+     *
+
+     *
+     * @param string $sortBy
+     * @param bool   $descending
+     * @param int    $currentPage
+     * @param int    $perPage
+     *
+     * @return Pagerfanta
+     */
+    public function getPaginatedOpportunityWithRequestedQuoteList(
+        $company = '',
+        $currentPage = 1,
+        $perPage = PHP_INT_MAX ? PHP_INT_MAX : 10
+    ) {
+
+        $opportunities =  $this->besoinRepository
+            ->getPaginatedOpportunityWithRequestedQuoteList($company, false);
+        return $this->paginateArray($opportunities, $perPage, $currentPage);
+    }
+
+
+    public function getCountOpportunitiesWithRequestedQuote(
+        $company = '',
+        $isCounting = true
+    ) {
+        return $this->besoinRepository
+            ->getPaginatedOpportunityWithRequestedQuoteList($company, $isCounting);
     }
 
     /**

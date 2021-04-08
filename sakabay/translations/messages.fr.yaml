@@ -141,6 +141,7 @@ email_register_validation_subject: "Validation de votre candidature"
 email_register_validation_body: "Bonjour, \n\nC'est avec plaisir que vous nous annoncons que l'inscription de l'entreprise « %s » à été validée par nos équipes.\nNous vous souhaitons donc la bienvenue au sein de notre groupe avec 2 mois d'abonnement offert. Vous pouvez dès maintenant personnaliser votre page de présentation depuis ce lien  %s , accessible depuis le menu glissant de l'application.\nL'Equipe Sakabay vous souhaite une bonne journée.\n\nMerci pour l'intérêt que vous portez à Sakabay\n\nCet email est automatique, merci de ne pas y répondre.\nL'Equipe Sakabay."
 email_update_password_subject: "Votre mot de passe a été modifié."
 email_update_password_body: "Bonjour, \n\n Nous vous confirmons la modification de votre mot de passe. \n\nBonne journée sur Sakabay."
+email_send_quote_subject: "Réponse à la demande de devis"
 
 ###### Notifications ######
 createcompany_subject_admin: "Inscription d'une entreprise"
@@ -157,6 +158,8 @@ createbesoin_message: "Votre demande « %s » à été publiée avec succès. No
 createbesoin_subject: "Création d'un service"
 createanswer_message: "L'entreprise « %s » vient de répondre à votre demande de service « %s ». Vous pouvez dès à présent vous rendre sur sa page de détail et lui faire une demande de devis si vous trouvez que son offre peut vous convenir."
 createanswer_subject: "Réponse à une opportunité"
+requestquote_subject: "Demande de devis"
+requestquote_message: "Une demande de devis à été réalisée concernant l'opportunité « %s »."
 
 ####Footer:
 company_footer_name: "SAKABAY"
@@ -165,7 +168,7 @@ company_footer_lien: "Lien Rapide"
 company_footer_join: "Rejoignez nous !"
 company_footer_contact: "Contactez nous !"
 company_footer_description_inscription: "Accédez à votre page et développer votre marketing."
-footer_signature: "Copyright SAKABAY © 2020. Tous droits réservés. By : Andreas ADELSON and Salman KARI"
+footer_signature: "Copyright SAKABAY © 2020. Tous droits réservés. By : Andreas ADELSON"
 
 #Reset password
 reset_password: "Réinitialiser son mot de passe"
@@ -194,4 +197,7 @@ besoin_list_title_page: "Gestion de vos services"
 besoin_create_title_page: "Demander un service"
 
 #Opportunity pages
-opportunity_list_title_page: "Opportunitées"
+opportunity_list_title_page: "Opportunités"
+opportunity_recap_title_page: "Récapitulatif opportunité"
+error_mime_types_message: 'Veuillez télécharger un document PDF valide'
+error_max_size_message: 'Le fichier est trop volumineux %s %s. La taille maximale autorisée est de %s. %s'

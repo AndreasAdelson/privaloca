@@ -62,7 +62,6 @@
 </template>
 <script>
   import moment from 'moment';
-  import axios from 'axios';
 
   export default {
     props: {
@@ -78,13 +77,7 @@
     },
     methods: {
       cancelRequest() {
-        axios.delete('/api/besoins/' + this.expiredBesoin.id)
-          .then(res => {
-            this.$emit('service-deleted');
-          })
-          .catch(e => {
-            this.$handleError(e);
-          });
+        this.$emit('delete-modal-opened');
       }
     },
   };

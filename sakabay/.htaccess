@@ -6,3 +6,6 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ /public/$1
 RewriteCond %{HTTP_HOST} ^(www.)?sakabay$
 RewriteRule ^(/)?$ public/index.php [L]
+php_value memory_limit 128M
+php_value post_max_size 100M
+php_value upload_max_filesize 20M

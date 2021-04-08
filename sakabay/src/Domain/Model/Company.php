@@ -194,7 +194,8 @@ class Company
      * @Expose
      * @Groups({
      * "api_companies",
-     * "api_besoins_utilisateur"
+     * "api_besoins_utilisateur",
+     * "api_admin_companies"
      * })
      */
     private $imageProfil;

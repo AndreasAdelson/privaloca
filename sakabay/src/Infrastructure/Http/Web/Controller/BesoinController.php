@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Http\Web\Controller;
 
 use App\Application\Service\CompanyService;
+use App\Application\Service\BesoinService;
 use App\Domain\Model\Besoin;
 use App\Infrastructure\Repository\BesoinRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,9 +21,10 @@ class BesoinController extends AbstractController
     /**
      * BesoinWebController constructor.
      */
-    public function __construct(CompanyService $companyService)
+    public function __construct(CompanyService $companyService, BesoinService $besoinService)
     {
         $this->companyService = $companyService;
+        $this->besoinService = $besoinService;
     }
 
     /**
@@ -104,7 +106,7 @@ class BesoinController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
         $utilisateurId = $this->getUser()->getId();
-        $companies = $this->companyService->getCompanyByUserId($utilisateurId);
+        $companies = $this->getUser()->getCompanys();
         if (empty($companies)) {
             throw new NotFoundHttpException('Page does not exist');
         }
@@ -121,6 +123,58 @@ class BesoinController extends AbstractController
 
         return $this->render('opportunity/list.html.twig', [
             'utilisateurId' => $utilisateurId,
+        ]);
+    }
+
+    /**
+     * @Route("opportunities/recap/{id}/{slug}", name="opportunity_recap", methods="GET|POST")
+     */
+    public function opportunityRecap(int $id, string $slug)
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+        $company = $this->companyService->getCompanyByUrlName($slug);
+        if (empty($company)) {
+            throw new NotFoundHttpException('Page does not exist');
+        }
+        $userCompanies = $this->getUser()->getCompanys();
+        if (empty($userCompanies)) {
+            throw new NotFoundHttpException('Page does not exist');
+        }
+        if (!$userCompanies->contains($company)) {
+            throw new NotFoundHttpException('Page does not exist');
+        }
+        $subscribtionActive = $this->companyService->isCompanySubscribtionActive($company);
+        if (!$subscribtionActive) {
+            throw new NotFoundHttpException('Page does not exist');
+        }
+        $companyCategory = $company->getCategory();
+        $opportunity = $this->besoinService->getBesoin($id);
+        $opportunityCategory = $opportunity->getCategory();
+        if ($companyCategory !== $opportunityCategory) {
+            throw new NotFoundHttpException('Page does not exist');
+        }
+        $companySousCategorys = $company->getSousCategorys();
+        $opportunitySousCategorys = $opportunity->getSousCategorys();
+        if (!$companySousCategorys->isEmpty()) {
+            if (!$opportunitySousCategorys->isEmpty()) {
+                $isSousCategorysMatch = false;
+                foreach ($companySousCategorys as $sousCategory) {
+                    if ($opportunitySousCategorys->contains($sousCategory)) {
+                        $isSousCategorysMatch = true;
+                    }
+                }
+                if (!$isSousCategorysMatch) {
+                    throw new NotFoundHttpException('Page does not exist');
+                }
+            }
+        }
+
+        return $this->render('opportunity/recap.html.twig', [
+            'opportunityId' => $id,
+            'companyId' => $company->getId(),
+            'utilisateurId' => $this->getUser()->getId()
         ]);
     }
 

@@ -86,12 +86,23 @@ class NotificationFactory
         $this->addNotification($destinataires, $subject, $message, $redirect);
     }
 
-    public function createAnswerNotification(array $destinataires, string $redirect, Answer $answer, Company $company)
+    public function createAnswerNotification(array $destinataires, string $redirect, Answer $answer)
     {
         $subject = $this->translator->trans('createanswer_subject');
         $message = sprintf(
             $this->translator->trans('createanswer_message'),
             $answer->getCompany()->getName(),
+            $answer->getBesoin()->getTitle()
+        );
+
+        $this->addNotification($destinataires, $subject, $message, $redirect);
+    }
+
+    public function requestQuoteNotification(array $destinataires, string $redirect, Answer $answer)
+    {
+        $subject = $this->translator->trans('requestquote_subject');
+        $message = sprintf(
+            $this->translator->trans('requestquote_message'),
             $answer->getBesoin()->getTitle()
         );
 

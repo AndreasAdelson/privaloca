@@ -8,7 +8,7 @@
     <div class="row justify-content-between pt-4 mb-4">
       <div class="col-4 align-self-center">
         <font-awesome-icon
-          class="grey-skb fontSize20 mr-2"
+          class="grey-skb fontSize24 mr-2"
           :icon="['fas', 'edit']"
         />
         <h1 class="text-center fontPoppins fontSize20 dashboard-title">
@@ -62,7 +62,9 @@
                   >
                     <pending-besoin
                       :pending-besoin="pendingBesoin"
-                      @service-deleted="onDeletedPendingService(index, pendingBesoin.id)"
+                      :loading="loading2"
+                      @delete-modal-opened="onDeletedPendingService(index, pendingBesoin.id)"
+                      @request-quote-modal-opened="event => onResquestQuotePending(index, pendingBesoin, event)"
                     />
                   </div>
                 </div>
@@ -107,7 +109,7 @@
                   >
                     <expired-besoin
                       :expired-besoin="expiredBesoin"
-                      @service-deleted="onDeletedExpiredService(index, expiredBesoin.id)"
+                      @delete-modal-opened="onDeletedExpiredService(index, expiredBesoin.id)"
                     />
                   </div>
                 </div>
@@ -125,6 +127,16 @@
       :button-no-text="$t('commons.no')"
       :are-buttons-on-same-line="true"
       @confirm-modal-yes="deleteRequest()"
+    />
+    <confirm-modal
+      :id="REQUEST_QUOTE_MODAL_ID"
+      :title-text="$t('besoin.modal_request_quote.title')"
+      :body-text="$t('besoin.modal_request_quote.text', [currentPendingBesoinTitle, currentCompanyName])"
+      :nl2br="true"
+      :button-yes-text="$t('commons.yes')"
+      :button-no-text="$t('commons.no')"
+      :are-buttons-on-same-line="true"
+      @confirm-modal-yes="submitRequestQuote()"
     />
   </div>
 </template>
@@ -151,12 +163,18 @@
     },
     data() {
       return {
+        REQUEST_QUOTE_MODAL_ID: 'request_quoteModal',
         DELETE_CONFIRM_MODAL_ID: 'delete_confirmModal',
         loading: true,
+        loading2: false,
         currentPendingId: null,
         indexPending: null,
-        indexExpired: null,
         currentExpiredId: null,
+        indexExpired: null,
+        currentPendingBesoinTitle: null,
+        currentCompanyName: null,
+        currentAnswerId: null,
+        indexAnswer: null,
         pendingBesoins: [],
         expiredBesoins: [],
         opsButton: {
@@ -209,6 +227,13 @@
         this.indexExpired = index;
 
       },
+      onResquestQuotePending(index, pendingBesoin, event) {
+        this.indexPending = index;
+        this.currentPendingBesoinTitle = pendingBesoin.title;
+        this.currentCompanyName = event.company_name;
+        this.currentAnswerId = event.answer_id;
+        this.indexAnswer = event.answer_index;
+      },
       deleteRequest() {
         axios.delete(this.currentPendingId ? '/api/besoins/' + this.currentPendingId : '/api/besoins/' + this.currentExpiredId)
           .then(res => {
@@ -226,6 +251,21 @@
           })
           .catch(e => {
             this.$handleError(e);
+          });
+      },
+
+      submitRequestQuote() {
+        this.loading2 = true;
+        axios.post('/api/answers/quote/' + this.currentAnswerId)
+          .then(res => {
+            this.pendingBesoins[this.indexPending].answers[this.indexAnswer].request_quote = true;
+            this.indexPending = null;
+            this.indexAnswer = null;
+            this.loading2 = false;
+
+          }).catch(e => {
+            this.loading2 = false;
+
           });
       }
     },

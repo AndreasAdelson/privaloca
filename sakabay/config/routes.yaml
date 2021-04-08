@@ -314,3 +314,7 @@ opportunity_list:
     path: opportunities/list
     controller: App\Infrastructure\Http\Web\Controller\BesoinController::opportunityList
     methods: [GET]
+opportunity_recap:
+    path: opportunities/recap/{id}/{slug}
+    controller: App\Infrastructure\Http\Web\Controller\BesoinController::opportunityRecap
+    methods: [GET,POST]

@@ -2,7 +2,11 @@
   <div class="row mt-3 ">
     <div class="mx-auto col-10 card-skb">
       <div class="title-card-skb">
-        <font-awesome-icon :icon="['fas', 'fa-file-alt fa-lg yellow-login-skb']" />
+        <font-awesome-icon
+          class="yellow-login-skb"
+          :icon="['fas', 'file-alt']"
+          size="lg"
+        />
         <span class="fontPoppins underline ml-1">{{ $t('company.presentation.description') }}</span>
       </div>
       <div class="details-card">

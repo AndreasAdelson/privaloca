@@ -10,7 +10,7 @@ require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
 require('vue2-autocomplete-js/dist/style/vue2-autocomplete.css');
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faChevronRight, faChevronDown, faSearch, faEdit, faTrash, faEye, faTimes, faArrowAltCircleDown, faLongArrowAltLeft, faCity, faBuilding, faInbox, faCalendarAlt, faCalendar, faInfoCircle, faDesktop, faCubes, faCheck, faHistory, faExclamationTriangle, faMapMarkerAlt, faFileAlt, faPhone, faLink, faHome, faGem, faCopy, faPaste, faBookOpen, faAddressCard, faUsers, faUserPlus, faCartPlus, faUndoAlt, faClock, faPencilAlt,faThumbsDown, faSync, faBan,faPlusCircle,faBars,faArrowLeft, faCaretRight, faKey, faArrowAltCircleLeft, faArrowAltCircleRight, faMapPin } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faChevronDown, faSearch, faEdit, faTrash, faEye, faTimes, faArrowAltCircleDown, faLongArrowAltLeft, faCity, faBuilding, faInbox, faCalendarAlt, faCalendar, faInfoCircle, faDesktop, faCubes, faCheck, faHistory, faExclamationTriangle, faMapMarkerAlt, faFileAlt, faPhone, faLink, faHome, faGem, faCopy, faPaste, faBookOpen, faAddressCard, faUsers, faUserPlus, faCartPlus, faUndoAlt, faClock, faPencilAlt,faThumbsDown, faSync, faBan,faPlusCircle,faBars,faArrowLeft, faCaretRight, faKey, faArrowAltCircleLeft, faArrowAltCircleRight, faMapPin, faChild } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'es6-promise/auto';
 import 'bootstrap';
@@ -84,6 +84,7 @@ import ListBesoinStatut from './components/admin/besoin-statut';
 import BesoinList from './components/utilisateur/besoin/list';
 import BesoinForm from './components/utilisateur/besoin/form';
 import OpportunityList from './components/opportunity';
+import OpportunityRecap from './components/opportunity/quote/show';
 import 'utils/logger';
 import Nl2br from 'vue-nl2br';
 
@@ -145,7 +146,7 @@ var filter = function(text, length, clamp){
 };
 
 Vue.filter('truncate', filter);
-library.add(faChevronRight, faChevronDown, faSearch, faEdit, faTrash, faEye, faTimes, faArrowAltCircleDown, faArrowAltCircleLeft, faArrowAltCircleRight, faLongArrowAltLeft, faCity, faBuilding, faInbox, faCalendarAlt, faCalendar, faInfoCircle, faDesktop, faCubes, faCheck, faHistory, faExclamationTriangle, faMapMarkerAlt, faFileAlt, faPhone, faLink, faHome, faGem, faCopy, faPaste, faBookOpen, faAddressCard, faUsers, faUserPlus, faCartPlus, faUndoAlt, faClock, faPencilAlt,faThumbsDown, faSync, faBan,faPlusCircle,faBars,faArrowLeft, faCaretRight, faKey, faMapPin);
+library.add(faChevronRight, faChevronDown, faSearch, faEdit, faTrash, faEye, faTimes, faArrowAltCircleDown, faArrowAltCircleLeft, faArrowAltCircleRight, faLongArrowAltLeft, faCity, faBuilding, faInbox, faCalendarAlt, faCalendar, faInfoCircle, faDesktop, faCubes, faCheck, faHistory, faExclamationTriangle, faMapMarkerAlt, faFileAlt, faPhone, faLink, faHome, faGem, faCopy, faPaste, faBookOpen, faAddressCard, faUsers, faUserPlus, faCartPlus, faUndoAlt, faClock, faPencilAlt,faThumbsDown, faSync, faBan,faPlusCircle,faBars,faArrowLeft, faCaretRight, faKey, faMapPin, faChild);
 
 
 // eslint-disable-next-line vue/component-definition-name-casing
@@ -210,7 +211,8 @@ new Vue({
     FormBesoinStatut,
     BesoinList,
     BesoinForm,
-    OpportunityList
+    OpportunityList,
+    OpportunityRecap
   }
 });
 

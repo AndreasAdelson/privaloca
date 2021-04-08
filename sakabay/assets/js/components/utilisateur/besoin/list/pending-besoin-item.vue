@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col">
+    <div class="col-12">
       <div class="row">
         <div class="col-11 border-right">
           <div class="row mb-2">
@@ -10,13 +10,13 @@
           </div>
           <div class="row">
             <div class="col-4">
-              <span class="underline">Catégorie</span>
+              <span class="underline">{{ $t('besoin.label.category') }}</span>
             </div>
             <div class="col-4">
-              <span class="underline">Activités</span>
+              <span class="underline">{{ $t('besoin.label.activity') }}</span>
             </div>
             <div class="col-4">
-              <span class="underline">Date de publication</span>
+              <span class="underline">{{ $t('besoin.label.dt_created') }}</span>
             </div>
           </div>
           <div class="row">
@@ -36,7 +36,7 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <span class="underline">Description</span>
+              <span class="underline">{{ $t('besoin.label.description') }}</span>
               <nl2br
                 tag="p"
                 :text="pendingBesoin.description"
@@ -45,14 +45,13 @@
           </div>
         </div>
         <div class="col-1 my-auto">
-          <a
+          <button
             class="btn btn-success w-100 mb-1"
-            href="#"
           >
             <font-awesome-icon :icon="['fas', 'check']" />
-            Cloturer
-          </a>
-          <a
+            {{ $t('besoin.close') }}
+          </button>
+          <button
             class="btn button_skb_yellow mb-1"
             :href="'/services/edit/' + pendingBesoin.id"
           >
@@ -60,23 +59,22 @@
               class="mr-1"
               :icon="['fas', 'pencil-alt']"
             />
-            Modifier
-          </a>
-          <a
-            href="#"
+            {{ $t('commons.edit') }}
+          </button>
+          <button
             class="btn button_skb mb-1"
             data-toggle="modal"
             :data-target="'#' + DELETE_CONFIRM_MODAL_ID"
             @click.prevent="cancelRequest()"
           >
             <font-awesome-icon :icon="['fas', 'ban']" />
-            Annuler
-          </a>
+            {{ $t('commons.cancel') }}
+          </button>
         </div>
       </div>
       <div
         v-if="nbAnswer > 0"
-        class="row list-foldable foldable-closed"
+        class="row mt-2 list-foldable foldable-closed"
       >
         <div class="col-12 border-top">
           <div
@@ -87,7 +85,7 @@
             <div
               class="col-6"
             >
-              <span class="underline"> {{ nbAnswer }} Réponses</span>
+              <span class="fontPoppins fontSize12 py-1 px-2 orange-gradiant white-skb rounded">{{ nbAnswer }}</span> <span class="underline">{{ $tc('opportunity.customer.nb_answers', nbAnswer) }} </span>
             </div>
             <div
               class="col-6 ml-auto"
@@ -107,7 +105,7 @@
           <div
             v-for="(answer, index) in pendingBesoin.answers"
             :key="'answer_' + index"
-            class="row mt-3 answer-card"
+            class="row mt-2 answer-card"
           >
             <div class="col-12">
               <div class="row my-2">
@@ -137,12 +135,32 @@
                   />
                 </div>
                 <div class="col-2 align-self-end pb-1">
-                  <btn
-                    class="btn btn-success w-100 mb-1"
+                  <button
+                    v-if="!answer.request_quote"
+                    :disabled="loading"
+                    data-toggle="modal"
+                    :data-target="'#' + REQUEST_QUOTE_MODAL_ID"
+                    class="btn button_skb_white w-100 mb-1"
+                    @click.prevent="requestQuote(answer.company.name, answer.id, index)"
                   >
-                    <font-awesome-icon :icon="['fas', 'check']" />
-                    Demander un devis
-                  </btn>
+                    <font-awesome-icon
+                      class="mr-2"
+                      :icon="['fas', 'pencil-alt']"
+                    />
+                    {{ $t('besoin.request_quote') }}
+                  </button>
+                  <div
+                    v-else
+                    aria-disabled
+                    class="btn btn_skb_green_disabled w-100 mb-1"
+                  >
+                    <font-awesome-icon
+                      class="mr-2"
+                      :icon="['fas', 'check']"
+                    />
+
+                    {{ $t('besoin.quote_requested') }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -154,11 +172,16 @@
 </template>
 <script>
   import moment from 'moment';
+  import { EventBus } from 'plugins/eventBus';
 
   export default {
     mixins: [
     ],
     props: {
+      loading: {
+        type: Boolean,
+        default: false
+      },
       pendingBesoin: {
         type: Object,
         default: null
@@ -166,6 +189,7 @@
     },
     data() {
       return {
+        REQUEST_QUOTE_MODAL_ID: 'request_quoteModal',
         DELETE_CONFIRM_MODAL_ID: 'delete_confirmModal',
         iconArrow: 'chevron-right'
       };
@@ -180,7 +204,10 @@
     },
     methods: {
       cancelRequest() {
-        this.$emit('service-deleted', this.pendingBesoin.id);
+        this.$emit('delete-modal-opened');
+      },
+      requestQuote(companyName, answerId, answerIndex) {
+        this.$emit('request-quote-modal-opened', {company_name: companyName, answer_id: answerId, answer_index: answerIndex});
       },
       toggleIcon() {
         if (this.iconArrow === 'chevron-right') {

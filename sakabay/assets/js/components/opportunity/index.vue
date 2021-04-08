@@ -5,17 +5,43 @@
         <div class="loader" />
       </div>
     </div>
-    <div class="row justify-content-between pt-4 mb-4">
-      <div class="col-4 align-self-center">
-        <font-awesome-icon
-          class="grey-skb fontSize20 mr-2"
-          :icon="['fas', 'copy']"
-        />
-        <h1 class="text-center fontPoppins fontSize20 dashboard-title">
-          {{ $t('opportunity.title_list') }} <span class="fontPoppins fontSize12 py-1 px-2 orange-gradiant white-skb rounded">{{ nbResult }}</span>
-        </h1>
+    <div class="row justify-content-around mb-4">
+      <div class="col-2" />
+      <div class="col-6">
+        <div class="row navigation-opportunities">
+          <button
+            class="btn col-4 py-2 links"
+            :class="clientList ? 'active': ''"
+            @click="clientListCliqued()"
+          >
+            <font-awesome-icon
+              class="grey-skb fontSize24 mr-2"
+              :icon="['fas', 'child']"
+            /><span>Particuliers</span>
+          </button>
+          <button
+            class="btn col-4 py-2 links"
+            :class="companyList ? 'active': ''"
+            @click="companyListCliqued()"
+          >
+            <font-awesome-icon
+              class="grey-skb fontSize24 mr-2"
+              :icon="['fas', 'city']"
+            /><span>Entreprises</span>
+          </button>
+          <button
+            class="btn col-4 py-2 links"
+            :class="quoteList ? 'active': ''"
+            @click="quoteListCliqued()"
+          >
+            <font-awesome-icon
+              class="grey-skb fontSize24 mr-2"
+              :icon="['fas', 'edit']"
+            /><span>Devis</span>
+          </button>
+        </div>
       </div>
-      <div class="col-3">
+      <div class="col-2">
         <fieldset
           id="companySelected"
           class="companySelected"
@@ -34,75 +60,28 @@
         </fieldset>
       </div>
     </div>
-    <div class="opportunity-list">
-      <div class="row">
-        <div class="col-12">
-          <div class="container">
-            <div class="row">
-              <div class="col-12">
-                <opportunity-card
-                  v-for="(opportunity, index) in printedOpportunities"
-                  :key="'opp_' + index"
-                  :opportunity="opportunity"
-                  :index="index"
-                  class="row mb-2 card"
-                  @modal-openned="currentOpportunity = opportunity"
-                />
-                <div
-                  class="w-100 whitebg text-center"
-                >
-                  <div
-                    v-if="isScrolling"
-                    v-show="loading2"
-                    class="my-5"
-                  >
-                    <div class="loader4" />
-                  </div>
-                </div>
-
-                <div
-                  v-if="printedOpportunities.length"
-                  v-observe-visibility="(isVisible,entry) => throttledScroll(isVisible,entry)"
-                  name="spy"
-                />
-                <div
-                  v-if="bottom && printedOpportunities.length > 0"
-                  class="text-center mt-4"
-                >
-                  <span>Fin des résultats</span>
-                </div>
-                <div
-                  v-else-if="bottom && printedOpportunities.length === 0"
-                  class="text-center mt-4"
-                >
-                  <span>Il n'y a aucune demande de besoin dans votre secteur actuellement</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <answer-opportunity-modal
-      :opportunity="currentOpportunity"
-      :opportunity-title="currentOpportunity ? currentOpportunity.title : null"
-      :company="companySelected"
-      :company-name="companySelected ? companySelected.name : null"
-      @cancel-form="currentOpportunity = new Object()"
+    <customer-list
+      v-show="clientList"
+      :utilisateur-id="utilisateurId"
+      :company-selected="companySelected"
+    />
+    <div v-show="companyList" />
+    <quote-list
+      v-show="quoteList"
+      :company-selected="companySelected"
     />
   </div>
 </template>
 <script>
   import axios from 'axios';
   import _ from 'lodash';
-  import OpportunityCard from './opportunity-card.vue';
-  import AnswerOpportunityModal from './answer-opportunity-modal.vue';
-  import { EventBus } from 'plugins/eventBus';
+  import CustomerList from './customer/index.vue';
+  import QuoteList from './quote/index.vue';
 
   export default {
     components: {
-      OpportunityCard,
-      AnswerOpportunityModal
+      CustomerList,
+      QuoteList
     },
     props: {
       utilisateurId: {
@@ -112,71 +91,20 @@
     },
     data() {
       return {
+        clientList: false,
+        companyList: false,
+        quoteList: true,
         loading: true,
         loading2: false,
-        firstAttempt: true,
-        opsButton: {
-          bar: {
-            keepShow: true,
-            minSize: 0.3,
-          },
-          rail: {
-            background: '#c5c9cc',
-            opacity: 0.4,
-            size: '6px',
-            specifyBorderRadius: false,
-            gutterOfEnds: '1px',
-            gutterOfSide: '2px',
-            keepShow: false
-          },
-        },
-        printedOpportunities: [],
-        companies: [],
         companySelected: null,
+        companies: [],
         onlyOne: true,
-        category: null,
-        sousCategories: null,
-        isScrolling: false,
-        bottom: false,
-        nbResult: 0,
-        nbMaxResult: 10,
-        currentPage: 1,
-        currentOpportunity: null
       };
     },
-    computed: {
-      /**
-       * Limits scroll function invokation to at most once per every 4 seconds.
-       * To be used within visibility-changed callback.
-       */
-      throttledScroll() {
-        return _.throttle(this.scroll, 2000);
-      }
-    },
-    watch: {
-      companySelected(newValue) {
-        this.sousCategories = [];
-        this.category =  _.clone(newValue.category.code);
-        if (newValue.sous_categorys.length > 0) {
-          this.sousCategories = _.clone(_.map(newValue.sous_categorys, 'code'));
-        }
-        this.resetSearch();
-        this.getOpportunities();
-      }
-    },
     async created() {
-      EventBus.$on('answer-modal-submited', async event => {
-        let index = _.findIndex(this.printedOpportunities, opportunity => {
-          return opportunity.id === event.id;
-        });
-        await this.$nextTick(() => {
-          this.printedOpportunities[index].isAnswered = event.value;
-        });
-      });
       let promises = [];
       promises.push(axios.get('/api/companies/utilisateur/' + this.utilisateurId));
       return Promise.all(promises).then(res => {
-        this.loading = false;
         this.companies = _.cloneDeep(res[0].data);
         if (this.companies.length > 0) {
           this.companySelected = this.companies[0];
@@ -184,109 +112,30 @@
             this.onlyOne =  false;
           }
         }
+        this.loading = false;
       }).catch(e => {
         this.$handleError(e);
         this.loading = false;
       });
     },
     methods: {
-      getOpportunities() {
-        let promises = [];
-        this.loading = true;
-        promises.push(axios.get('/api/opportunities', {
-          params: {
-            category: this.category,
-            sousCategory: this.sousCategories,
-          }
-        }));
-        if (this.firstAttempt) {
-          promises.push(axios.get('/api/opportunities?count=true', {
-            params: {
-              category: this.category,
-              sousCategory: this.sousCategories
-            }
-          }));
-        }
-        return Promise.all(promises).then(res => {
-          this.loading = false;
-          this.printedOpportunities = this.checkAnswer(_.cloneDeep(res[0].data));
-          if (this.printedOpportunities.length < this.nbMaxResult) {
-            this.bottom = true;
-          }
-          if (this.firstAttempt) {
-            this.nbResult = _.cloneDeep(res[1].data);
-            this.firstAttempt = false;
-          }
-        }).catch(e => {
-          this.$handleError(e);
-          this.loading = false;
-        });
+      clientListCliqued() {
+        this.companyList = false;
+        this.quoteList = false;
+        this.clientList = true;
       },
 
-      /**
-       * Check if the selected company already answer to the opportunity
-       * Return the same array with the isAnswered field completed
-       * @param {Array} opportunities
-       */
-      checkAnswer(opportunities) {
-        opportunities.forEach(opportunity => {
-          let companyAnswer = _.find(opportunity.answers, answer => {
-            return answer.company.id === this.companySelected.id;
-          });
-          if (companyAnswer) {
-            opportunity.isAnswered = true;
-          } else {
-            opportunity.isAnswered = false;
-          }
-        });
-
-        return opportunities;
+      companyListCliqued() {
+        this.quoteList = false;
+        this.clientList = false;
+        this.companyList = true;
       },
 
-      /**
-       * Handler for the scroll observation.
-       * Must be throttled for use. See computed properties.
-       * @param {Boolean} isVisible
-       * @param {*} entry
-       */
-      scroll(isVisible, entry) {
-        if(!this.bottom) {
-          if (isVisible && !this.isScrolling) {
-            this.isScrolling = true;
-            this.loading2 = true;
-            this.currentPage++;
-            return axios.get('/api/opportunities', {
-              params: {
-                category: this.category,
-                sousCategory: this.sousCategories,
-                currentPage: this.currentPage
-              }
-            }).then(res => {
-              this.loading2 = false;
-              this.isScrolling = false;
-              if (res.data.length > 0) {
-                this.printedOpportunities = _.unionBy(this.printedOpportunities, this.checkAnswer(res.data), 'id');
-                if (res.data.length < this.nbMaxResult) this.bottom = true;
-              }
-              else {
-                // If the request yielded no data, then we have reached the bottom of the list
-                this.bottom = true;
-              }
-            }).catch(e => {
-              this.$handleError(e);
-              this.loading2 = false;
-            });
-          }
-        }
-      },
-
-      resetSearch() {
-        this.firstAttempt = true;
-        this.loading = true;
-        this.printedOpportunities = [];
-        this.bottom = false;
-        this.currentPage = 1;
-      },
+      quoteListCliqued() {
+        this.clientList = false;
+        this.companyList = false;
+        this.quoteList = true;
+      }
     }
   };
 </script>

@@ -214,7 +214,7 @@ class CompanyController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
         $utilisateurId = $this->getUser()->getId();
-        $companies = $this->companyService->getCompanyByUserId($utilisateurId);
+        $companies = $this->getUser()->getCompanys();
         if (empty($companies)) {
             throw new NotFoundHttpException('Page does not exist');
         }

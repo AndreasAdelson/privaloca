@@ -1,6 +1,7 @@
 {
   "commons": {
     "create": "Create",
+    "cancel": "Cancel",
     "actions": "Actions",
     "edit": "Edit",
     "detail": "Detail page",
@@ -142,6 +143,7 @@
         "category": "Categorie",
         "statut": "Status",
         "city": "City",
+        "description": "Description",
         "address": {
           "postal_address": "Postal address",
           "postal_code":"Postal code",
@@ -304,6 +306,9 @@
     "no_pending_services": "You have no current service requests",
     "no_expired_services": "You have no expired service requests",
     "not_editable": "This field is not editable ",
+    "close": "Close",
+    "request_quote": "Resquest a quote",
+    "quote_requested": "Quote requested",
     "placeholder": {
       "title": "Title of the request",
       "description": "Describe your need",
@@ -311,12 +316,46 @@
       "activity": "Select the relevant fields of activity"
     },
     "label": {
-      "description": "Description"
+      "description": "Description",
+      "category": "Category",
+      "activity": "Activities",
+      "dt_created":"Publication date"
+    },
+    "modal_request_quote": {
+      "title": "Request a quote",
+      "text": "You are about to request a quote from company « {0} », for your request : « {1} ».\n The quote will be sent directly to your email box.\n  Are you sure you want to make this request? ?"
     }
   },
   "opportunity": {
-    "title_list": "Opportunities",
-    "default_message": "Hello, \nWe are interested in your request for: {0} and believe we can respond favorably. \nYou will be able to have a detailed estimate, by making a request to us following this answer. \n\nWe look forward to hearing from you. \n\n{1} "
+    "cancel": "Cancel",
+    "validate": "Reply",
+    "customer": {
+      "title_list": "Opportunities",
+      "default_message": "Hello, \nWe are interested in your request for: {0} and believe we can respond favorably. \nYou will be able to have a detailed estimate, by making a request to us following this answer. \n\nWe look forward to hearing from you. \n\n{1} ",
+      "nb_answers": "Reply | Reply | Replies",
+      "answered": "including yours",
+      "propose_yourself": "Propose yourself",
+      "no_opportunity": "There is no demand in your sector at this time",
+      "end_of_results": "End of results",
+      "modal_answer": {
+        "title": "Responding to the demand for service: ",
+        "your_answer": "Your reply"
+      }
+    },
+    "quote": {
+      "title": "Request for quotation",
+      "individual_request": "Requests for individual quotes",
+      "company_request": "Request for quotation companies",
+      "no_individual_request": "You have no requests for quotes from individual.",
+      "no_company_request": "You have no requests for quotes from companies.",
+      "recap": {
+        "title": "Summary of the opportunity"
+      },
+      "modal_answer": {
+        "title": "Response to the request for quotation",
+        "your_answer": "Your reply"
+      }
+    }
   },
   "error_message_required": "This field is mandatory. Thank you for filling it in.",
   "error_message_required_username": "The size of your username must not be less than 5 characters and not more than 10 characters.",

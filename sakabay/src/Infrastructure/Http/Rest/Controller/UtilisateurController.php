@@ -187,9 +187,7 @@ final class UtilisateurController extends AbstractFOSRestController
         $file = $request->files->get('file');
 
         if (!empty($file)) {
-            $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFileName);
-            $newFileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+            $newFileName = $uploader->setFileName($file);
             $uploader->upload($uploadDir, $file, $newFileName);
             $request->request->set('imageProfil', $newFileName);
             $oldImage = $utilisateur->getImageProfil();

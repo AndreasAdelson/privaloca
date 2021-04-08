@@ -110,7 +110,7 @@ company_registered_title_list_page: "Company registration request list"
 company_registered_title_form_page: "Edit registration"
 company_registered_title_show_page: "Detail of the registration"
 company_refused_title_show_page: "Detail of a refusal"
-company_refused_title_list_page: "Liste of refused companies"
+company_refused_title_list_page: "List of refused companies"
 company_refused_title_form_page: "Edit a refused company"
 company_register_title_page: "Reference yourself"
 company_search_title_page: "Search a company"
@@ -141,6 +141,7 @@ email_register_validation_subject: "Validation of your application"
 email_register_validation_body: "Hello, \n\n It is with pleasure that you announce that the registration of the company « %s » has been validated by our teams.\nWe therefore welcome you within our group with 2 months subscription free. You can now customize your presentation page from this link %s, accessible from the sliding menu of the application.\nThe Sakabay Team wishes you a good day.\n\nThank you for your interest in Sakabay.\n\nThis email is automatic, so please do not reply to it.\n\nThe Sakabay Team."
 email_update_password_subject: "Your password has been changed."
 email_update_password_body: "Hello, \n\n NYour password has been changed successfully. \n\nGood day on Sakabay."
+email_send_quote_subject: "Response to the request for quotation"
 
 ###### Notifications ######
 createcompany_subject_admin: "Registration of a company"
@@ -154,9 +155,11 @@ validatecompany_message: "Congratulations! You are now part of Sakabay Entrepene
 updatepassword_subject: "Confirm password change"
 updatepassword_message: "Your password has been changed successfully. A confirmation email was also sent to you."
 createbesoin_message: "Your « %s » request has been successfully published. We forward it to our partner companies that can meet this need."
-createbesoin_subject: "Création d'un service"
-createanswer_message: "L'entreprise « %s » vient de répondre à votre demande de service « %s ». Vous pouvez dès à présent vous rendre sur sa page de détail et lui faire une demande de devis si vous trouvez que son offre peut vous convenir."
-createanswer_subject: "Réponse à une opportunité"
+createbesoin_subject: "Creation of a service"
+createanswer_message: "The company « %s » has responded to your request for service « %s ». You can now go to their details page and request a quote if you feel that their offer may be suitable for you"
+createanswer_subject: "Response to an opportunity"
+requestquote_subject: "Request a quote"
+requestquote_message: "A request for quote has been made for the « %s » opportunity."
 
 ####Footer:
 company_footer_name: "SAKABAY"
@@ -165,7 +168,7 @@ company_footer_lien: "Quick links"
 company_footer_join: "Joign us !"
 company_footer_contact: "Contact us !"
 company_footer_description_inscription: "Go to your page and develop your marketing."
-footer_signature: "Copyright SAKABAY © 2020. All rights reserved. \n By : Andreas ADELSON and Salman KARI"
+footer_signature: "Copyright SAKABAY © 2020. All rights reserved. \n By : Andreas ADELSON"
 
 #Reset password
 send_email: "Send password reset email"
@@ -195,3 +198,7 @@ besoin_create_title_page: "Request a service"
 
 #Opportunity pages
 opportunity_list_title_page: "Opportunities"
+opportunity_recap_title_page: "Opportunity summary"
+error_mime_types_message: 'Please upload a valid PDF document'
+error_max_size_message: 'The file is too large %s %s. Allowed maximum size is %s %s.'
+

@@ -32,8 +32,14 @@
           </button>
         </div>
         <div class="modal-body">
-          {{ bodyText }}
+          <nl2br
+            v-if="nl2br"
+            tag="p"
+            :text="bodyText"
+          />
+          <span v-else>{{ bodyText }}</span>
         </div>
+
         <div
           v-if="areButtonsOnSameLine"
           key="areButtonsOnSameLine"
@@ -133,6 +139,10 @@
       commentLabel: {
         type: String,
         default: ''
+      },
+      nl2br: {
+        type: Boolean,
+        default: false
       }
     },
     data() {

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'opportunity_recap_title_page'|trans }}{% endblock %}
+
+{% block body %}
+<opportunity-recap
+:opportunity-id="{{ opportunityId }}"
+:company-id="{{ companyId }}"
+:utilisateur-id="{{ utilisateurId }}"
+></opportunity-recap>
+{% endblock %}

@@ -35,6 +35,7 @@ $red_color: #8C1B24;
 
 $green_color: #038c3e;
 $green_light_color: #6be6a0;
+$green_success_color: #28a745;
 
 $white_color: #fff;
 $black_color: #000;
@@ -67,9 +68,6 @@ a:focus {
 }
 
 // Style title
-.text-center {
-  text-align: center;
-}
 
 .navbar {
   background: linear-gradient($yellow_login_color, $yellow_gradient, $yellow_gradient);
@@ -498,6 +496,10 @@ a[data-toggle="collapse"] {
   background-color: $grey_icon
 }
 
+.yellow_on_waiting {
+  background-color: $yellow_light_color;
+}
+
 .yellow-gradiant {
   background: linear-gradient($yellow_light_color, $yellow_login_color, $yellow_light_color);
 }
@@ -755,6 +757,18 @@ a[data-toggle="collapse"] {
   width: 150px;
 }
 
+/********************************
+* Boutons
+********************************/
+.btn_skb_green_disabled {
+  width: 100%;
+  background: $green_success_color !important;
+  color: white !important;
+  border-color: $green_success_color !important;
+  white-space: normal !important;
+  cursor: default !important;
+}
+
 // Red one
 .button_skb {
   width: 100%;
@@ -809,8 +823,8 @@ a[data-toggle="collapse"] {
   background: $yellow_color !important;
 }
 
-// transparent one
-.button_skb_transparent {
+// white one
+.button_skb_white {
   width: 100%;
   background: $white_color !important;
   color: $black_light_color !important;
@@ -818,30 +832,12 @@ a[data-toggle="collapse"] {
   white-space: normal !important;
 }
 
-.button_skb_transparent:focus {
+.button_skb_white:focus {
   box-shadow: none !important;
   outline: 0px !important;
 }
 
-.button_skb_transparent:hover {
-  background: $grey_light_color !important;
-}
-
-.button_skb_transparent_answered {
-  width: 100%;
-  background: $white_color !important;
-  color: $yellow_login_color !important;
-  border-color: transparent !important;
-  white-space: normal !important;
-  font-weight: bold !important;
-}
-
-.button_skb_transparent_answered:focus {
-  box-shadow: none !important;
-  outline: 0px !important;
-}
-
-.button_skb_transparent_answered:hover {
+.button_skb_white:hover {
   background: $grey_light_color !important;
 }
 
@@ -1686,7 +1682,7 @@ ul.social-footer2 li a {
 
 .isDisabled {
   color: currentColor;
-  cursor: not-allowed;
+  cursor: not-allowed !important;
   opacity: 0.5;
   text-decoration: none;
 }
@@ -1711,15 +1707,54 @@ ul.social-footer2 li a {
   top: calc(50% - 12.4rem); //A modifier en fonction du height final de la modale opportunity
 }
 
+.modal-quote-centered {
+  top: calc(50% - 17.4rem); //A modifier en fonction du height final de la modale quote
+
+}
+
 .answer-card {
-  // background-color: #f2f2f2;
-  // background-color: $yellow_gradient;
-  background-color: $yellow_light_color;
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+.navigation-opportunities {
+  background-color: $white_color;
+  border-radius: 25px;
+  text-align: center !important;
+}
+
+.navigation-opportunities .links:nth-child(1) {
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+
+.navigation-opportunities .links:nth-child(3) {
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.navigation-opportunities .links {
+  color: $black_light_color !important;
+  border-color: transparent !important;
+  white-space: normal !important;
+}
+
+.navigation-opportunities .links:focus {
+  box-shadow: none !important;
+  outline: 0px !important;
+}
+
+.navigation-opportunities .links:hover {
+  background: $grey_light_color !important;
+}
+
+.navigation-opportunities .links.active {
+  background: $grey_light_color !important;
+  cursor: default;
+}
+
 
 // Multiselect rework
 

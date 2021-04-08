@@ -2,8 +2,10 @@
 
 namespace App\Infrastructure\Http\Rest\Controller;
 
+use App\Application\Form\Type\AnswerSendQuoteType;
 use App\Application\Form\Type\AnswerType;
 use App\Application\Service\AnswerService;
+use App\Application\Service\FileUploader;
 use App\Domain\Model\Answer;
 use App\Infrastructure\Factory\NotificationFactory;
 use Doctrine\ORM\EntityManager;
@@ -14,12 +16,21 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View;
+use Gedmo\Exception\UploadableMaxSizeException;
+use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+use Symfony\Component\Filesystem\Exception\ExceptionInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class AnswerController extends AbstractFOSRestController
 {
@@ -63,10 +74,9 @@ final class AnswerController extends AbstractFOSRestController
         }
 
         //Send notification to user
-        $company = $answer->getCompany();
         $authorOpportunity = $answer->getBesoin()->getAuthor();
         $ressourceLocation = $this->generateUrl('service_list');
-        $this->notificationFactory->createAnswerNotification([$authorOpportunity], $ressourceLocation, $answer, $company);
+        $this->notificationFactory->createAnswerNotification([$authorOpportunity], $ressourceLocation, $answer);
 
         $this->entityManager->persist($answer);
         $this->entityManager->flush();
@@ -137,6 +147,7 @@ final class AnswerController extends AbstractFOSRestController
         return View::create($answer, Response::HTTP_OK);
     }
 
+
     /**
      * @Rest\View()
      * @Rest\Post("admin/answers/edit/{answerId}")
@@ -181,5 +192,120 @@ final class AnswerController extends AbstractFOSRestController
         $ressourceLocation = $this->generateUrl('answer_index');
 
         return View::create($answer, Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Post("answers/quote/{answerId}")
+     * @return View
+     */
+    public function requestQuote(int $answerId)
+    {
+        $answer = $this->answerService->getAnswer($answerId);
+
+        if (!$answer) {
+            throw new EntityNotFoundException('Answer with id ' . $answerId . ' does not exist!');
+        }
+
+        //Notification à l'entreprise
+        $companyOwner = $answer->getCompany()->getUtilisateur();
+        $ressourceLocation = $this->generateUrl('opportunity_list');
+        $this->notificationFactory->requestQuoteNotification([$companyOwner], $ressourceLocation, $answer);
+
+        //Changement du champ requestQuote à vrai
+        $answer->setRequestQuote(true);
+        $this->entityManager->persist($answer);
+        $this->entityManager->flush();
+
+        return View::create([], Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Post("answers/quote/{answerId}/send/{utilisateurId}")
+     * @return View
+     */
+    public function sendQuote(int $answerId, int $utilisateurId, Request $request, string $uploadDir, FileUploader $uploader)
+    {
+        $answer = $this->answerService->getAnswer($answerId);
+
+        if (!$answer) {
+            throw new EntityNotFoundException('Answer with id ' . $answerId . ' does not exist!');
+        }
+        $companyOwnerId = $answer->getCompany()->getUtilisateur()->getId();
+        $request->request->remove('utilisateur');
+        if ($companyOwnerId != $utilisateurId || $answer->getCompany()->getCompanystatut()->getCode() != 'VAL') {
+            throw $this->createAccessDeniedException();
+        }
+        $companyUrlName = $answer->getCompany()->getUrlName();
+        $uploadedFile = $request->files->get('file');
+        $submittedData = $request->request->all();
+        if (!empty($uploadedFile)) {
+            try {
+                $newFileName = $uploader->setFileName($uploadedFile);
+                $submittedData['quote'] = $newFileName;
+                $submittedData['file'] = $uploadedFile;
+            } catch (InvalidArgumentException $e) {
+                return View::create([], Response::HTTP_BAD_REQUEST, [
+                    'X-Message' => rawurlencode($this->translator->trans('error_mime_types_message')),
+                ]);
+            }
+        } else {
+            $submittedData['file'] = null;
+        }
+        $formOptions = [
+            'translator' => $this->translator,
+        ];
+
+        $form = $this->createForm(AnswerSendQuoteType::class, $answer, $formOptions);
+        $form->submit($submittedData);
+        if ($form->isValid()) {
+            $file = $form['file']->getData();
+            if ($file) {
+                try {
+                    $newFileName = $uploader->setFileName($file);
+                    $uploadDirectory = $uploadDir . '/' . $companyUrlName;
+                    $uploader->upload($uploadDirectory, $file, $newFileName);
+                    //Send email with document and message
+                    $senderEmail = $answer->getCompany()->getUtilisateur()->getEmail();
+                    $receiverEmail = $answer->getBesoin()->getAuthor()->getEmail();
+                    $subject = $this->translator->trans('email_send_quote_subject');
+                    $bodyMessage = $request->request->get('messageEmail');
+                    $this->sendMail($senderEmail, 'andreasadelson@gmail.com', $subject, $bodyMessage, $uploadDirectory . '/' . $newFileName);
+                    $this->entityManager->persist($answer);
+                    $this->entityManager->flush();
+                } catch (FileNotFoundException | IOException $e) {
+                    return View::create([], Response::HTTP_BAD_REQUEST, [
+                        'X-Message' => 'File not found exception',
+                    ]);
+                }
+                $ressourceLocation = $this->generateUrl('opportunity_recap', ['id' => $answer->getBesoin()->getId(), 'slug' => $answer->getCompany()->getUrlName()]);
+                return View::create([], Response::HTTP_OK, ['Location' => $ressourceLocation]);
+            }
+            return View::create([], Response::HTTP_BAD_REQUEST, [
+                'X-Message' => 'Une erreur s\'est produite lors du chargement du fichier.',
+            ]);
+        }
+        return View::create($form, Response::HTTP_BAD_REQUEST);
+    }
+
+    //Méthode denvoie de mail
+    public function sendMail($deliverer, $receiver, $subject, $bodyMessage, $attachementDir)
+    {
+        $dsn = $this->getParameter('url');
+        $transport = Transport::fromDsn($dsn);
+        $mailer = new Mailer($transport);
+
+        $email = (new Email())
+            ->from($deliverer)
+            ->to($receiver)
+            ->priority(Email::PRIORITY_HIGH)
+            ->subject($subject)
+            ->text($bodyMessage)
+            ->attachFromPath($attachementDir)
+            // ->html('<p>See Twig integration for better HTML integration!</p>')
+        ;
+
+        $mailer->send($email);
     }
 }

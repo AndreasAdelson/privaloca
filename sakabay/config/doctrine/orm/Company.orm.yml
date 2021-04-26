@@ -107,7 +107,11 @@ App\Domain\Model\Company:
             orphanRemoval: true
             cascade: [persist]
             mappedBy: company
-
+        besoins:
+            targetEntity: Besoin
+            mappedBy: company
+            cascade: [persist]
+            nullable: true
 
     manyToMany:
         sousCategorys:

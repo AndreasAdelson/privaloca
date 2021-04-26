@@ -92,6 +92,10 @@
                     <button
                       class="btn btn_skb_green_disabled"
                     >
+                      <font-awesome-icon
+                        class="mr-2"
+                        :icon="['fas', 'paper-plane']"
+                      />
                       Devis envoyé
                     </button>
                   </div>

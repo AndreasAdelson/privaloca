@@ -119,6 +119,16 @@ class Besoin
      */
     private $answers;
 
+    /**
+     * @var Company
+     * @Expose
+     * @Groups({
+     * "api_besoins",
+     * "api_besoins_utilisateur"
+     * })
+     */
+    private $company;
+
 
     public function __construct()
 
@@ -268,6 +278,17 @@ class Besoin
             $this->answers->removeElement($answer);
         }
 
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
         return $this;
     }
 }

@@ -62,6 +62,14 @@ App\Domain\Model\Besoin:
                 name: id_besoin_statut
                 referencedColumnName: id
                 nullable: false
+        company:
+            targetEntity: Company
+            cascade: [persist]
+            inversedBy: besoins
+            joinColumn:
+                name: id_company
+                referencedColumnName: id
+                nullable: true
     manyToMany:
         sousCategorys:
             targetEntity: SousCategory
@@ -77,6 +85,7 @@ App\Domain\Model\Besoin:
             nullable: false
     oneToMany:
         answers:
+            orderBy: {'requestQuote': 'ASC', 'quote': 'DESC', 'dtCreated': 'DESC'}
             targetEntity: Answer
             orphanRemoval: true
             cascade: [persist]

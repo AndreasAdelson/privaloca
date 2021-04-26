@@ -51,7 +51,8 @@ class Utilisateur implements UserInterface, EquatableInterface, NotifiableInterf
      * @Groups({
      * "api_utilisateurs",
      * "api_groups",
-     * "api_dashboard_utilisateur"
+     * "api_dashboard_utilisateur",
+     * "api_admin_companies"
      * })
      */
     private $firstName;
@@ -71,7 +72,8 @@ class Utilisateur implements UserInterface, EquatableInterface, NotifiableInterf
      * @Groups({
      * "api_utilisateurs",
      * "api_groups",
-     * "api_dashboard_utilisateur"
+     * "api_dashboard_utilisateur",
+     * "api_admin_companies"
      * })
      */
     private $lastName;
@@ -83,7 +85,7 @@ class Utilisateur implements UserInterface, EquatableInterface, NotifiableInterf
      * @Groups({
      * "api_utilisateurs",
      * "api_groups",
-     * "api_dashboard_utilisateur"
+     * "api_dashboard_utilisateur",
      * })
      */
     private $email;

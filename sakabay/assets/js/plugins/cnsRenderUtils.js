@@ -96,6 +96,18 @@ const CnsRenderUtils = {
       return label.trim();
     };
 
+    Vue.prototype.$getAuthorLabel = function(entity) {
+      let label = '';
+      if (entity) {
+        if (entity.name) {
+          label += entity.name;
+        } else {
+          label += entity.last_name + ' ' + entity.first_name;
+        }
+      }
+      return label;
+    };
+
     /**
      * Print the given error message in the console.
      * @param {Error} error

@@ -287,7 +287,7 @@
               </fieldset>
             </div>
             <div
-              v-if="formFields.sousCategorys && formFields.sousCategorys.length != 0"
+              v-if="sousCategorys && sousCategorys.length != 0"
               class="col-6"
             >
               <div class="form-group">

@@ -9,10 +9,10 @@
       <div class="col-4 align-self-center">
         <font-awesome-icon
           class="grey-skb fontSize24 mr-2"
-          :icon="['fas', 'child']"
+          :icon="['fas', 'city']"
         />
         <h1 class="text-center fontPoppins fontSize20 dashboard-title">
-          {{ $t('opportunity.customer.title_list') }} <span class="fontPoppins fontSize12 py-1 px-2 orange-gradiant white-skb rounded">{{ nbResult }}</span>
+          {{ $t('opportunity.company.title_list') }} <span class="fontPoppins fontSize12 py-1 px-2 orange-gradiant white-skb rounded">{{ nbResult }}</span>
         </h1>
       </div>
     </div>
@@ -44,20 +44,20 @@
 
               <div
                 v-if="printedEntities.length"
-                v-observe-visibility="(isVisible,entry) => throttledScroll(isVisible,API_URL, params,entry, 'customer')"
+                v-observe-visibility="(isVisible,entry) => throttledScroll(isVisible,API_URL, params,entry, 'company')"
                 name="spy"
               />
               <div
                 v-if="bottom && printedEntities.length > 0"
                 class="text-center pt-4"
               >
-                <span>{{ $t('opportunity.customer.end_of_results') }}</span>
+                <span>{{ $t('opportunity.company.end_of_results') }}</span>
               </div>
               <div
                 v-else-if="bottom && printedEntities.length === 0"
                 class="text-center pt-4"
               >
-                <span>{{ $t('opportunity.customer.no_opportunity') }}</span>
+                <span>{{ $t('opportunity.company.no_opportunity') }}</span>
               </div>
             </div>
           </div>
@@ -98,12 +98,13 @@
         type: Object,
         default: null
       },
+
     },
 
     data() {
       return {
         API_URL: '/api/opportunities',
-        MODAL_ID: 'ANSWER_OPPORTUNITY_MODAL',
+        MODAL_ID: 'ANSWER_OPPORTUNITY_COMPANY_MODAL',
         loading: false,
         loading2: false,
         firstAttempt: true,
@@ -176,7 +177,7 @@
           params: {
             category: this.category,
             sousCategory: this.sousCategories,
-            company: false
+            company: true
           }
         }));
         if (this.firstAttempt) {
@@ -184,7 +185,7 @@
             params: {
               category: this.category,
               sousCategory: this.sousCategories,
-              company: false,
+              company: true,
               count: true
             }
           }));

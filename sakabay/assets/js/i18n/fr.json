@@ -308,22 +308,30 @@
     "not_editable": "Ce champ n'est pas modifiable ",
     "close": "Clôturer",
     "request_quote": "Demander un devis",
-    "quote_requested": "Devis demandé",
+    "quote_requested": "Devis en attente",
+    "quote_sent": "Devis envoyé",
     "placeholder": {
       "title": "Titre de la demande",
       "description": "Décrivez votre besoin",
       "category":"Sélectionner une catégorie",
-      "activity": "Sélectionner les domaines d'activités concernés"
+      "activity": "Sélectionner les domaines d'activités concernés",
+      "select": "Sélectionner l'auteur de la demande"
     },
     "label": {
+      "title": "Titre",
       "description": "Description",
       "category": "Catégorie",
       "activity": "Activités",
-      "dt_created":"Date de publication"
+      "dt_created":"Date de publication",
+      "select": "Auteur de la demande"
     },
     "modal_request_quote": {
       "title": "Demande de devis",
       "text": "Vous êtes sur le point de demander un devis à l'entreprise « {0} », pour votre demande : « {1} ».\n Le devis vous sera envoyé directement sur votre boîte email.\n Êtes-vous sûr de vouloir réaliser cette demande ?"
+    },
+    "modal_send_besoin": {
+      "title": "Confirmation de la demande de service",
+      "text": "Vous êtes sur le point de réaliser une demande de service en tant que « {0} ». Êtes-vous sur de vouloir réaliser cette demande ?"
     }
   },
   "opportunity": {
@@ -337,7 +345,6 @@
       "propose_yourself": "Se proposer",
       "no_opportunity": "Il n'y a aucune demande de besoin dans votre secteur actuellement",
       "end_of_results": "Fin des résultats",
-
       "modal_answer": {
         "title": "Répondre à la demande de service : ",
         "your_answer": "Votre réponse"
@@ -354,6 +361,19 @@
       },
       "modal_answer": {
         "title": "Réponse à la demande de devis",
+        "your_answer": "Votre réponse"
+      }
+    },
+    "company": {
+      "title_list": "Opportunités entreprises",
+      "default_message": "Bonjour, \nNous suscitions un intérêt pour votre demande concernant : « {0} » et pensons pouvoir y répondre favorablement. \nVous pourrez avoir un devis détaillé, en nous effectuant une demande à la suite de cette réponse. \n\nDans l'attente de votre retour. \n\n{1} ",
+      "nb_answers": "Réponse | Réponse | Réponses",
+      "answered": "dont la votre",
+      "propose_yourself": "Se proposer",
+      "no_opportunity": "Il n'y a aucune demande de besoin provenant d'entreprises dans votre secteur actuellement",
+      "end_of_results": "Fin des résultats",
+      "modal_answer": {
+        "title": "Répondre à la demande de service : ",
         "your_answer": "Votre réponse"
       }
     }

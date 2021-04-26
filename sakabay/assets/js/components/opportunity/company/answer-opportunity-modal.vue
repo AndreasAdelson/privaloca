@@ -103,7 +103,6 @@
 
   export default {
     components: {
-      // ConfirmModal
     },
     props: {
       opportunity: {

@@ -13,6 +13,7 @@
     VARIABLES
 -----------------------------------*/
 $blue_light_color:#2798a0;
+$blue_light_color_2:#b8e2f3;
 $blue_logo_color: #60a3bc;
 $blue_gradient: #a4e2f8;
 
@@ -23,6 +24,7 @@ $grey_body: #f1f1f1;
 $grey_icon: #c5c9cc;
 
 $yellow_light_color: #f2d785;
+$yellow_light_color_2: #f5e1a6;
 $yellow_login_color: #f39c12;
 $yellow_gradient: #eeb861;
 $yellow_color: #F2A413;
@@ -35,6 +37,7 @@ $red_color: #8C1B24;
 
 $green_color: #038c3e;
 $green_light_color: #6be6a0;
+$green_light_color_2: #d3f99c;
 $green_success_color: #28a745;
 
 $white_color: #fff;
@@ -481,7 +484,11 @@ a[data-toggle="collapse"] {
     back-ground-color
 -----------------------------------*/
 .green-bg-skb {
-  background-color: $green_color; //remettre du vert ou changer le nom de la classe et changer partout où elle est appelée dans le projet.
+  background-color: $green_color;
+}
+
+.green-light-bg-skb {
+  background-color: $green_light_color_2;
 }
 
 .white-bg-skb {
@@ -496,8 +503,17 @@ a[data-toggle="collapse"] {
   background-color: $grey_icon
 }
 
-.yellow_on_waiting {
-  background-color: $yellow_light_color;
+.blue-bg-skb {
+  background-color: $blue_light_color;
+}
+
+.blue-light-bg-skb {
+  background-color: $blue_light_color_2;
+
+}
+
+.yellow-light-bg-skb {
+  background-color: $yellow_light_color_2;
 }
 
 .yellow-gradiant {

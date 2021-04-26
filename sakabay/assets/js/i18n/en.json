@@ -308,29 +308,37 @@
     "not_editable": "This field is not editable ",
     "close": "Close",
     "request_quote": "Resquest a quote",
-    "quote_requested": "Quote requested",
+    "quote_requested": "Quote pending",
+    "quote_sent": "Quote sent",
     "placeholder": {
       "title": "Title of the request",
       "description": "Describe your need",
       "category":"Select a category",
-      "activity": "Select the relevant fields of activity"
+      "activity": "Select the relevant fields of activity",
+      "select": "Select the requester"
     },
     "label": {
+      "title": "Titre",
       "description": "Description",
       "category": "Category",
       "activity": "Activities",
-      "dt_created":"Publication date"
+      "dt_created":"Publication date",
+      "select": "Author of the request"
     },
     "modal_request_quote": {
       "title": "Request a quote",
       "text": "You are about to request a quote from company « {0} », for your request : « {1} ».\n The quote will be sent directly to your email box.\n  Are you sure you want to make this request? ?"
+    },
+    "modal_send_besoin": {
+      "title": "Confirmation of the service request",
+      "text": "You are about to make a service request as « {0} ». Are you sure you want to make this request?"
     }
   },
   "opportunity": {
     "cancel": "Cancel",
     "validate": "Reply",
     "customer": {
-      "title_list": "Opportunities",
+      "title_list": "Individuals opportunities ",
       "default_message": "Hello, \nWe are interested in your request for: {0} and believe we can respond favorably. \nYou will be able to have a detailed estimate, by making a request to us following this answer. \n\nWe look forward to hearing from you. \n\n{1} ",
       "nb_answers": "Reply | Reply | Replies",
       "answered": "including yours",
@@ -353,6 +361,19 @@
       },
       "modal_answer": {
         "title": "Response to the request for quotation",
+        "your_answer": "Your reply"
+      }
+    },
+    "company": {
+      "title_list": "Corporate opportunities",
+      "default_message": "Hello, \nWe are interested in your request for: {0} and believe we can respond favorably. \nYou will be able to have a detailed estimate, by making a request to us following this answer. \n\nWe look forward to hearing from you. \n\n{1} ",
+      "nb_answers": "Reply | Reply | Replies",
+      "answered": "including yours",
+      "propose_yourself": "Propose yourself",
+      "no_opportunity": "There is no demand from companies in your area at this time",
+      "end_of_results": "End of results",
+      "modal_answer": {
+        "title": "Responding to the demand for service: ",
         "your_answer": "Your reply"
       }
     }

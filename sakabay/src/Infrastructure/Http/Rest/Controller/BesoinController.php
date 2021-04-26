@@ -147,7 +147,24 @@ final class BesoinController extends AbstractFOSRestController
      *
      * @QueryParam(name="codeStatut",
      *             default="",
-     *             description="Trie par besoinStatut"
+     *             description="Trie par code Statut"
+     * )
+     * @QueryParam(name="company",
+     *             default="",
+     *             description="Trie par entreprise auteur"
+     * )
+     * @QueryParam(name="currentPage",
+     *             default="1",
+     *             description="Page courante"
+     * )
+     * @QueryParam(name="perPage",
+     *             default="10",
+     *             description="Taille de la page"
+     * )
+     *
+     * @QueryParam(name="count",
+     *             default="false",
+     *             description="Avoir le total de résultats"
      * )
      *
      * @return View
@@ -155,9 +172,37 @@ final class BesoinController extends AbstractFOSRestController
     public function getBesoinByUser(int $utilisateurId, ParamFetcher $paramFetcher): View
     {
         $codeStatut = $paramFetcher->get('codeStatut');
-        $besoin = $this->besoinService->getBesoinByUserId($utilisateurId, $codeStatut);
+        $company = $paramFetcher->get('company');
+        $currentPage = $paramFetcher->get('currentPage');
+        $perPage = $paramFetcher->get('perPage');
+        $isCounting = $paramFetcher->get('count');
 
-        return View::create($besoin, Response::HTTP_OK);
+        /**
+         * Oblige à ce que le paramètre utilisateur soit donné pour effectuer la requête.
+         * Sans cela un petit malin pourrait récupérer tous les besoins depuis cette route.
+         */
+        if (empty($utilisateurId)) {
+            throw new NotFoundHttpException('Bad request');
+        }
+        dump($company);
+        //Avoir le total
+        if ($isCounting === 'true') {
+            $response = $this->besoinService
+                ->getCountBesoinByUserId($utilisateurId, $codeStatut, $company, $isCounting);
+            return View::create($response, Response::HTTP_OK);
+        }
+
+        $pager = $this->besoinService
+            ->getPaginatedBesoinByUserId($utilisateurId, $codeStatut, $company, $currentPage, $perPage);
+        $besoins = $pager->getCurrentPageResults();
+        $nbResults = $pager->getNbResults();
+        $view = $this->view($besoins, Response::HTTP_OK);
+        $view->setHeader('X-Total-Count', $nbResults);
+
+        return $view;
+        // $besoin = $this->besoinService->getBesoinByUserId($utilisateurId, $codeStatut);
+
+        // return View::create($besoin, Response::HTTP_OK);
     }
 
     /**
@@ -219,6 +264,10 @@ final class BesoinController extends AbstractFOSRestController
      *             default="",
      *             description="sousCategorys de l'entreprise"
      * )
+     * @QueryParam(name="company",
+     *             default="false",
+     *             description="Uniquement les besoins provenant d'entreprises"
+     * )
      * @QueryParam(name="currentPage",
      *             default="1",
      *             description="Page courante"
@@ -229,7 +278,7 @@ final class BesoinController extends AbstractFOSRestController
      * )
      *
      * @QueryParam(name="count",
-     *             default=false,
+     *             default="false",
      *             description="Avoir le total de résultats"
      * )
      *
@@ -240,6 +289,7 @@ final class BesoinController extends AbstractFOSRestController
     {
         $category = $paramFetcher->get('category');
         $sousCategory = $paramFetcher->get('sousCategory');
+        $company = $paramFetcher->get('company');
         $currentPage = $paramFetcher->get('currentPage');
         $perPage = $paramFetcher->get('perPage');
         $isCounting = $paramFetcher->get('count');
@@ -251,13 +301,13 @@ final class BesoinController extends AbstractFOSRestController
             throw new NotFoundHttpException('Bad request');
         }
         //Avoir le total
-        if ($isCounting) {
+        if ($isCounting === 'true') {
             $response = $this->besoinService
-                ->getCountOpportunities($category, $sousCategory, $isCounting);
+                ->getCountOpportunities($category, $sousCategory, $isCounting, $company);
             return View::create($response, Response::HTTP_OK);
         }
         $pager = $this->besoinService
-            ->getPaginatedOpportunityList($category, $sousCategory, $currentPage, $perPage);
+            ->getPaginatedOpportunityList($category, $sousCategory, $company, $currentPage, $perPage);
         $besoins = $pager->getCurrentPageResults();
         $nbResults = $pager->getNbResults();
         $view = $this->view($besoins, Response::HTTP_OK);

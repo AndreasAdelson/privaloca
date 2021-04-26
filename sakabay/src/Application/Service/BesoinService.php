@@ -43,12 +43,8 @@ class BesoinService
         $this->besoinRepository->delete($besoin);
     }
 
-    public function getBesoinByUserId(string $utilisateur = '', string $codeStatut)
+    public function getBesoinAnsweredByCompany(int $besoinId, int $companyId)
     {
-        return $this->besoinRepository->getBesoinByUserId($utilisateur, $codeStatut);
-    }
-
-    public function getBesoinAnsweredByCompany(int $besoinId, int $companyId) {
         return $this->besoinRepository->getBesoinAnsweredByCompany($besoinId, $companyId);
     }
 
@@ -78,6 +74,28 @@ class BesoinService
             ->getPaginatedList($sortBy, $descending, $filterFields, $filterText, $currentPage, $perPage);
     }
 
+    public function getPaginatedBesoinByUserId(
+        $utilisateur = '',
+        $codeStatut = '',
+        $company = '',
+        $currentPage = 1,
+        $perPage = PHP_INT_MAX ? PHP_INT_MAX : 10
+    ) {
+        $besoins = $this->besoinRepository->getPaginatedBesoinByUserId($utilisateur, $codeStatut, $company, 'false');
+
+        return $this->paginateArray($besoins, $perPage, $currentPage);
+    }
+
+
+    public function getCountBesoinByUserId(
+        $utilisateur = '',
+        $codeStatut = '',
+        $company = '',
+        $isCounting = 'true'
+    ) {
+        return $this->besoinRepository
+            ->getPaginatedBesoinByUserId($utilisateur, $codeStatut, $company, $isCounting);
+    }
     /**
      * Retourne une page, potentiellement triée et filtrée des besoins particuliers pour les entreprises abonnées.
      *
@@ -93,22 +111,24 @@ class BesoinService
     public function getPaginatedOpportunityList(
         $category = '',
         $sousCategory = '',
+        $company = 'false',
         $currentPage = 1,
         $perPage = PHP_INT_MAX ? PHP_INT_MAX : 10
     ) {
 
         $opportunities =  $this->besoinRepository
-            ->getPaginatedOpportunityList($category, $sousCategory, false);
+            ->getPaginatedOpportunityList($category, $sousCategory, 'false', $company);
         return $this->paginateArray($opportunities, $perPage, $currentPage);
     }
 
     public function getCountOpportunities(
         $category = '',
         $sousCategory = '',
-        $isCounting = true
+        $isCounting = 'true',
+        $company = 'false'
     ) {
         return $this->besoinRepository
-            ->getPaginatedOpportunityList($category, $sousCategory, $isCounting);
+            ->getPaginatedOpportunityList($category, $sousCategory, $isCounting, $company);
     }
 
     /**

@@ -220,7 +220,6 @@
         if (this.quoteDocumentSelected) {
           formData.append('file', this.quoteDocumentSelected);
         }
-        console.log(this.formFields);
         return axios.post('/api/answers/quote/' + this.opportunity.answers[0].id  + '/send/'+ this.utilisateurId, formData).then(response => {
           // $('#' + this.ANSWER_OPPORTUNITY_MODAL).hide();
           window.location.assign(response.headers.location);
@@ -232,7 +231,6 @@
               this.$handleFormError(e.response.data);
             }
           } else {
-            console.log(e.response.data);
             this.$handleError(e);
           }
         });

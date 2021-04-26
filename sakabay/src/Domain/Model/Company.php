@@ -179,7 +179,7 @@ class Company
     private $sousCategorys;
 
     /**
-     * @var Answer
+     * @var Answer[]
      * @Expose
      * @Groups({
      * "api_companies",
@@ -187,6 +187,16 @@ class Company
      * })
      */
     private $answers;
+
+    /**
+     * @var Besoin[]
+     * @Expose
+     * @Groups({
+     * "api_companies",
+     * "api_admin_companies"
+     * })
+     */
+    private $besoins;
 
 
     /**
@@ -212,6 +222,7 @@ class Company
         $this->companySubscriptions = new ArrayCollection();
         $this->sousCategorys =  new ArrayCollection();
         $this->answers =  new ArrayCollection();
+        $this->besoins =  new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -503,6 +514,33 @@ class Company
     {
         if ($this->answers->contains($answer)) {
             $this->answers->removeElement($answer);
+        }
+
+        return $this;
+    }
+
+        /**
+     * @return Collection|Besoin[]
+     */
+    public function getBesoins(): Collection
+    {
+        return $this->besoins;
+    }
+
+    public function addBesoin(Besoin $besoin): self
+    {
+        if (!$this->besoins->contains($besoin)) {
+            $this->besoins[] = $besoin;
+            $besoin->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBesoin(Besoin $besoin): self
+    {
+        if ($this->besoins->contains($besoin)) {
+            $this->besoins->removeElement($besoin);
         }
 
         return $this;

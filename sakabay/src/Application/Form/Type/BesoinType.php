@@ -59,6 +59,9 @@ class BesoinType extends AbstractType
             ->add('sousCategorys', EntityType::class, [
                 'class' => 'App:sousCategory',
                 'multiple' => true,
+            ])
+            ->add('company', EntityType::class, [
+                'class' => 'App:Company'
             ]);
     }
 

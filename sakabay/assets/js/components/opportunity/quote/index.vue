@@ -75,13 +75,13 @@
                     />
                     <div
                       v-if="bottom && printedEntities.length > 0"
-                      class="text-center mt-4"
+                      class="text-center pt-4"
                     >
                       <span>{{ $t('opportunity.customer.end_of_results') }}</span>
                     </div>
                     <div
                       v-else-if="bottom && printedEntities.length === 0"
-                      class="text-center mt-4"
+                      class="text-center pt-4"
                     >
                       <span>{{ $t('opportunity.customer.no_opportunity') }}</span>
                     </div>

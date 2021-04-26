@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints\File;
  */
 class Answer
 {
+    
     /**
      * @var int
      * @Expose

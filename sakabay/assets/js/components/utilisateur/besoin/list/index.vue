@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="row justify-content-between pt-4 mb-4">
-      <div class="col-4 align-self-center">
+      <div class="col-3 align-self-center">
         <font-awesome-icon
           class="grey-skb fontSize24 mr-2"
           :icon="['fas', 'edit']"
@@ -15,7 +15,32 @@
           {{ $t('besoin.title_list') }}
         </h1>
       </div>
-      <div class="col-2 align-self-center">
+      <div
+        v-if="companies.length > 0"
+        class="col-3 mb-2"
+      >
+        <fieldset
+          id="entitySelected"
+          class="entitySelected"
+        >
+          <multiselect
+            ref="multiselect"
+            v-model="entitySelected"
+            :placeholder="$t('besoin.placeholder.select')"
+            :disabled="companies.length < 0"
+            :options="companies"
+            name="entitySelected"
+            :searchable="false"
+            :close-on-select="true"
+            :show-labels="false"
+            :custom-label="$getAuthorLabel"
+            :allow-empty="false"
+            track-by="name"
+            @select="onSelectEntity"
+          />
+        </fieldset>
+      </div>
+      <div class="col-3 align-self-center">
         <a
           href="/services/new"
           class="button_skb_blue btn py-2"
@@ -36,25 +61,16 @@
                   <span class="underline">{{ $t('besoin.pending_request') }}</span>
                   <span
                     class="fontPoppins fontSize12 py-1 px-2 orange-gradiant white-skb rounded"
-                  >{{ pendingBesoins.length }}</span>
+                  >{{ nbResultPending }}</span>
                 </div>
               </div>
             </div>
-            <div v-if="pendingBesoins.length == 0">
-              <div class="row">
-                <div class="col">
-                  <p class="text-center mt-3">
-                    {{ $t('besoin.no_pending_services') }}
-                  </p>
-                </div>
-              </div>
-            </div>
+
             <div
-              v-else
               class="row scroll-h500"
             >
               <vuescroll>
-                <div class="col">
+                <div class="col-12">
                   <div
                     v-for="(pendingBesoin, index) in pendingBesoins"
                     :key="'pendingBesoin_' + index"
@@ -62,10 +78,39 @@
                   >
                     <pending-besoin
                       :pending-besoin="pendingBesoin"
-                      :loading="loading2"
+                      :loading="loadingModal"
                       @delete-modal-opened="onDeletedPendingService(index, pendingBesoin.id)"
                       @request-quote-modal-opened="event => onResquestQuotePending(index, pendingBesoin, event)"
                     />
+                  </div>
+                  <div
+                    class="w-100 whitebg text-center"
+                  >
+                    <div
+                      v-if="isScrolling"
+                      v-show="loading2"
+                      class="my-5"
+                    >
+                      <div class="loader4" />
+                    </div>
+                  </div>
+
+                  <div
+                    v-if="pendingBesoins.length"
+                    v-observe-visibility="(isVisible,entry) => throttledScroll(isVisible,API_URL, paramsPending, entry, 'pendingBesoins')"
+                    name="spy"
+                  />
+                  <div
+                    v-if="bottom && pendingBesoins.length > 0"
+                    class="text-center pt-4"
+                  >
+                    <span>{{ $t('opportunity.customer.end_of_results') }}</span>
+                  </div>
+                  <div
+                    v-else-if="bottom && pendingBesoins.length === 0"
+                    class="text-center pt-4"
+                  >
+                    <span>{{ $t('besoin.no_pending_services') }}</span>
                   </div>
                 </div>
               </vuescroll>
@@ -83,22 +128,12 @@
                   {{ $t('besoin.expired_request') }}
                   <span
                     class="fontPoppins fontSize12 py-1 px-2 orange-gradiant white-skb rounded"
-                  >{{ expiredBesoins.length }}</span>
-                </div>
-              </div>
-            </div>
-            <div v-if="expiredBesoins.length == 0">
-              <div class="row">
-                <div class="col">
-                  <p class="text-center mt-3">
-                    {{ $t('besoin.no_expired_services') }}
-                  </p>
+                  >{{ nbResultExpired }}</span>
                 </div>
               </div>
             </div>
             <div
-              v-else
-              class="row scroll-h300"
+              class="row scroll-h500"
             >
               <vuescroll :ops="opsButton">
                 <div class="col">
@@ -111,6 +146,35 @@
                       :expired-besoin="expiredBesoin"
                       @delete-modal-opened="onDeletedExpiredService(index, expiredBesoin.id)"
                     />
+                  </div>
+                  <div
+                    class="w-100 whitebg text-center"
+                  >
+                    <div
+                      v-if="isScrolling2"
+                      v-show="loading3"
+                      class="my-5"
+                    >
+                      <div class="loader4" />
+                    </div>
+                  </div>
+
+                  <div
+                    v-if="expiredBesoins.length"
+                    v-observe-visibility="(isVisible,entry) => throttledScroll(isVisible, API_URL, paramsExpired, entry, 'expiredBesoins')"
+                    name="spy"
+                  />
+                  <div
+                    v-if="bottom2 && expiredBesoins.length > 0"
+                    class="text-center pt-4"
+                  >
+                    <span>{{ $t('opportunity.customer.end_of_results') }}</span>
+                  </div>
+                  <div
+                    v-else-if="bottom2 && expiredBesoins.length === 0"
+                    class="text-center pt-4"
+                  >
+                    <span>{{ $t('besoin.no_expired_services') }}</span>
                   </div>
                 </div>
               </vuescroll>
@@ -147,6 +211,7 @@
   import ExpiredBesoin from './expired-besoin-item.vue';
   import _ from 'lodash';
   import ConfirmModal from 'components/commons/confirm-modal';
+  import searchAndScrollMixin from 'mixins/searchAndScrollMixin';
 
   export default {
     components: {
@@ -155,6 +220,8 @@
       ExpiredBesoin,
       ConfirmModal
     },
+    mixins: [searchAndScrollMixin],
+
     props: {
       utilisateurId: {
         type: Number,
@@ -163,10 +230,13 @@
     },
     data() {
       return {
+        API_URL: '/api/besoins/utilisateur/' + this.utilisateurId,
         REQUEST_QUOTE_MODAL_ID: 'request_quoteModal',
         DELETE_CONFIRM_MODAL_ID: 'delete_confirmModal',
         loading: true,
         loading2: false,
+        loading3: false,
+        loadingModal: false,
         currentPendingId: null,
         indexPending: null,
         currentExpiredId: null,
@@ -192,26 +262,47 @@
             keepShow: false
           },
         },
+        isScrolling: false,
+        isScrolling2: false,
+        bottom: false,
+        bottom2: false,
+        nbResultPending: 0,
+        nbResultExpired: 0,
+        nbMaxResult: 10,
+        currentPage: 2,
+        currentPage2: 2,
+        firstAttempt: true,
+        companies: [],
+        utilisateur: null,
+        entitySelected: null,
+        entityId: ''
       };
+    },
+    computed: {
+      paramsPending() {
+        let params = {};
+        params.codeStatut = 'PUB';
+        params.currentPage = this.currentPage;
+        return params;
+      },
+      paramsExpired() {
+        let params = {};
+        params.codeStatut = 'ENC';
+        params.currentPage = this.currentPage2;
+        return params;
+      },
     },
     created() {
       let promises = [];
-      promises.push(axios.get('/api/besoins/utilisateur/' + this.utilisateurId,{
-        params: {
-          codeStatut: 'PUB'
-        }
-      }
-      ));
-      promises.push(axios.get('/api/besoins/utilisateur/' + this.utilisateurId,{
-        params: {
-          codeStatut: 'ENC'
-        }
-      }
-      ));
+      promises.push(axios.get('/api/companies/utilisateur/' + this.utilisateurId));
       return Promise.all(promises).then(res => {
-        this.loading = false;
-        this.pendingBesoins = _.cloneDeep(res[0].data);
-        this.expiredBesoins = _.cloneDeep(res[1].data);
+        this.companies = _.cloneDeep(res[0].data);
+        if(this.companies.length > 0) {
+          this.utilisateur = _.cloneDeep(this.companies[0].utilisateur);
+          this.companies.push(this.utilisateur);
+          this.entitySelected = this.utilisateur;
+        }
+        this.getBesoins();
       }).catch(e => {
         this.$handleError(e);
         this.loading = false;
@@ -242,7 +333,6 @@
             }
             if (this.currentExpiredId) {
               this.expiredBesoins.splice(this.indexExpired, 1);
-
             }
             this.currentExpiredId = null;
             this.currentPendingId = null;
@@ -253,20 +343,86 @@
             this.$handleError(e);
           });
       },
-
       submitRequestQuote() {
-        this.loading2 = true;
+        this.loadingModal = true;
         axios.post('/api/answers/quote/' + this.currentAnswerId)
           .then(res => {
             this.pendingBesoins[this.indexPending].answers[this.indexAnswer].request_quote = true;
             this.indexPending = null;
             this.indexAnswer = null;
-            this.loading2 = false;
+            this.loadingModal = false;
 
           }).catch(e => {
-            this.loading2 = false;
+            this.loadingModal = false;
 
           });
+      },
+      getBesoins() {
+        let promises = [];
+        promises.push(axios.get(this.API_URL,{
+          params: {
+            codeStatut: 'PUB',
+            company: this.entityId
+          }
+        }
+        ));
+        promises.push(axios.get(this.API_URL,{
+          params: {
+            codeStatut: 'ENC',
+            company: this.entityId
+          }
+        }
+        ));
+
+        if (this.firstAttempt) {
+          promises.push(axios.get(this.API_URL, {
+            params: {
+              codeStatut: 'PUB',
+              count: true,
+              company: this.entityId
+            }
+          }));
+          promises.push(axios.get(this.API_URL,  {
+            params: {
+              codeStatut: 'ENC',
+              count: true,
+              company: this.entityId
+            }
+          }));
+        }
+        return Promise.all(promises).then(res => {
+          this.pendingBesoins = _.cloneDeep(res[0].data);
+          this.expiredBesoins = _.cloneDeep(res[1].data);
+
+          if (this.pendingBesoins.length < this.nbMaxResult) {
+            this.bottom = true;
+          }
+          if (this.expiredBesoins.length < this.nbMaxResult) {
+            this.bottom2 = true;
+          }
+          if (this.firstAttempt) {
+            this.nbResultPending = _.cloneDeep(res[2].data);
+            this.nbResultExpired = _.cloneDeep(res[3].data);
+            this.firstAttempt = false;
+          }
+          this.loading = false;
+        }).catch(e => {
+          this.$handleError(e);
+          this.loading = false;
+        });
+      },
+      onSelectEntity() {
+        this.$nextTick(() => {
+          if (this.entitySelected) {
+            if (this.utilisateur && !_.isEqual(this.entitySelected, this.utilisateur)) {
+              this.entityId = this.entitySelected.id;
+            } else {
+              this.entityId = '';
+            }
+          }
+          this.resetSearch();
+          this.getBesoins();
+        });
       }
     },
 

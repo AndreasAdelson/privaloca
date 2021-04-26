@@ -65,7 +65,11 @@
       :utilisateur-id="utilisateurId"
       :company-selected="companySelected"
     />
-    <div v-show="companyList" />
+    <company-list
+      v-show="companyList"
+      :utilisateur-id="utilisateurId"
+      :company-selected="companySelected"
+    />
     <quote-list
       v-show="quoteList"
       :company-selected="companySelected"
@@ -77,11 +81,13 @@
   import _ from 'lodash';
   import CustomerList from './customer/index.vue';
   import QuoteList from './quote/index.vue';
+  import CompanyList from './company/index.vue';
 
   export default {
     components: {
       CustomerList,
-      QuoteList
+      QuoteList,
+      CompanyList
     },
     props: {
       utilisateurId: {
@@ -91,9 +97,9 @@
     },
     data() {
       return {
-        clientList: false,
+        clientList: true,
         companyList: false,
-        quoteList: true,
+        quoteList: false,
         loading: true,
         loading2: false,
         companySelected: null,

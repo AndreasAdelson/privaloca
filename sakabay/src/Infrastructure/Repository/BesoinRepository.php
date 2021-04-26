@@ -26,9 +26,16 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
         $this->_em->flush($companyStatut);
     }
 
-    public function getBesoinByUserId($utilisateur = '', string $codeStatut)
-    {
+    public function getPaginatedBesoinByUserId(
+        $utilisateur = '',
+        $codeStatut = '',
+        $company = '',
+        $isCounting = 'false'
+    ) {
         $qb = $this->createQueryBuilder('b');
+        if ($isCounting === 'true') {
+            $qb->select('count(DISTINCT b.id)');
+        }
         $qb->leftJoin('b.author', 'author')
             ->andWhere('author.id = :utilisateurId')
             ->setParameter('utilisateurId', $utilisateur);
@@ -38,7 +45,20 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
                 ->andWhere('besoinStatut.code = :codeStatut')
                 ->setParameter('codeStatut', $codeStatut);
         }
+        if (!empty($company)) {
+            $qb->leftJoin('b.company', 'company')
+                ->andWhere('company.id = :companyId')
+                ->setParameter('companyId', $company);
+        } else {
+            $qb->leftJoin('b.company', 'company')
+                ->andWhere('company IS NULL');
+        }
+
         $qb->orderBy('b.dtCreated', 'DESC');
+
+        if ($isCounting === 'true') {
+            return $qb->getQuery()->getSingleScalarResult();
+        }
 
         return $qb->getQuery()->getResult();
     }
@@ -76,10 +96,11 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
     public function getPaginatedOpportunityList(
         $category = '',
         $sousCategory = null,
-        $isCounting = false
+        $isCounting = 'false',
+        $company = 'false'
     ) {
         $qb = $this->createQueryBuilder('b');
-        if ($isCounting) {
+        if ($isCounting === 'true') {
             $qb->select('count(DISTINCT b.id)');
         }
         if (is_array($sousCategory) && !empty($sousCategory)) {
@@ -101,8 +122,14 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
             $qb->leftJoin('b.sousCategorys', 'sousCategory')
                 ->andWhere('sousCategory.id is NULL');
         }
-
-        if ($isCounting) {
+        if ($company === 'false') {
+            $qb->leftJoin('b.company', 'company')
+                ->andWhere('company IS NULL');
+        } else {
+            $qb->leftJoin('b.company', 'company')
+                ->andWhere('company IS NOT NULL');
+        }
+        if ($isCounting === 'true') {
             return $qb->getQuery()->getSingleScalarResult();
         }
 

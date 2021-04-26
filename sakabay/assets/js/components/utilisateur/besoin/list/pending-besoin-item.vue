@@ -105,6 +105,7 @@
           <div
             v-for="(answer, index) in pendingBesoin.answers"
             :key="'answer_' + index"
+            :class="setStatusAnswer(answer)"
             class="row mt-2 answer-card"
           >
             <div class="col-12">
@@ -119,13 +120,16 @@
                   src="/build/default_company.jpg"
                   class="company-image-3"
                 />
-                <a
-                  target="_blank"
-                  class="col my-auto"
-                  :href="'/entreprise/' + answer.company.url_name"
-                >
-                  <h6 class="bold underline">{{ answer.company.name }}</h6>
-                </a>
+
+                <h6 class="col my-auto">
+                  <a
+                    target="_blank"
+                    class="bold underline"
+                    :href="'/entreprise/' + answer.company.url_name"
+                  >
+                    {{ answer.company.name }}
+                  </a>
+                </h6>
               </div>
               <div class="row">
                 <div class="col-10">
@@ -136,7 +140,7 @@
                 </div>
                 <div class="col-2 align-self-end pb-1">
                   <button
-                    v-if="!answer.request_quote"
+                    v-if="!answer.request_quote && !answer.quote"
                     :disabled="loading"
                     data-toggle="modal"
                     :data-target="'#' + REQUEST_QUOTE_MODAL_ID"
@@ -150,7 +154,7 @@
                     {{ $t('besoin.request_quote') }}
                   </button>
                   <div
-                    v-else
+                    v-else-if="answer.request_quote && !answer.quote"
                     aria-disabled
                     class="btn btn_skb_green_disabled w-100 mb-1"
                   >
@@ -160,6 +164,18 @@
                     />
 
                     {{ $t('besoin.quote_requested') }}
+                  </div>
+                  <div
+                    v-else-if="answer.request_quote && answer.quote"
+                    aria-disabled
+                    class="btn btn_skb_green_disabled w-100 mb-1"
+                  >
+                    <font-awesome-icon
+                      class="mr-2"
+                      :icon="['fas', 'paper-plane']"
+                    />
+
+                    {{ $t('besoin.quote_sent') }}
                   </div>
                 </div>
               </div>
@@ -215,6 +231,19 @@
         } else {
           this.iconArrow = 'chevron-right';
         }
+      },
+      setStatusAnswer(answer) {
+        let cssClass;
+        if (!answer.request_quote && !answer.quote) {
+          cssClass = 'yellow-light-bg-skb';
+        }
+        else if(answer.request_quote && !answer.quote) {
+          cssClass = 'blue-light-bg-skb';
+        }
+        else if (answer.request_quote && answer.quote) {
+          cssClass = 'green-light-bg-skb';
+        }
+        return cssClass;
       }
     },
   };

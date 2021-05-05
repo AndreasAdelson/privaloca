@@ -16,6 +16,9 @@ class SousCategoryController extends AbstractController
      */
     public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/souscategory/index.html.twig', [
             'canCreate' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'canRead' => $authorizationChecker->isGranted('ROLE_ADMIN'),
@@ -30,6 +33,9 @@ class SousCategoryController extends AbstractController
      */
     public function new()
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/souscategory/form.html.twig', [
             'sousCategoryId' => 'null'
         ]);
@@ -41,6 +47,9 @@ class SousCategoryController extends AbstractController
      */
     public function edit(int $id)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/souscategory/form.html.twig', [
             'sousCategoryId' => $id,
         ]);
@@ -52,6 +61,9 @@ class SousCategoryController extends AbstractController
      */
     public function show(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/souscategory/show.html.twig', [
             'canEdit' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'sousCategoryId' => $id,

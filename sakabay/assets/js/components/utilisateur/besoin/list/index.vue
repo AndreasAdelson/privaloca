@@ -45,7 +45,7 @@
           href="/services/new"
           class="button_skb_blue btn py-2"
         >
-          <i class="mr-2 fas fa-plus-circle" />
+          <font-awesome-icon :icon="['fas', 'plus-circle']" />
           {{ $t('besoin.create_button') }}
         </a>
       </div>
@@ -79,7 +79,9 @@
                     <pending-besoin
                       :pending-besoin="pendingBesoin"
                       :loading="loadingModal"
-                      @delete-modal-opened="onDeletedPendingService(index, pendingBesoin.id)"
+                      :modal-manage-id="MANAGE_MODAL_ID"
+                      :request-quote-id="REQUEST_QUOTE_MODAL_ID"
+                      @manage-modal-opened="onManagePendingService(index, pendingBesoin)"
                       @request-quote-modal-opened="event => onResquestQuotePending(index, pendingBesoin, event)"
                     />
                   </div>
@@ -119,7 +121,7 @@
         </div>
       </div>
       <!-- Demandes expirées -->
-      <div class="col-12">
+      <div class="col-12 mt-2">
         <div class="card">
           <div class="card-body">
             <div class="row">
@@ -183,14 +185,13 @@
         </div>
       </div>
     </div>
-    <confirm-modal
-      :id="DELETE_CONFIRM_MODAL_ID"
-      :title-text="$t('commons.confirm_modal.delete.title')"
-      :body-text="$t('commons.confirm_modal.delete.text')"
-      :button-yes-text="$t('commons.yes')"
-      :button-no-text="$t('commons.no')"
-      :are-buttons-on-same-line="true"
-      @confirm-modal-yes="deleteRequest()"
+    <manage-modal
+      :id="MANAGE_MODAL_ID"
+      :besoin="currentPendingBesoin"
+      :besoin-statuts="besoinStatuts"
+      :utilisateur-id="utilisateurId"
+      :entity-selected="entitySelected"
+      :is-company="isCompany"
     />
     <confirm-modal
       :id="REQUEST_QUOTE_MODAL_ID"
@@ -207,18 +208,21 @@
 <script>
   import axios from 'axios';
   import vuescroll from 'vuescroll';
-  import PendingBesoin from './pending-besoin-item.vue';
+  import PendingBesoin from './pending-besoin/index.vue';
   import ExpiredBesoin from './expired-besoin-item.vue';
   import _ from 'lodash';
+  import ManageModal from './pending-besoin/manage-modal.vue';
   import ConfirmModal from 'components/commons/confirm-modal';
   import searchAndScrollMixin from 'mixins/searchAndScrollMixin';
+  import { EventBus } from 'plugins/eventBus';
 
   export default {
     components: {
       vuescroll,
       PendingBesoin,
       ExpiredBesoin,
-      ConfirmModal
+      ConfirmModal,
+      ManageModal
     },
     mixins: [searchAndScrollMixin],
 
@@ -232,7 +236,7 @@
       return {
         API_URL: '/api/besoins/utilisateur/' + this.utilisateurId,
         REQUEST_QUOTE_MODAL_ID: 'request_quoteModal',
-        DELETE_CONFIRM_MODAL_ID: 'delete_confirmModal',
+        MANAGE_MODAL_ID: 'manage_modal',
         loading: true,
         loading2: false,
         loading3: false,
@@ -244,6 +248,7 @@
         currentPendingBesoinTitle: null,
         currentCompanyName: null,
         currentAnswerId: null,
+        currentPendingBesoin: null,
         indexAnswer: null,
         pendingBesoins: [],
         expiredBesoins: [],
@@ -275,7 +280,8 @@
         companies: [],
         utilisateur: null,
         entitySelected: null,
-        entityId: ''
+        entityId: '',
+        besoinStatuts: []
       };
     },
     computed: {
@@ -287,16 +293,30 @@
       },
       paramsExpired() {
         let params = {};
-        params.codeStatut = 'ENC';
+        params.codeStatut = ['ARC', 'EXP'];
         params.currentPage = this.currentPage2;
         return params;
       },
+      isCompany() {
+        if (this.entitySelected && this.entitySelected.first_name) {
+          return false;
+        }
+        return true;
+      }
     },
     created() {
+      EventBus.$on('besoin-closed-end', event => {
+        this.archiveBesoin();
+      });
+      EventBus.$on('besoin-deleted', event => {
+        this.deleteBesoin();
+      });
       let promises = [];
+      promises.push(axios.get('/api/besoin-statuts'));
       promises.push(axios.get('/api/companies/utilisateur/' + this.utilisateurId));
       return Promise.all(promises).then(res => {
-        this.companies = _.cloneDeep(res[0].data);
+        this.besoinStatuts = res[0].data;
+        this.companies = _.cloneDeep(res[1].data);
         if(this.companies.length > 0) {
           this.utilisateur = _.cloneDeep(this.companies[0].utilisateur);
           this.companies.push(this.utilisateur);
@@ -309,39 +329,20 @@
       });
     },
     methods: {
-      onDeletedPendingService(index, pendingBesoinId) {
-        this.currentPendingId = pendingBesoinId;
+      onManagePendingService(index, pendingBesoin) {
+        this.currentPendingBesoin = pendingBesoin;
         this.indexPending = index;
       },
-      onDeletedExpiredcService(index, expiredBesoinId) {
-        this.currentExpiredId = expiredBesoinId;
-        this.indexExpired = index;
-
-      },
+      // onDeletedExpiredcService(index, expiredBesoinId) {
+      //   this.currentExpiredId = expiredBesoinId;
+      //   this.indexExpired = index;
+      // },
       onResquestQuotePending(index, pendingBesoin, event) {
         this.indexPending = index;
         this.currentPendingBesoinTitle = pendingBesoin.title;
         this.currentCompanyName = event.company_name;
         this.currentAnswerId = event.answer_id;
         this.indexAnswer = event.answer_index;
-      },
-      deleteRequest() {
-        axios.delete(this.currentPendingId ? '/api/besoins/' + this.currentPendingId : '/api/besoins/' + this.currentExpiredId)
-          .then(res => {
-            if (this.currentPendingId) {
-              this.pendingBesoins.splice(this.indexPending, 1);
-            }
-            if (this.currentExpiredId) {
-              this.expiredBesoins.splice(this.indexExpired, 1);
-            }
-            this.currentExpiredId = null;
-            this.currentPendingId = null;
-            this.indexPending = null;
-            this.indexExpired = null;
-          })
-          .catch(e => {
-            this.$handleError(e);
-          });
       },
       submitRequestQuote() {
         this.loadingModal = true;
@@ -368,7 +369,7 @@
         ));
         promises.push(axios.get(this.API_URL,{
           params: {
-            codeStatut: 'ENC',
+            codeStatut: ['ARC', 'EXP'],
             company: this.entityId
           }
         }
@@ -384,7 +385,7 @@
           }));
           promises.push(axios.get(this.API_URL,  {
             params: {
-              codeStatut: 'ENC',
+              codeStatut: ['ARC', 'EXP'],
               count: true,
               company: this.entityId
             }
@@ -401,8 +402,8 @@
             this.bottom2 = true;
           }
           if (this.firstAttempt) {
-            this.nbResultPending = _.cloneDeep(res[2].data);
-            this.nbResultExpired = _.cloneDeep(res[3].data);
+            this.nbResultPending = parseInt(res[2].data);
+            this.nbResultExpired = parseInt(res[3].data);
             this.firstAttempt = false;
           }
           this.loading = false;
@@ -423,7 +424,19 @@
           this.resetSearch();
           this.getBesoins();
         });
-      }
+      },
+      archiveBesoin() {
+        let besoinToArchive = _.pullAt(this.pendingBesoins, this.indexPending);
+        this.expiredBesoins.splice(0,0,besoinToArchive[0]);
+        this.nbResultPending -= 1;
+        this.nbResultExpired += 1;
+      },
+      deleteBesoin() {
+        this.pendingBesoins.splice(this.indexPending, 1);
+        this.currentPendingId = null;
+        this.indexPending = null;
+        this.nbResultPending -= 1;
+      },
     },
 
   };

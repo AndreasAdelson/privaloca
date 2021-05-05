@@ -138,7 +138,7 @@ class Utilisateur implements UserInterface, EquatableInterface, NotifiableInterf
     private $imageProfil;
 
     /**
-     * @var Company
+     * @var Company[]
      * @Expose
      * @Groups({
      * "api_utilisateurs",
@@ -148,7 +148,7 @@ class Utilisateur implements UserInterface, EquatableInterface, NotifiableInterf
     private $companys;
 
     /**
-     * @var Besoin
+     * @var Besoin[]
      * @Expose
      * @Groups({
      * "api_utilisateurs",
@@ -156,6 +156,16 @@ class Utilisateur implements UserInterface, EquatableInterface, NotifiableInterf
      * })
      */
     private $besoins;
+
+    /**
+     * @var Comment[]
+     * @Expose
+     * @Groups({
+     * "api_utilisateurs",
+     * "api_dashboard_utilisateur"
+     * })
+     */
+    private $comments;
 
     /**
      * Unmapped property to handle file uploads
@@ -189,6 +199,7 @@ class Utilisateur implements UserInterface, EquatableInterface, NotifiableInterf
         $this->groups = new ArrayCollection();
         $this->companys = new ArrayCollection();
         $this->besoins = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
 
@@ -517,6 +528,33 @@ class Utilisateur implements UserInterface, EquatableInterface, NotifiableInterf
     {
         if ($this->besoins->contains($besoin)) {
             $this->besoins->removeElement($besoin);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
         }
 
         return $this;

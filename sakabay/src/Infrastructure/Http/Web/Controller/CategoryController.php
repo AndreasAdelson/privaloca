@@ -19,6 +19,9 @@ class CategoryController extends AbstractController
      */
     public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/category/index.html.twig', [
             'canCreate' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'canRead' => $authorizationChecker->isGranted('ROLE_ADMIN'),
@@ -33,6 +36,9 @@ class CategoryController extends AbstractController
      */
     public function new()
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/category/form.html.twig', [
             'categoryId' => 'null'
         ]);
@@ -44,6 +50,9 @@ class CategoryController extends AbstractController
      */
     public function edit(int $id)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/category/form.html.twig', [
             'categoryId' => $id,
         ]);
@@ -55,6 +64,9 @@ class CategoryController extends AbstractController
      */
     public function show(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/category/show.html.twig', [
             'canEdit' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'categoryId' => $id,

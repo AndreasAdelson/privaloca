@@ -2,7 +2,9 @@
 
 namespace App\Infrastructure\Http\Rest\Controller;
 
+use App\Application\Form\Type\BesoinExpirateType;
 use App\Application\Form\Type\BesoinType;
+use App\Application\Form\Type\BesoinValidateType;
 use App\Application\Service\BesoinService;
 use App\Application\Service\BesoinStatutService;
 use App\Domain\Model\Besoin;
@@ -71,8 +73,6 @@ final class BesoinController extends AbstractFOSRestController
 
         $ressourceLocation = $this->generateUrl('service_list');
         $this->notificationFactory->createService([$besoin->getAuthor()], $ressourceLocation, $besoin);
-
-        $ressourceLocation = $this->generateUrl('dashboard');
 
         return View::create([], Response::HTTP_CREATED, ['Location' => $ressourceLocation]);
     }
@@ -184,7 +184,6 @@ final class BesoinController extends AbstractFOSRestController
         if (empty($utilisateurId)) {
             throw new NotFoundHttpException('Bad request');
         }
-        dump($company);
         //Avoir le total
         if ($isCounting === 'true') {
             $response = $this->besoinService
@@ -236,12 +235,87 @@ final class BesoinController extends AbstractFOSRestController
 
     /**
      * @Rest\View()
+     * @Rest\Post("besoins/{besoinId}/validate")
+     *
+     * @return View
+     */
+    public function editBesoinWithCompanyFounded(int $besoinId, Request $request)
+    {
+        $besoin = $this->besoinService->getBesoin($besoinId);
+
+        if (!$besoin) {
+            throw new EntityNotFoundException('Besoin with id ' . $besoinId . ' does not exist!');
+        }
+        $besoinStatut = $besoin->getBesoinStatut()->getCode();
+        if ($besoinStatut !== 'PUB') {
+            return View::create([], Response::HTTP_BAD_REQUEST, [
+                'X-Message' => rawurlencode($this->translator->trans('error_publish_besoin')),
+            ]);
+        }
+        $formOptions = [
+            'translator' => $this->translator,
+        ];
+        $form = $this->createForm(BesoinValidateType::class, $besoin, $formOptions);
+        $form->submit($request->request->all());
+        if (!$form->isValid()) {
+            return $form;
+        }
+        $this->entityManager->persist($besoin);
+        $this->entityManager->flush();
+
+        $ressourceLocation = $this->generateUrl('service_list');
+        return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Post("besoins/{besoinId}/expirate")
+     *
+     * @return View
+     */
+    public function editBesoinWithNoCompany(int $besoinId, Request $request)
+    {
+        $besoin = $this->besoinService->getBesoin($besoinId);
+
+        if (!$besoin) {
+            throw new EntityNotFoundException('Besoin with id ' . $besoinId . ' does not exist!');
+        }
+
+        $besoinStatut = $besoin->getBesoinStatut()->getCode();
+        if ($besoinStatut !== 'PUB') {
+            return View::create([], Response::HTTP_BAD_REQUEST, [
+                'X-Message' => rawurlencode($this->translator->trans('error_publish_besoin')),
+            ]);
+        }
+        $formOptions = [
+            'translator' => $this->translator,
+        ];
+        $form = $this->createForm(BesoinExpirateType::class, $besoin, $formOptions);
+        $form->submit($request->request->all());
+        if (!$form->isValid()) {
+            return $form;
+        }
+        $this->entityManager->persist($besoin);
+        $this->entityManager->flush();
+
+        $ressourceLocation = $this->generateUrl('service_list');
+        return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
+    }
+
+    /**
+     * @Rest\View()
      * @Rest\Delete("/besoins/{besoinId}")
      *
      * @return View
      */
     public function deleteBesoin(int $besoinId): View
     {
+        $besoin = $this->besoinService->getBesoin($besoinId);
+        if (!empty($besoin->getAnswers())) {
+            return View::create([], Response::HTTP_BAD_REQUEST, [
+                'X-Message' => rawurlencode($this->translator->trans('error_delete_besoin')),
+            ]);
+        }
         try {
             $this->besoinService->deleteBesoin($besoinId);
         } catch (EntityNotFoundException $e) {

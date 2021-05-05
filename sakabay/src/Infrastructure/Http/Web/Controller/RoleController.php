@@ -19,6 +19,9 @@ class RoleController extends AbstractController
      */
     public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/role/index.html.twig', [
             'canCreate' => $authorizationChecker->isGranted('ROLE_CROLE'),
             'canRead' => $authorizationChecker->isGranted('ROLE_RROLE'),
@@ -33,6 +36,9 @@ class RoleController extends AbstractController
      */
     public function new()
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/role/form.html.twig', [
             'roleId' => 'null'
         ]);
@@ -44,6 +50,9 @@ class RoleController extends AbstractController
      */
     public function edit(int $id)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/role/form.html.twig', [
             'roleId' => $id,
         ]);
@@ -54,6 +63,9 @@ class RoleController extends AbstractController
      */
     public function show(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/role/show.html.twig', [
             'canEdit' => $authorizationChecker->isGranted('ROLE_UROLE'),
             'roleId' => $id,

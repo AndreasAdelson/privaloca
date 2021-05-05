@@ -101,6 +101,7 @@ const CnsFormUtils = {
       Object.keys(this.formErrors).forEach(field => {
         this.$removeFieldErrors(field);
       });
+      this.errorMessage = null;
     };
 
     Vue.prototype.$removeFieldErrors = function(field) {

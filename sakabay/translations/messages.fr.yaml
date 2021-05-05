@@ -79,6 +79,9 @@ error_notfound_message_link: "revenez à la page d'accueil"
 error_generic_title: "Erreur"
 error_generic_message: "Une erreur est survenue."
 error_application_access_message: "Vous ne disposez pas des droits pour afficher cette page."
+error_delete_besoin: "Vous ne pouvez pas supprimer cette demande car une ou plusieurs entreprises y ont déjà répondue. Rafraîchissez la page."
+error_send_quote: "Cette demande n'est plus d'actualité. Elle semble être expirée. Rafraîchissez la page."
+error_publish_besoin: "Cette demande est déjà expirée. Rafraîchissez la page."
 
 #Fonction's pages
 fonction_title_list_page: "Liste des fonctions"

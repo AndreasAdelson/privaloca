@@ -129,12 +129,33 @@ class Besoin
      */
     private $company;
 
+    /**
+     * @var Company
+     * @Expose
+     * @Groups({
+     * "api_besoins",
+     * "api_besoins_utilisateur"
+     * })
+     */
+    private $companySelected;
+
+    /**
+     * @var Answer[]
+     * @Expose
+     * @Groups({
+     * "api_besoins",
+     * "api_besoins_utilisateur"
+     * })
+     */
+    private $comment;
+
 
     public function __construct()
 
     {
         $this->sousCategorys = new ArrayCollection();
         $this->answers = new ArrayCollection();
+        // $this->comments = new ArrayCollection();
     }
 
     public function getId()
@@ -291,4 +312,53 @@ class Besoin
         $this->company = $company;
         return $this;
     }
+
+    public function getCompanySelected(): ?Company
+    {
+        return $this->companySelected;
+    }
+
+    public function setCompanySelected(?Company $companySelected): self
+    {
+        $this->companySelected = $companySelected;
+        return $this;
+    }
+
+    public function getComment(): ?Comment
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?Comment $comment): self
+    {
+        $this->comment = $comment;
+        return $this;
+    }
+
+    // /**
+    //  * @return Collection|Comment[]
+    //  */
+    // public function getComments(): Collection
+    // {
+    //     return $this->comments;
+    // }
+
+    // public function addComment(Comment $comment): self
+    // {
+    //     if (!$this->comments->contains($comment)) {
+    //         $this->comments[] = $comment;
+    //         $comment->setBesoin($this);
+    //     }
+
+    //     return $this;
+    // }
+
+    // public function removeComment(Comment $comment): self
+    // {
+    //     if ($this->comments->contains($comment)) {
+    //         $this->comments->removeElement($comment);
+    //     }
+
+    //     return $this;
+    // }
 }

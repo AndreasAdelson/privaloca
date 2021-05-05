@@ -33,7 +33,7 @@
                           <span class="bold">{{ $capitalise(opportunity.title) }}</span>
                         </div>
                       </div>
-                      <div class="col-1 text-right black-light-skb fontSize14">
+                      <div class="col-2 text-right black-light-skb fontSize14">
                         <span>{{ $getDateLabel(opportunity.dt_created) }}</span>
                       </div>
                     </div>
@@ -71,7 +71,7 @@
                   </div> -->
                 </div>
                 <div
-                  v-if="!opportunity.answers[0].quote"
+                  v-if="!opportunity.answers[0].quote && opportunity.besoin_statut.code === 'PUB'"
                   class="row mt-3"
                 >
                   <div class="col-4 mx-auto">
@@ -80,12 +80,28 @@
                       data-target="#quoteModal"
                       class="btn button_skb_yellow"
                     >
-                      Envoyer le devis
+                      {{ $t('besoin.send_quote') }}
                     </button>
                   </div>
                 </div>
                 <div
-                  v-else
+                  v-else-if="!opportunity.answers[0].quote && opportunity.besoin_statut.code !== 'PUB'"
+                  class="row mt-3"
+                >
+                  <div class="col-4 mx-auto">
+                    <button
+                      class="btn btn_skb_green_disabled"
+                    >
+                      <font-awesome-icon
+                        class="mr-2"
+                        :icon="['fas', 'book-dead']"
+                      />
+                      {{ $t('besoin.expirated') }}
+                    </button>
+                  </div>
+                </div>
+                <div
+                  v-else-if="opportunity.answers[0].quote"
                   class="row mt-3"
                 >
                   <div class="col-4 mx-auto">
@@ -96,7 +112,7 @@
                         class="mr-2"
                         :icon="['fas', 'paper-plane']"
                       />
-                      Devis envoyé
+                      {{ $t('besoin.quote_sent') }}
                     </button>
                   </div>
                 </div>

@@ -60,7 +60,7 @@
                       :key="'message_' + errorText"
                       class="line-height-1"
                     >
-                      <span class="fontSize10 redtxt">{{ errorText }}</span>
+                      <span class="fontSize10 red-skb">{{ errorText }}</span>
                     </div>
                   </fieldset>
                 </div>
@@ -170,7 +170,7 @@
           this.loading = false;
           this.formFields = _.cloneDeep(this.emptyFormFields);
           // this.initialFormFields = _.cloneDeep(this.emptyFormFields);
-          // this.$removeFormErrors();
+          this.$removeFormErrors();
           this.$emit('cancel-form');
         }, 150);
       },

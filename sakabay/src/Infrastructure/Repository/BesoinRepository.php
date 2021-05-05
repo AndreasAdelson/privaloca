@@ -40,11 +40,21 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
             ->andWhere('author.id = :utilisateurId')
             ->setParameter('utilisateurId', $utilisateur);
 
-        if (!empty($codeStatut)) {
+        if (is_array($codeStatut) && !empty($codeStatut)) {
+            $orStatements = $qb->expr()->orX();
+            $qb->leftJoin('b.besoinStatut', 'besoinStatut');
+            foreach ($codeStatut as $codeStatutCode) {
+                $orStatements->add(
+                    $qb->expr()->like('besoinStatut.code', $qb->expr()->literal('%' . $codeStatutCode . '%'))
+                );
+            }
+            $qb->orWhere($orStatements);
+        } else if (!empty($codeStatut)) {
             $qb->leftJoin('b.besoinStatut', 'besoinStatut')
                 ->andWhere('besoinStatut.code = :codeStatut')
                 ->setParameter('codeStatut', $codeStatut);
         }
+        
         if (!empty($company)) {
             $qb->leftJoin('b.company', 'company')
                 ->andWhere('company.id = :companyId')
@@ -99,13 +109,16 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
         $isCounting = 'false',
         $company = 'false'
     ) {
+        $pubState = 'PUB';
+
         $qb = $this->createQueryBuilder('b');
         if ($isCounting === 'true') {
             $qb->select('count(DISTINCT b.id)');
         }
+
         if (is_array($sousCategory) && !empty($sousCategory)) {
             $qb->leftJoin('b.category', 'category')
-                ->andWhere('category.code =:category')
+                ->andWhere('category.code = :category')
                 ->setParameter('category', $category);
             $qb->leftJoin('b.sousCategorys', 'sousCategory');
             $orStatements = $qb->expr()->orX();
@@ -129,6 +142,9 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
             $qb->leftJoin('b.company', 'company')
                 ->andWhere('company IS NOT NULL');
         }
+        $qb->leftJoin('b.besoinStatut', 'besoinStatut')
+            ->andWhere('besoinStatut.code = :besoinStatut')
+            ->setParameter('besoinStatut', $pubState);
         if ($isCounting === 'true') {
             return $qb->getQuery()->getSingleScalarResult();
         }

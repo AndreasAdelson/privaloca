@@ -59,6 +59,20 @@ class BesoinStatut
     private $code;
 
     /**
+     * @var integer
+     * @Expose
+     * @Groups({
+     * "api_besoin_statut",
+     * "api_admin_companies",
+     * "api_companies",
+     * "api_dashboard_utilisateur",
+     * "api_besoins",
+     * "api_besoins_utilisateur"
+     * })
+     */
+    private $priority;
+
+    /**
      * @var Besoin[]
      * @Expose
      * @Groups({
@@ -115,6 +129,27 @@ class BesoinStatut
     public function setCode(string $code)
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of priority
+     * @return  int
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    /**
+     * Set the value of priority
+     * @param  int  $priority
+     * @return  self
+     */
+    public function setPriority(int $priority)
+    {
+        $this->priority = $priority;
 
         return $this;
     }

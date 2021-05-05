@@ -48,7 +48,7 @@
         </div>
       </div> -->
     </div>
-    <div class="col-1 mr-1 button-row">
+    <!-- <div class="col-1 mr-1 button-row">
       <button class="btn btn-success w-100 mb-1">
         <font-awesome-icon :icon="['fas', 'fa-sync-alt']" />
         Relancer
@@ -57,7 +57,7 @@
         <font-awesome-icon :icon="['fas', 'fa-ban']" />
         Supprimer
       </button>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

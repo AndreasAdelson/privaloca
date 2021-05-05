@@ -112,6 +112,21 @@ App\Domain\Model\Company:
             mappedBy: company
             cascade: [persist]
             nullable: true
+        besoinSelected:
+            targetEntity: Besoin
+            mappedBy: companySelected
+            cascade: [persist]
+            nullable: true
+        comments:
+            targetEntity: Comment
+            mappedBy: company
+            cascade: [persist]
+            nullable: true
+        authorComments:
+            targetEntity: Comment
+            mappedBy: authorCompany
+            cascade: [persist]
+            nullable: true
 
     manyToMany:
         sousCategorys:

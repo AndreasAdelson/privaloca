@@ -46,6 +46,11 @@ class BesoinStatutService
         return $this->besoinStatutRepository->findOneBy(['code' => $code]);
     }
 
+    public function getBesoinStatutsWithoutPUB(): ?array
+    {
+        return $this->besoinStatutRepository->getBesoinStatutsWithoutPUB();
+    }
+
     /**
      * Retourne une page, potentiellement triée et filtrée.
      *

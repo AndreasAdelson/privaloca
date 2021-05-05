@@ -21,6 +21,11 @@ class SubscriptionController extends AbstractController
      */
     public function index()
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        } else if (empty($this->getUser()->getCompanys())) {
+            throw new NotFoundHttpException('Error !');
+        }
         return $this->render('abonnement/index.html.twig', [
             'controller_name' => 'UtilisateurController',
         ]);
@@ -36,12 +41,11 @@ class SubscriptionController extends AbstractController
             return $this->redirectToRoute('app_login');
         } else if (empty($this->getUser()->getCompanys())) {
             throw new NotFoundHttpException('Error !');
-        } else {
-            return $this->render('abonnement/details/index.html.twig', [
-                'controller_name' => 'CompanyController',
-                'utilisateurId' => $this->getUser()->getId(),
-                'subscriptionName' => $slug
-            ]);
         }
+        return $this->render('abonnement/details/index.html.twig', [
+            'controller_name' => 'CompanyController',
+            'utilisateurId' => $this->getUser()->getId(),
+            'subscriptionName' => $slug
+        ]);
     }
 }

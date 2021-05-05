@@ -49,7 +49,7 @@
                     <div
                       v-for="(pendingQuote, index) in printedEntities"
                       :key="'pendingQuote_' + index"
-                      :class="pendingQuote.answers[0].quote ? '' : 'yellow_on_waiting'"
+                      :class="setColorCard(pendingQuote)"
                       class="service-card mb-2 px-3 pt-3 border"
                     >
                       <quote-card
@@ -173,6 +173,17 @@
           this.loading = false;
         });
       },
+      setColorCard(pendingQuote) {
+        let cssClass = '';
+        if (!pendingQuote.answers[0].quote && pendingQuote.besoin_statut.code === 'PUB') {
+          cssClass = 'yellow-light-bg-skb';
+        } else if (!pendingQuote.answers[0].quote && pendingQuote.besoin_statut.code !== 'PUB') {
+          cssClass = 'blue-light-bg-skb';
+        } else if (pendingQuote.answers[0].quote) {
+          cssClass = 'green-light-bg-skb';
+        }
+        return cssClass;
+      }
     },
   };
 </script>

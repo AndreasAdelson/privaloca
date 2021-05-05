@@ -10645,6 +10645,11 @@ vue-property-decorator@8.3.0:
   dependencies:
     vue-class-component "^7.1.0"
 
+vue-rate-it@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/vue-rate-it/-/vue-rate-it-2.1.0.tgz#4c016aa56a5e2fa3a0e87e2fcd3d8280fea1404e"
+  integrity sha1-TAFqpWpeL6Og6H4vzT2CgP6hQE4=
+
 vue-router@^3.3.4:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.3.4.tgz#4e38abc34a11c41b6c3d8244449a2e363ba6250b"

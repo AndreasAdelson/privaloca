@@ -11,8 +11,8 @@
         <div class="row navigation-opportunities">
           <button
             class="btn col-4 py-2 links"
-            :class="clientList ? 'active': ''"
-            @click="clientListCliqued()"
+            :class="customerList ? 'active': ''"
+            @click="customerListCliqued()"
           >
             <font-awesome-icon
               class="grey-skb fontSize24 mr-2"
@@ -61,7 +61,7 @@
       </div>
     </div>
     <customer-list
-      v-show="clientList"
+      v-show="customerList"
       :utilisateur-id="utilisateurId"
       :company-selected="companySelected"
     />
@@ -97,7 +97,7 @@
     },
     data() {
       return {
-        clientList: true,
+        customerList: true,
         companyList: false,
         quoteList: false,
         loading: true,
@@ -108,6 +108,7 @@
       };
     },
     async created() {
+      this.setPageByUrlParameter();
       let promises = [];
       promises.push(axios.get('/api/companies/utilisateur/' + this.utilisateurId));
       return Promise.all(promises).then(res => {
@@ -125,22 +126,49 @@
       });
     },
     methods: {
-      clientListCliqued() {
+      customerListCliqued() {
         this.companyList = false;
         this.quoteList = false;
-        this.clientList = true;
+        this.customerList = true;
       },
 
       companyListCliqued() {
         this.quoteList = false;
-        this.clientList = false;
+        this.customerList = false;
         this.companyList = true;
       },
 
       quoteListCliqued() {
-        this.clientList = false;
+        this.customerList = false;
         this.companyList = false;
         this.quoteList = true;
+      },
+
+      setPageByUrlParameter() {
+        let page = this.getUrlParameter('page');
+        if (page === 'quote') {
+          this.quoteListCliqued();
+        } else if (page === 'company') {
+          this.companyListCliqued();
+        } else if (page === 'customer') {
+          this.customerListCliqued();
+        } else {
+          this.customerListCliqued();
+        }
+      },
+      getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+        for (i = 0; i < sURLVariables.length; i++) {
+          sParameterName = sURLVariables[i].split('=');
+
+          if (sParameterName[0] === sParam) {
+            return typeof sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+          }
+        }
+        return false;
       }
     }
   };

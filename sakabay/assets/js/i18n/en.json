@@ -291,11 +291,13 @@
     "title": "List of service status",
     "fields": {
       "name": "Service status",
-      "code": "Code number"
+      "code": "Code number",
+      "priority": "Priority drop-down list"
     },
     "placeholder": {
       "name": "Enter a name",
-      "code": "Enter code number"
+      "code": "Enter code number",
+      "priority": "Enter a number"
     }
   },
   "besoin": {
@@ -310,6 +312,8 @@
     "request_quote": "Resquest a quote",
     "quote_requested": "Quote pending",
     "quote_sent": "Quote sent",
+    "send_quote": "Send quote",
+    "expirated": "Expirated request ",
     "placeholder": {
       "title": "Title of the request",
       "description": "Describe your need",
@@ -332,6 +336,24 @@
     "modal_send_besoin": {
       "title": "Confirmation of the service request",
       "text": "You are about to make a service request as « {0} ». Are you sure you want to make this request?"
+    },
+    "modal_manage": {
+      "title": "Service demand management :",
+      "field": {
+        "company": "Select company",
+        "message": "Leave a comment",
+        "note": "Rate the service"
+      },
+      "placeholder": {
+        "besoin_statut": "Select an option",
+        "message": "Maximum 1500 characters"
+      },
+      "message": {
+        "EXP": "I found a solution other than those presented to me",
+        "ARC": "The service request has been concluded with a company of the application",
+        "ERR": "I made a mistake I want to delete this request",
+        "AUT": "Other"
+      }
     }
   },
   "opportunity": {
@@ -357,7 +379,8 @@
       "no_individual_request": "You have no requests for quotes from individual.",
       "no_company_request": "You have no requests for quotes from companies.",
       "recap": {
-        "title": "Summary of the opportunity"
+        "title": "Summary of the opportunity",
+        "recap": "Summary"
       },
       "modal_answer": {
         "title": "Response to the request for quotation",

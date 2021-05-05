@@ -28,6 +28,9 @@ class UtilisateurController extends AbstractController
      */
     public function usersList(AuthorizationCheckerInterface $authorizationChecker): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/utilisateur/index.html.twig', [
             'canEdit' => $authorizationChecker->isGranted('ROLE_UUTILISATEUR'),
             'canDelete' => $authorizationChecker->isGranted('ROLE_DUTILISATEUR'),
@@ -42,6 +45,9 @@ class UtilisateurController extends AbstractController
      */
     public function editUserAdmin(int $id)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/utilisateur/edituser.html.twig', [
             'utilisateurId' => $id,
         ]);
@@ -53,7 +59,9 @@ class UtilisateurController extends AbstractController
      */
     public function showUserAdmin(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
-
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/utilisateur/show.html.twig', [
             'utilisateurId' => $id,
             'canEdit' => $authorizationChecker->isGranted('ROLE_UUTILISATEUR'),
@@ -67,6 +75,9 @@ class UtilisateurController extends AbstractController
      */
     public function editUser(int $id)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         if ($this->getUser()->getId() != $id) {
             throw new AccessDeniedException('Ceci n\'est pas ta page');
         }

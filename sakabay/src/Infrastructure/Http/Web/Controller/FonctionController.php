@@ -15,6 +15,9 @@ class FonctionController extends AbstractController
      */
     public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/fonction/index.html.twig', [
             'canDelete' => $authorizationChecker->isGranted('ROLE_DFONCTION'),
             'canCreate' => $authorizationChecker->isGranted('ROLE_CFONCTION'),

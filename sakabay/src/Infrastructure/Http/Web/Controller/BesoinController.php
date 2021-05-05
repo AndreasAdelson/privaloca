@@ -33,6 +33,9 @@ class BesoinController extends AbstractController
      */
     public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('admin/group/index.html.twig', [
             'canCreate' => $authorizationChecker->isGranted('ROLE_CGROUP'),
             'canRead' => $authorizationChecker->isGranted('ROLE_RGROUP'),

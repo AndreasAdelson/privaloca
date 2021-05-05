@@ -70,6 +70,14 @@ App\Domain\Model\Besoin:
                 name: id_company
                 referencedColumnName: id
                 nullable: true
+        companySelected:
+            targetEntity: Company
+            cascade: [persist]
+            inversedBy: besoinSelected
+            joinColumn:
+                name: id_company_selected
+                referencedColumnName: id
+                nullable: true
     manyToMany:
         sousCategorys:
             targetEntity: SousCategory
@@ -90,5 +98,11 @@ App\Domain\Model\Besoin:
             orphanRemoval: true
             cascade: [persist]
             mappedBy: besoin
+    oneToOne:
+        comment:
+            targetEntity: Comment
+            mappedBy: besoin
+            cascade: [persist]
+            nullable: true
 
 

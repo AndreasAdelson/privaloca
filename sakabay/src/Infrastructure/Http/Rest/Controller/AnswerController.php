@@ -8,7 +8,6 @@ use App\Application\Service\AnswerService;
 use App\Application\Service\FileUploader;
 use App\Domain\Model\Answer;
 use App\Infrastructure\Factory\NotificationFactory;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -16,21 +15,17 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View;
-use Gedmo\Exception\UploadableMaxSizeException;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
-use Symfony\Component\Filesystem\Exception\ExceptionInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class AnswerController extends AbstractFOSRestController
 {
@@ -209,7 +204,7 @@ final class AnswerController extends AbstractFOSRestController
 
         //Notification à l'entreprise
         $companyOwner = $answer->getCompany()->getUtilisateur();
-        $ressourceLocation = $this->generateUrl('opportunity_list');
+        $ressourceLocation = $this->generateUrl('opportunity_list', ['page' => 'quote']);
         $this->notificationFactory->requestQuoteNotification([$companyOwner], $ressourceLocation, $answer);
 
         //Changement du champ requestQuote à vrai
@@ -231,6 +226,13 @@ final class AnswerController extends AbstractFOSRestController
 
         if (!$answer) {
             throw new EntityNotFoundException('Answer with id ' . $answerId . ' does not exist!');
+        }
+
+        $besoinStatut = $answer->getBesoin()->getBesoinStatut()->getCode();
+        if ($besoinStatut !== 'PUB') {
+            return View::create([], Response::HTTP_BAD_REQUEST, [
+                'X-Message' => rawurlencode($this->translator->trans('error_send_quote')),
+            ]);
         }
         $companyOwnerId = $answer->getCompany()->getUtilisateur()->getId();
         $request->request->remove('utilisateur');
@@ -279,7 +281,7 @@ final class AnswerController extends AbstractFOSRestController
                         'X-Message' => 'File not found exception',
                     ]);
                 }
-                $ressourceLocation = $this->generateUrl('opportunity_recap', ['id' => $answer->getBesoin()->getId(), 'slug' => $answer->getCompany()->getUrlName()]);
+                $ressourceLocation = $this->generateUrl('opportunity_list', ['page' => 'quote']);
                 return View::create([], Response::HTTP_OK, ['Location' => $ressourceLocation]);
             }
             return View::create([], Response::HTTP_BAD_REQUEST, [

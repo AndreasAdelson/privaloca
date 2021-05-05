@@ -47,28 +47,12 @@
         <div class="col-1 my-auto">
           <button
             class="btn btn-success w-100 mb-1"
-          >
-            <font-awesome-icon :icon="['fas', 'check']" />
-            {{ $t('besoin.close') }}
-          </button>
-          <button
-            class="btn button_skb_yellow mb-1"
-            :href="'/services/edit/' + pendingBesoin.id"
-          >
-            <font-awesome-icon
-              class="mr-1"
-              :icon="['fas', 'pencil-alt']"
-            />
-            {{ $t('commons.edit') }}
-          </button>
-          <button
-            class="btn button_skb mb-1"
             data-toggle="modal"
-            :data-target="'#' + DELETE_CONFIRM_MODAL_ID"
-            @click.prevent="cancelRequest()"
+            :data-target="'#' + modalManageId"
+            @click.prevent="manageRequest(pendingBesoin)"
           >
-            <font-awesome-icon :icon="['fas', 'ban']" />
-            {{ $t('commons.cancel') }}
+            <font-awesome-icon :icon="['fas', 'edit']" />
+            {{ $t('besoin.close') }}
           </button>
         </div>
       </div>
@@ -105,7 +89,7 @@
           <div
             v-for="(answer, index) in pendingBesoin.answers"
             :key="'answer_' + index"
-            :class="setStatusAnswer(answer)"
+            :class="setStatutsAnswer(answer)"
             class="row mt-2 answer-card"
           >
             <div class="col-12">
@@ -143,7 +127,7 @@
                     v-if="!answer.request_quote && !answer.quote"
                     :disabled="loading"
                     data-toggle="modal"
-                    :data-target="'#' + REQUEST_QUOTE_MODAL_ID"
+                    :data-target="'#' + requestQuoteId"
                     class="btn button_skb_white w-100 mb-1"
                     @click.prevent="requestQuote(answer.company.name, answer.id, index)"
                   >
@@ -201,12 +185,18 @@
       pendingBesoin: {
         type: Object,
         default: null
+      },
+      modalManageId: {
+        type: String,
+        default: ''
+      },
+      requestQuoteId: {
+        type: String,
+        default: ''
       }
     },
     data() {
       return {
-        REQUEST_QUOTE_MODAL_ID: 'request_quoteModal',
-        DELETE_CONFIRM_MODAL_ID: 'delete_confirmModal',
         iconArrow: 'chevron-right'
       };
     },
@@ -219,8 +209,8 @@
       }
     },
     methods: {
-      cancelRequest() {
-        this.$emit('delete-modal-opened');
+      manageRequest(besoin) {
+        this.$emit('manage-modal-opened', {besoin: besoin});
       },
       requestQuote(companyName, answerId, answerIndex) {
         this.$emit('request-quote-modal-opened', {company_name: companyName, answer_id: answerId, answer_index: answerIndex});
@@ -232,7 +222,7 @@
           this.iconArrow = 'chevron-right';
         }
       },
-      setStatusAnswer(answer) {
+      setStatutsAnswer(answer) {
         let cssClass;
         if (!answer.request_quote && !answer.quote) {
           cssClass = 'yellow-light-bg-skb';

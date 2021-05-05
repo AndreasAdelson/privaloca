@@ -22,6 +22,11 @@ App\Domain\Model\BesoinStatut:
             length: 100
             column: code
             nullable: false
+        priority:
+            type: integer
+            length: 5
+            column: priority
+            nullable: false
     oneToMany:
         besoins:
             targetEntity: Besoin

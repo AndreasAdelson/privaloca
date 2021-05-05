@@ -31,12 +31,14 @@ class FixBesoinStatut extends Fixture implements
         foreach ($lines as $data) {
             list(
                 $name,
-                $code
+                $code,
+                $priority
             ) = explode(';', trim($data));
 
             $besoinStatut = new BesoinStatut();
             $besoinStatut->setName($name);
             $besoinStatut->setCode($code);
+            $besoinStatut->setPriority($priority);
             $manager->persist($besoinStatut);
             $this->addReference('besoinStatut_' . $code, $besoinStatut);
         }

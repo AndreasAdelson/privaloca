@@ -124,6 +124,19 @@ final class BesoinStatutController extends AbstractFOSRestController
     }
 
     /**
+     * @Rest\View(serializerGroups={"api_besoin_statut"})
+     * @Rest\Get("besoin-statuts")
+     *
+     * @return View
+     */
+    public function getBesoinStatutsWithoutPUB(): View
+    {
+        $besoinStatuts = $this->besoinStatutService->getBesoinStatutsWithoutPUB();
+
+        return View::create($besoinStatuts, Response::HTTP_OK);
+    }
+
+    /**
      * @Rest\View()
      * @Rest\Post("admin/besoin-statuts/{besoinStatutId}")
      * @Security("is_granted('ROLE_UGROUP')")

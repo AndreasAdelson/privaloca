@@ -291,11 +291,13 @@
     "title": "Liste des statuts d'un service",
     "fields": {
       "name": "Statut du service",
-      "code": "Code du statut"
+      "code": "Code du statut",
+      "priority": "Priorité liste déroulante"
     },
     "placeholder": {
       "name": "Renseignez un statut",
-      "code": "Renseignez un Code du statut"
+      "code": "Renseignez un Code du statut",
+      "priority": "Renseignez un nombre"
     }
   },
   "besoin": {
@@ -310,6 +312,8 @@
     "request_quote": "Demander un devis",
     "quote_requested": "Devis en attente",
     "quote_sent": "Devis envoyé",
+    "send_quote": "Envoyer le devis",
+    "expirated": "Demande expirée",
     "placeholder": {
       "title": "Titre de la demande",
       "description": "Décrivez votre besoin",
@@ -332,6 +336,24 @@
     "modal_send_besoin": {
       "title": "Confirmation de la demande de service",
       "text": "Vous êtes sur le point de réaliser une demande de service en tant que « {0} ». Êtes-vous sur de vouloir réaliser cette demande ?"
+    },
+    "modal_manage": {
+      "title": "Gestion de la demande de service :",
+      "field": {
+        "company": "Sélectionnez l'entreprise",
+        "message": "Laissez votre avis",
+        "note": "Notez la prestation"
+      },
+      "placeholder": {
+        "besoin_statut": "Sélectionnez une option",
+        "message": "Maximum 1500 caractères"
+      },
+      "message": {
+        "EXP": "J'ai trouvé une autre solution  que celles qui m'ont été présentées",
+        "ARC": "La demande de service à été conclus avec une entreprise ayant répondue",
+        "ERR": "J'ai fait une erreur, je souhaite supprimer cette demande.",
+        "AUT": "Autre"
+      }
     }
   },
   "opportunity": {
@@ -357,7 +379,8 @@
       "no_individual_request": "Vous n'avez aucune demande de devis particuliers.",
       "no_company_request": "Vous n'avez aucune demande de devis entreprises.",
       "recap": {
-        "title": "Récapitulatif de l'opportunité"
+        "title": "Récapitulatif de l'opportunité",
+        "recap": "Récapitulatif"
       },
       "modal_answer": {
         "title": "Réponse à la demande de devis",

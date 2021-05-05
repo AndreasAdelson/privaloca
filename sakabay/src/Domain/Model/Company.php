@@ -36,6 +36,7 @@ class Company
      * "api_utilisateurs",
      * "api_dashboard_utilisateur",
      * "api_besoins",
+     * "api_besoins_utilisateur"
      * })
      */
     private $id;
@@ -198,6 +199,36 @@ class Company
      */
     private $besoins;
 
+    /**
+     * @var Besoin[]
+     * @Expose
+     * @Groups({
+     * "api_companies",
+     * "api_admin_companies"
+     * })
+     */
+    private $besoinSelected;
+
+    /**
+     * @var Comment[]
+     * @Expose
+     * @Groups({
+     * "api_companies",
+     * "api_admin_companies"
+     * })
+     */
+    private $comments;
+
+    /**
+     * @var Comment[]
+     * @Expose
+     * @Groups({
+     * "api_companies",
+     * "api_admin_companies"
+     * })
+     */
+    private $authorComments;
+
 
     /**
      * @var string
@@ -223,6 +254,9 @@ class Company
         $this->sousCategorys =  new ArrayCollection();
         $this->answers =  new ArrayCollection();
         $this->besoins =  new ArrayCollection();
+        $this->besoinSelected =  new ArrayCollection();
+        $this->comments =  new ArrayCollection();
+        $this->authorComments =  new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -519,7 +553,88 @@ class Company
         return $this;
     }
 
-        /**
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getAuthorComments(): Collection
+    {
+        return $this->authorComments;
+    }
+
+    public function addAuthorComment(Comment $authorComment): self
+    {
+        if (!$this->authorComments->contains($authorComment)) {
+            $this->authorComments[] = $authorComment;
+            $authorComment->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAuthorComment(Comment $authorComment): self
+    {
+        if ($this->authorComments->contains($authorComment)) {
+            $this->authorComments->removeElement($authorComment);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Besoin[]
+     */
+    public function getBesoinSelecteds(): Collection
+    {
+        return $this->besoinSelected;
+    }
+
+    public function addBesoinSelected(Besoin $besoinSelected): self
+    {
+        if (!$this->besoinSelected->contains($besoinSelected)) {
+            $this->besoinSelected[] = $besoinSelected;
+            $besoinSelected->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBesoinSelected(Besoin $besoinSelected): self
+    {
+        if ($this->besoinSelected->contains($besoinSelected)) {
+            $this->besoinSelected->removeElement($besoinSelected);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection|Besoin[]
      */
     public function getBesoins(): Collection

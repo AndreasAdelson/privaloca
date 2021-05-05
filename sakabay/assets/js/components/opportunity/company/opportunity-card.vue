@@ -7,7 +7,7 @@
             <span class="bold">{{ $capitalise(opportunity.title) }}</span>
           </div>
         </div>
-        <div class="col-1 text-right black-light-skb fontSize14">
+        <div class="col-2 text-right black-light-skb fontSize14">
           <span>{{ $getDateLabel(opportunity.dt_created) }}</span>
         </div>
       </div>

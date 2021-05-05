@@ -1,0 +1,50 @@
+App\Domain\Model\Comment:
+    type: entity
+    table: comment
+    options:
+        comment: Entité représentant un commentaire/avis.
+
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+            options:
+                comment: Identifiant technique d'un commentaire/avis
+    fields:
+        message:
+            type: string
+            length: 191
+            column: message
+            nullable: true
+        note:
+            type: decimal
+            precision: 2
+            scale: 1
+            column: note
+            nullable: false
+
+    manyToOne:
+        company:
+            targetEntity: Company
+            inversedBy: comments
+            nullable: false
+        utilisateur:
+            targetEntity: Utilisateur
+            inversedBy: comments
+            nullable: false
+        authorCompany:
+            targetEntity: Company
+            inversedBy: authorComments
+            nullable: true
+    oneToOne:
+        besoin:
+            targetEntity: Besoin
+            inversedBy: comment
+            joinColumn:
+                name: id_besoin
+                referencedColumnName: id
+                nullable: true
+            cascade: [persist]
+            options:
+                default: null

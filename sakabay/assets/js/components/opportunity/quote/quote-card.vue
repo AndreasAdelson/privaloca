@@ -9,7 +9,7 @@
                 <span class="bold">{{ $capitalise(pendingQuote.title) }}</span>
               </div>
             </div>
-            <div class="col-1 text-right black-light-skb fontSize14">
+            <div class="col-2 text-right black-light-skb fontSize14">
               <span>{{ $getDateLabel(pendingQuote.dt_created) }}</span>
             </div>
           </div>
@@ -25,14 +25,15 @@
             <div class="col-2">
               <a
                 :href="'/opportunities/recap/' + pendingQuote.id + '/' + companySelected.url_name"
-                target="_blank"
                 class="btn button_skb_yellow"
               >
                 <font-awesome-icon
                   class="mr-2"
                   :icon="['fas', 'file-alt']"
                 />
-                <span>Récapitulatif</span>
+                <span>
+                  {{ $t('opportunity.quote.recap.recap') }}
+                </span>
               </a>
             </div>
           </div>

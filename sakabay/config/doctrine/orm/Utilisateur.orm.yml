@@ -79,4 +79,8 @@ App\Domain\Model\Utilisateur:
             targetEntity: Besoin
             mappedBy: author
             nullable: true
-
+        comments:
+            targetEntity: Comment
+            mappedBy: utilisateur
+            nullable: true
+    

@@ -68,6 +68,32 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <fieldset
+                  id="priority"
+                  class="priority"
+                >
+                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('besoin_statut.fields.priority') }}</label>
+                  <input
+                    v-model="formFields.priority"
+                    v-validate="'required'"
+                    type="text"
+                    name="priority"
+                    class="form-control"
+                    :placeholder="$t('besoin_statut.placeholder.priority')"
+                  >
+                  <div
+                    v-for="errorText in formErrors.priority"
+                    :key="'priority_' + errorText"
+                  >
+                    <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
           <div class="row my-3">
             <div class="col-6 offset-3">
               <button
@@ -109,10 +135,12 @@
         formFields: {
           name: null,
           code: null,
+          priority: null,
         },
         formErrors: {
           name: [],
           code: [],
+          priority: []
         }
       };
     },

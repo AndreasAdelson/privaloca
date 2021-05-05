@@ -60,7 +60,7 @@
                       :key="'message_' + errorText"
                       class="line-height-1"
                     >
-                      <span class="fontSize10 redtxt">{{ errorText }}</span>
+                      <span class="fontSize10 red-skb">{{ errorText }}</span>
                     </div>
                   </fieldset>
                 </div>
@@ -171,7 +171,7 @@
           this.loading = false;
           this.formFields = _.cloneDeep(this.emptyFormFields);
           // this.initialFormFields = _.cloneDeep(this.emptyFormFields);
-          // this.$removeFormErrors();
+          this.$removeFormErrors();
           this.$emit('cancel-form');
         }, 150);
       },
@@ -186,9 +186,17 @@
         return axios.post('/api/answer', formData).then(response => {
           EventBus.$emit('answer-modal-submited', {id: this.opportunity.id, value: true});
         }).catch(e => {
-          if (e.response && e.response.status && e.response.status == 400) {
-            // this.$handleFormError(e.response.data);
-            console.log(e.response.data);
+          if (e.response && e.response.status && e.response.status === 400) {
+            if (e.response.headers['x-message']) {
+              this.errorMessage = decodeURIComponent(e.response.headers['x-message']);
+              this.loading = false;
+            } else {
+              this.$handleFormError(e.response.data);
+              this.loading = false;
+            }
+          } else {
+            this.$handleError(e);
+            this.loading = false;
           }
           this.$emit('answer-modal-submit-error');
         });

@@ -10,7 +10,7 @@ require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
 require('vue2-autocomplete-js/dist/style/vue2-autocomplete.css');
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faChevronRight, faChevronDown, faSearch, faEdit, faTrash, faEye, faTimes, faArrowAltCircleDown, faLongArrowAltLeft, faCity, faBuilding, faInbox, faCalendarAlt, faCalendar, faInfoCircle, faDesktop, faCubes, faCheck, faHistory, faExclamationTriangle, faMapMarkerAlt, faFileAlt, faPhone, faLink, faHome, faGem, faCopy, faPaste, faBookOpen, faAddressCard, faUsers, faUserPlus, faCartPlus, faUndoAlt, faClock, faPencilAlt,faThumbsDown, faSync, faBan,faPlusCircle,faBars,faArrowLeft, faCaretRight, faKey, faArrowAltCircleLeft, faArrowAltCircleRight, faMapPin, faChild, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faChevronDown, faSearch, faEdit, faTrash, faEye, faTimes, faArrowAltCircleDown, faLongArrowAltLeft, faCity, faBuilding, faInbox, faCalendarAlt, faCalendar, faInfoCircle, faDesktop, faCubes, faCheck, faHistory, faExclamationTriangle, faMapMarkerAlt, faFileAlt, faPhone, faLink, faHome, faGem, faCopy, faPaste, faBookOpen, faAddressCard, faUsers, faUserPlus, faCartPlus, faUndoAlt, faClock, faPencilAlt,faThumbsDown, faSync, faBan,faPlusCircle,faBars,faArrowLeft, faCaretRight, faKey, faArrowAltCircleLeft, faArrowAltCircleRight, faMapPin, faChild, faPaperPlane, faClipboardCheck, faBookDead } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'es6-promise/auto';
 import 'bootstrap';
@@ -87,6 +87,7 @@ import OpportunityList from './components/opportunity';
 import OpportunityRecap from './components/opportunity/quote/show';
 import 'utils/logger';
 import Nl2br from 'vue-nl2br';
+import Raters from 'vue-rate-it';
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
@@ -146,7 +147,7 @@ var filter = function(text, length, clamp){
 };
 
 Vue.filter('truncate', filter);
-library.add(faChevronRight, faChevronDown, faSearch, faEdit, faTrash, faEye, faTimes, faArrowAltCircleDown, faArrowAltCircleLeft, faArrowAltCircleRight, faLongArrowAltLeft, faCity, faBuilding, faInbox, faCalendarAlt, faCalendar, faInfoCircle, faDesktop, faCubes, faCheck, faHistory, faExclamationTriangle, faMapMarkerAlt, faFileAlt, faPhone, faLink, faHome, faGem, faCopy, faPaste, faBookOpen, faAddressCard, faUsers, faUserPlus, faCartPlus, faUndoAlt, faClock, faPencilAlt,faThumbsDown, faSync, faBan,faPlusCircle,faBars,faArrowLeft, faCaretRight, faKey, faMapPin, faChild, faPaperPlane);
+library.add(faChevronRight, faChevronDown, faSearch, faEdit, faTrash, faEye, faTimes, faArrowAltCircleDown, faArrowAltCircleLeft, faArrowAltCircleRight, faLongArrowAltLeft, faCity, faBuilding, faInbox, faCalendarAlt, faCalendar, faInfoCircle, faDesktop, faCubes, faCheck, faHistory, faExclamationTriangle, faMapMarkerAlt, faFileAlt, faPhone, faLink, faHome, faGem, faCopy, faPaste, faBookOpen, faAddressCard, faUsers, faUserPlus, faCartPlus, faUndoAlt, faClock, faPencilAlt,faThumbsDown, faSync, faBan,faPlusCircle,faBars,faArrowLeft, faCaretRight, faKey, faMapPin, faChild, faPaperPlane, faClipboardCheck, faBookDead);
 
 
 // eslint-disable-next-line vue/component-definition-name-casing
@@ -156,6 +157,14 @@ Vue.component('VMap', LMap);
 Vue.component('VTileLayer', LTileLayer);
 Vue.component('VMarker', LMarker);
 Vue.component('Nl2br', Nl2br);
+// eslint-disable-next-line vue/component-definition-name-casing
+Vue.component('star-rating', Raters.StarRating);
+// eslint-disable-next-line vue/component-definition-name-casing
+Vue.component('heart-rating', Raters.HeartRating);
+// eslint-disable-next-line vue/component-definition-name-casing
+Vue.component('fa-rating', Raters.FaRating);
+// eslint-disable-next-line vue/component-definition-name-casing
+Vue.component('image-rating', Raters.ImageRating);
 
 Vue.config.productionTip = false;
 new Vue({

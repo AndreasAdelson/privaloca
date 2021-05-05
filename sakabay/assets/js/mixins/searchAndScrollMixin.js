@@ -24,17 +24,17 @@ export default {
        * @param {*} entry
        */
       scroll(isVisible, url, params, entry, page) {
+        if (this.nbResultPending <= this.nbMaxResult) {
+          this.bottom = true;
+        }
+        if (this.nbResultExpired <= this.nbMaxResult) {
+          this.bottom2 = true;
+        }
         if(!this.bottom) {
-          if ((isVisible && !this.isScrolling) || (isVisible && !this.isScrolling2)) {
+          if (isVisible && !this.isScrolling) {
             this.isScrolling = true;
-            //Gestion double lazy laoding sur la meme page
-            if (page === 'expiredBesoins') {
-              this.loading3 = true;
-              this.currentPage2++;
-            } else {
-              this.loading2 = true;
-              this.currentPage++;
-            }
+            this.loading2 = true;
+            this.currentPage++;
             return axios.get(url, {params}).then(res => {
               this.isScrolling = false;
               if(page === 'customer') {
@@ -74,9 +74,25 @@ export default {
                   this.bottom = true;
                 }
               }
-
-              else if (page === 'expiredBesoins') {
-                this.isScrolling2 = false;
+              this.loading2 = false;
+            }).catch(e => {
+              this.$handleError(e);
+              if (page === 'expiredBesoins') {
+                this.loading3 = false;
+              } else {
+              this.loading2 = false;
+              }
+            });
+          }
+        }
+        if (!this.bottom2) {
+          if (isVisible && !this.isScrolling2 && page === 'expiredBesoins') {
+            this.loading3 = true;
+            this.currentPage2++;
+            this.isScrolling2 = true;
+            return axios.get(url, {params}).then(res => {
+              this.isScrolling2 = false;
+              if (page === 'expiredBesoins') {
                 if (res.data.length > 0) {
                   this.expiredBesoins = _.unionBy(this.expiredBesoins, res.data, 'id');
                   if (res.data.length < this.nbMaxResult) this.bottom2 = true;
@@ -86,19 +102,13 @@ export default {
                   this.bottom2 = true;
                 }
               }
-              //Si ca vient de expiredBesoin c'est le loader3 qui se charge d'afficher le loader dans la liste.
-              if (page === 'expiredBesoins') {
                 this.loading3 = false;
-              } else {
-                this.loading2 = false;
-              }
-
             }).catch(e => {
               this.$handleError(e);
               if (page === 'expiredBesoins') {
                 this.loading3 = false;
               } else {
-              this.loading2 = false;
+                this.loading2 = false;
               }
             });
           }

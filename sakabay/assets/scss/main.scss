@@ -1725,7 +1725,10 @@ ul.social-footer2 li a {
 
 .modal-quote-centered {
   top: calc(50% - 17.4rem); //A modifier en fonction du height final de la modale quote
+}
 
+.modal-manage-centered {
+  top: calc(50% - 22.4rem); //A modifier en fonction du height final de la modale quote
 }
 
 .answer-card {

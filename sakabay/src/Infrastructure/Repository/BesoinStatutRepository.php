@@ -27,4 +27,17 @@ class BesoinStatutRepository extends AbstractRepository implements BesoinStatutR
         $this->_em->remove($besoinStatut);
         $this->_em->flush($besoinStatut);
     }
+
+    public function getBesoinStatutsWithoutPUB()
+    {
+        $pubState = 'PUB';
+        $qb = $this->createQueryBuilder('bs')
+            ->where('bs.code != :pubState')
+            ->orderBy('bs.priority')
+            ->setParameter('pubState', $pubState);
+
+
+        return $qb->getQuery()
+            ->getResult();
+    }
 }

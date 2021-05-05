@@ -60,7 +60,7 @@
                       :key="'messageEmail_' + errorText"
                       class="line-height-1"
                     >
-                      <span class="fontSize10 redtxt">{{ errorText }}</span>
+                      <span class="fontSize10 red-skb">{{ errorText }}</span>
                     </div>
                   </fieldset>
                 </div>
@@ -221,7 +221,6 @@
           formData.append('file', this.quoteDocumentSelected);
         }
         return axios.post('/api/answers/quote/' + this.opportunity.answers[0].id  + '/send/'+ this.utilisateurId, formData).then(response => {
-          // $('#' + this.ANSWER_OPPORTUNITY_MODAL).hide();
           window.location.assign(response.headers.location);
         }).catch(e => {
           if (e.response && e.response.status && e.response.status === 400) {

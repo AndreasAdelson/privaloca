@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Http\Rest\Controller;
 
+use App\Application\Form\Type\SubscriptionType;
 use App\Application\Service\SubscriptionService;
 use App\Domain\Model\Subscription;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,13 +21,157 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 final class SubscriptionController extends AbstractFOSRestController
 {
     private $subscriptionService;
+    private $translator;
+    private $entityManager;
 
     /**
      * SubscriptionRestController constructor.
      */
-    public function __construct(SubscriptionService $subscriptionService)
+    public function __construct(EntityManagerInterface $entityManager, SubscriptionService $subscriptionService, TranslatorInterface $translator)
     {
+        $this->entityManager = $entityManager;
         $this->subscriptionService = $subscriptionService;
+        $this->translator = $translator;
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Post("admin/subscriptions")
+     * @Security("is_granted('ROLE_ADMIN')")
+     * @param Request $request
+     *
+     * @return View
+     */
+    public function createSubscriptionAdmin(Request $request)
+    {
+        $subscription = new Subscription();
+        $formOptions = ['translator' => $this->translator];
+        $form = $this->createForm(SubscriptionType::class, $subscription, $formOptions);
+        $form->submit($request->request->all());
+        if (!$form->isValid()) {
+            return $form;
+        }
+        $this->entityManager->persist($subscription);
+        $this->entityManager->flush();
+
+        $ressourceLocation = $this->generateUrl('subscription_admin_index');
+
+        return View::create([], Response::HTTP_CREATED, ['Location' => $ressourceLocation]);
+    }
+
+    /**
+     * @Rest\View(serializerGroups={"api_subscriptions"})
+     * @Rest\Get("/admin/subscriptions")
+     *
+     * @QueryParam(name="filterFields",
+     *             default="name",
+     *             description="Liste des champs sur lesquels le filtre s'appuie"
+     * )
+     * @QueryParam(name="filter",
+     *             default="",
+     *             description="Filtre"
+     * )
+     * @QueryParam(name="sortBy",
+     *             default="name",
+     *             description="Champ unique sur lequel s'opère le tri"
+     * )
+     * @QueryParam(name="sortDesc",
+     *             default="false",
+     *             description="Sens du tri"
+     * )
+     * @QueryParam(name="currentPage",
+     *             default="1",
+     *             description="Page courante"
+     * )
+     * @QueryParam(name="perPage",
+     *             default="1000000",
+     *             description="Taille de la page"
+     * )
+     * @return View
+     */
+
+    public function getSubscriptionsAdmin(ParamFetcher $paramFetcher): View
+    {
+        $filterFields = $paramFetcher->get('filterFields');
+        $filter = $paramFetcher->get('filter');
+        $sortBy = $paramFetcher->get('sortBy');
+        $sortDesc = $paramFetcher->get('sortDesc');
+        $currentPage = $paramFetcher->get('currentPage');
+        $perPage = $paramFetcher->get('perPage');
+
+        $pager = $this->subscriptionService
+            ->getPaginatedList($sortBy, 'true' === $sortDesc, $filterFields, $filter, $currentPage, $perPage);
+        $subscriptions = $pager->getCurrentPageResults();
+        $nbResults = $pager->getNbResults();
+        $datas = iterator_to_array($subscriptions);
+        $view = $this->view($datas, Response::HTTP_OK);
+        $view->setHeader('X-Total-Count', $nbResults);
+
+        return $view;
+    }
+    /**
+     * @Rest\View(serializerGroups={"api_subscriptions"})
+     * @Rest\Get("admin/subscriptions/{subscriptionId}")
+     *
+     * @return View
+     */
+    public function getSubscriptionAdmin(int $subscriptionId): View
+    {
+        $subscription = $this->subscriptionService->getSubscription($subscriptionId);
+        if (!$subscription) {
+            throw new EntityNotFoundException('Subscription with id ' . $subscriptionId . ' does not exist!');
+        }
+        return View::create($subscription, Response::HTTP_OK);
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Post("admin/subscriptions/{subscriptionId}")
+     * @Security("is_granted('ROLE_ADMIN')")
+     *
+     * @return View
+     */
+    public function editSubscriptionAdmin(int $subscriptionId, Request $request)
+    {
+        $subscription = $this->subscriptionService->getSubscription($subscriptionId);
+
+        if (!$subscription) {
+            throw new EntityNotFoundException('Subscription with id ' . $subscriptionId . ' does not exist!');
+        }
+
+        $formOptions = [
+            'translator' => $this->translator,
+        ];
+        $form = $this->createForm(SubscriptionType::class, $subscription, $formOptions);
+        $form->submit($request->request->all());
+        if (!$form->isValid()) {
+            return $form;
+        }
+
+        $this->entityManager->persist($subscription);
+        $this->entityManager->flush($subscription);
+
+        $ressourceLocation = $this->generateUrl('subscription_admin_index');
+        return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Delete("admin/subscriptions/{subscriptionId}")
+     * @Security("is_granted('ROLE_ADMIN')")
+     *
+     * @return View
+     */
+    public function deleteSubscriptions(int $subscriptionId): View
+    {
+        try {
+            $this->subscriptionService->deleteSubscription($subscriptionId);
+        } catch (EntityNotFoundException $e) {
+            throw new NotFoundHttpException($e->getMessage());
+        }
+        $ressourceLocation = $this->generateUrl('subscription_admin_index');
+
+        return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
     }
 
     /**

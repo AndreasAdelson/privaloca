@@ -236,6 +236,23 @@
       "name": "Renseignez le nom d'une ville"
     }
   },
+  "advantage": {
+    "title": "Liste des avantages",
+    "title_card": {
+      "free": "Gratuit",
+      "premium": "Premium"
+    },
+    "fields": {
+      "message": "Nom de l'avantage",
+      "code": "Code",
+      "priority": "Priorité d'affichage"
+    },
+    "placeholder": {
+      "message": "Renseignez le nom d'une avantage",
+      "code": "Renseignez le code de l'avantage",
+      "priority": "Renseignez dans l'ordre d'affichage"
+    }
+  },
   "dashboard": {
     "title": "Tableau de bord",
     "recent_activity": "Activité récente",
@@ -270,6 +287,18 @@
     }
   },
   "subscription": {
+    "title": "Liste des abonnements",
+    "fields": {
+      "name": "Nom de l'abonnement",
+      "code": "Code de l'abonnement",
+      "price": "Prix",
+      "advantages": "Avantages"
+    },
+    "placeholder": {
+      "name": "Renseignez un nom d'un abonnement",
+      "code": "Renseignez un code d'un abonnement",
+      "price": "Renseignez un prix"
+    },
     "detailsPremium": "detailsPremium",
     "detailsPro": "detailsPro",
     "detailsFree": "detailsFree"
@@ -282,8 +311,8 @@
       "category": "Catégorie"
     },
     "placeholder": {
-      "name": "Renseignez un nom d'une catégorie",
-      "code": "Renseignez un Code d'une catégorie",
+      "name": "Renseignez un nom d'une sous-catégorie",
+      "code": "Renseignez un code d'une sous-catégorie",
       "category": "Sélectionner une catégorie"
     }
   },

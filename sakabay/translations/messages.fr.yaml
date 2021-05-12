@@ -39,6 +39,8 @@ dashboard: "Tableau de bord"
 settings: "Paramètres"
 menu_management_entities: "Gestion des entités"
 menu_all_sous_category: "Liste des sous catégories"
+menu_all_advantages: "Liste des avantages"
+menu_all_subscriptions: "Listes des abonnements"
 
 #form-user
 username_placeholder: "Pseudonyme"
@@ -204,3 +206,15 @@ opportunity_list_title_page: "Opportunités"
 opportunity_recap_title_page: "Récapitulatif opportunité"
 error_mime_types_message: 'Veuillez télécharger un document PDF valide'
 error_max_size_message: 'Le fichier est trop volumineux %s %s. La taille maximale autorisée est de %s. %s'
+
+#Advantage's pages
+advantage_title_list_page: "Liste des avantages"
+advantage_title_edit_page: "Modifier un avantage"
+advantage_title_create_page: "Créer un avantage"
+advantage_title_show_page: "Détails d'un avantage"
+
+#Subscription's pages
+subscription_title_list_page: "Liste des abonnements"
+subscription_title_edit_page: "Modifier un abonnement"
+subscription_title_create_page: "Créer un abonnement"
+subscription_title_show_page: "Détails d'un abonnement"

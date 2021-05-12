@@ -65,9 +65,19 @@ class Subscription
      */
     private $companySubscriptions;
 
+    /**
+     * @var Advantage[]
+     * @Expose
+     * @Groups({
+     * "api_subscriptions",
+     * })
+     */
+    private $advantages;
+
     public function __construct()
     {
         $this->companySubscriptions = new ArrayCollection();
+        $this->advantages = new ArrayCollection();
     }
 
     /**
@@ -174,6 +184,32 @@ class Subscription
     {
         if ($this->companySubscriptions->contains($companySubscription)) {
             $this->companySubscriptions->removeElement($companySubscription);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Advantage[]
+     */
+    public function getAdvantages(): Collection
+    {
+        return $this->advantages;
+    }
+
+    public function addAdvantage(Advantage $advantage): self
+    {
+        if (!$this->advantages->contains($advantage)) {
+            $this->advantages[] = $advantage;
+        }
+
+        return $this;
+    }
+
+    public function removeAdvantage(Advantage $advantage): self
+    {
+        if ($this->advantages->contains($advantage)) {
+            $this->advantages->removeElement($advantage);
         }
 
         return $this;

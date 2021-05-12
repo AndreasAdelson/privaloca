@@ -253,6 +253,48 @@ subscription_details_subscriptions:
     controller: App\Infrastructure\Http\Web\Controller\SubscriptionController::detailsSubscriptions
     methods: [GET]
 
+   # Routes for Subscription object
+subscription_admin_index:
+    path: admin/subscription
+    controller: App\Infrastructure\Http\Web\Controller\SubscriptionController::indexAdmin
+    methods: [GET]
+
+subscription_admin_new:
+    path: admin/subscription/new
+    controller: App\Infrastructure\Http\Web\Controller\SubscriptionController::new
+    methods: [GET, POST]
+
+subscription_admin_edit:
+    path: admin/subscription/edit/{id}
+    controller: App\Infrastructure\Http\Web\Controller\SubscriptionController::edit
+    methods: [GET, POST]
+
+subscription_admin_show:
+    path: admin/subscription/show/{id}
+    controller: App\Infrastructure\Http\Web\Controller\SubscriptionController::show
+    methods: [GET, POST]
+
+    # Routes for Advantage object
+advantage_index:
+    path: admin/advantage
+    controller: App\Infrastructure\Http\Web\Controller\AdvantageController::index
+    methods: [GET]
+
+advantage_new:
+    path: admin/advantage/new
+    controller: App\Infrastructure\Http\Web\Controller\AdvantageController::new
+    methods: [GET, POST]
+
+advantage_edit:
+    path: admin/advantage/edit/{id}
+    controller: App\Infrastructure\Http\Web\Controller\AdvantageController::edit
+    methods: [GET, POST]
+
+advantage_show:
+    path: admin/advantage/show/{id}
+    controller: App\Infrastructure\Http\Web\Controller\AdvantageController::show
+    methods: [GET, POST]
+
 # Routes for SousCategory object
 sous_category_index:
     path: admin/sous-category

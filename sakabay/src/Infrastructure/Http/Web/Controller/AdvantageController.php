@@ -7,11 +7,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class CategoryController extends AbstractController
+class AdvantageController extends AbstractController
 {
 
     /**
-     * @Route("admin/category", name="category_index", methods="GET")
+     * @Route("admin/advantage", name="advantage_index", methods="GET")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function index(AuthorizationCheckerInterface $authorizationChecker)
@@ -19,7 +19,7 @@ class CategoryController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-        return $this->render('admin/category/index.html.twig', [
+        return $this->render('admin/advantage/index.html.twig', [
             'canCreate' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'canRead' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'canEdit' => $authorizationChecker->isGranted('ROLE_ADMIN'),
@@ -28,7 +28,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("admin/category/new", name="category_new", methods="GET|POST")
+     * @Route("admin/advantage/new", name="advantage_new", methods="GET|POST")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function new()
@@ -36,13 +36,13 @@ class CategoryController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-        return $this->render('admin/category/form.html.twig', [
-            'categoryId' => 'null'
+        return $this->render('admin/advantage/form.html.twig', [
+            'advantageId' => 'null'
         ]);
     }
 
     /**
-     * @Route("admin/category/edit/{id}", name="category_edit", methods="GET|POST")
+     * @Route("admin/advantage/edit/{id}", name="advantage_edit", methods="GET|POST")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function edit(int $id)
@@ -50,23 +50,23 @@ class CategoryController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-        return $this->render('admin/category/form.html.twig', [
-            'categoryId' => $id,
+        return $this->render('admin/advantage/form.html.twig', [
+            'advantageId' => $id,
         ]);
     }
 
     /**
      * @Security("is_granted('ROLE_ADMIN')")
-     * @Route("admin/category/{id}", name="category_show", methods="GET|POST")
+     * @Route("admin/advantage/{id}", name="advantage_show", methods="GET|POST")
      */
     public function show(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-        return $this->render('admin/category/show.html.twig', [
+        return $this->render('admin/advantage/show.html.twig', [
             'canEdit' => $authorizationChecker->isGranted('ROLE_ADMIN'),
-            'categoryId' => $id,
+            'advantageId' => $id,
             'urlPrecedente' => $this->urlPrecedente()
         ]);
     }

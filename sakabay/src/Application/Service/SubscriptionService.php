@@ -30,7 +30,7 @@ class SubscriptionService
 
     public function getAllSubscriptions(): ?array
     {
-        return $this->subscriptionRepository->findAll();
+        return $this->subscriptionRepository->findBy([], ['price' => 'ASC']);
     }
 
     public function setCompanySubscription(): array
@@ -41,5 +41,39 @@ class SubscriptionService
     public function getSubscriptionByName(string $name)
     {
         return $this->subscriptionRepository->findOneBy(['name' => $name]);
+    }
+
+    public function deleteSubscription(int $subscriptionId): void
+    {
+        $subscription = $this->subscriptionRepository->find($subscriptionId);
+        if (!$subscription) {
+            throw new EntityNotFoundException('Subscription with id ' . $subscriptionId . ' does not exist!');
+        }
+        $this->subscriptionRepository->delete($subscription);
+    }
+
+    /**
+     * Retourne une page, potentiellement triée et filtrée.
+     *
+     *
+     * @param string $sortBy
+     * @param bool   $descending
+     * @param string $filterFields
+     * @param string $filterText
+     * @param int    $currentPage
+     * @param int    $perPage
+     *
+     * @return Pagerfanta
+     */
+    public function getPaginatedList(
+        $sortBy = 'id',
+        $descending = false,
+        $filterFields = '',
+        $filterText = '',
+        $currentPage = 1,
+        $perPage = PHP_INT_MAX ? PHP_INT_MAX : 10
+    ) {
+        return $this->subscriptionRepository
+            ->getPaginatedList($sortBy, $descending, $filterFields, $filterText, $currentPage, $perPage);
     }
 }

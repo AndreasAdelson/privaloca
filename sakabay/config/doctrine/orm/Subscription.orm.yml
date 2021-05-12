@@ -32,3 +32,17 @@ App\Domain\Model\Subscription:
             orphanRemoval: true
             cascade: [persist, remove]
             mappedBy: subscription
+    manyToMany:
+        advantages:
+            targetEntity: Advantage
+            inversedBy: subscriptions
+            joinTable:
+                name: subscriptions_advantages
+                joinColumns:
+                    id_subscription:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    id_advantage:
+                        referencedColumnName: id
+            orderBy:
+                priority: ASC

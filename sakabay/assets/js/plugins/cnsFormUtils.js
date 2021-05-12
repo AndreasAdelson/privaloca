@@ -121,7 +121,9 @@ const CnsFormUtils = {
       let transformedData = _.cloneDeep(data);
       Object.keys(this.formFields).forEach(field => {
         let underscoreField = this.$camelCaseToUnderscoreCase(field);
-        if (this.formFields[field] instanceof Object) {
+        if (this.formFields[field] instanceof Array) {
+          this.formFields[field] = transformedData[underscoreField];
+        } else if (this.formFields[field] instanceof Object) {
           Object.keys(this.formFields[field]).forEach(key => {
             let underscoreKey = this.$camelCaseToUnderscoreCase(key);
             if (transformedData[field][key] || transformedData[field][key] === 0 || transformedData[underscoreField][underscoreKey]) {

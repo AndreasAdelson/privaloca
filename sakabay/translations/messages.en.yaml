@@ -39,6 +39,9 @@ dashboard: "Dashboard"
 settings: "Settings"
 menu_management_entities: "Entities Management"
 menu_all_sous_category: "Sous catgory list"
+menu_all_advantages: "Advantage list"
+menu_all_subscriptions: "Subscription list"
+
 
 #form-user
 username_placeholder: "Username"
@@ -82,7 +85,6 @@ error_application_access_message: "You do not have access to this part of the ap
 error_delete_besoin: "You cannot delete this request because one or more companies have already responded. Refresh the page."
 error_send_quote: "This request is no longer current. It seems to have expired."
 error_publish_besoin: "This request has expired."
-
 
 #Fonction's pages
 fonction_title_list_page: "List of functions"
@@ -206,3 +208,14 @@ opportunity_recap_title_page: "Opportunity summary"
 error_mime_types_message: 'Please upload a valid PDF document'
 error_max_size_message: 'The file is too large %s %s. Allowed maximum size is %s %s.'
 
+#Advantage's pages
+advantage_title_list_page: "List of advantages"
+advantage_title_edit_page: "Edit an advantage"
+advantage_title_create_page: "Create an advantage"
+advantage_title_show_page: "Detail of advantage"
+
+#Subscription's pages
+subscription_title_list_page: "List of subcriptions"
+subscription_title_edit_page: "Edit an subscription"
+subscription_title_create_page: "Create an subscription"
+subscription_title_show_page: "Detail of subscription"

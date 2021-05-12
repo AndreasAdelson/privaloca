@@ -11,11 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class SubscriptionController extends AbstractController
 {
-
     /**
      * @Route("/subscription", name="subscription_index", methods="GET")
      */
@@ -47,5 +46,75 @@ class SubscriptionController extends AbstractController
             'utilisateurId' => $this->getUser()->getId(),
             'subscriptionName' => $slug
         ]);
+    }
+
+    /**
+     * @Route("admin/subscription", name="subscription_admin_index", methods="GET")
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function indexAdmin(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->render('admin/subscription/index.html.twig', [
+            'canCreate' => $authorizationChecker->isGranted('ROLE_ADMIN'),
+            'canRead' => $authorizationChecker->isGranted('ROLE_ADMIN'),
+            'canEdit' => $authorizationChecker->isGranted('ROLE_ADMIN'),
+            'canDelete' => $authorizationChecker->isGranted('ROLE_ADMIN'),
+        ]);
+    }
+
+    /**
+     * @Route("admin/subscription/new", name="subscription_admin_new", methods="GET|POST")
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function new()
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->render('admin/subscription/form.html.twig', [
+            'subscriptionId' => 'null'
+        ]);
+    }
+
+    /**
+     * @Route("admin/subscription/edit/{id}", name="subscription_admin_edit", methods="GET|POST")
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function edit(int $id)
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->render('admin/subscription/form.html.twig', [
+            'subscriptionId' => $id,
+        ]);
+    }
+
+    /**
+     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("admin/subscription/{id}", name="subscription_admin_show", methods="GET|POST")
+     */
+    public function show(int $id, AuthorizationCheckerInterface $authorizationChecker)
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->render('admin/subscription/show.html.twig', [
+            'canEdit' => $authorizationChecker->isGranted('ROLE_ADMIN'),
+            'subscriptionId' => $id,
+            'urlPrecedente' => $this->urlPrecedente()
+        ]);
+    }
+
+    private function urlPrecedente()
+    {
+        $urlPrecedente = "/";
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $urlPrecedente = $_SERVER['HTTP_REFERER'];
+        }
+        return $urlPrecedente;
     }
 }

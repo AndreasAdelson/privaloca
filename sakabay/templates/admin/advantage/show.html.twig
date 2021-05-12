@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'advantage_title_show_page'|trans }}{% endblock %}
+
+{% block body %}
+    <show-advantage
+    :advantage-id="{{ advantageId }}"
+    :can-edit="{{ canEdit|json_encode }}"
+    url-precedente="{{ urlPrecedente }}"
+    ></show-advantage>
+{% endblock %}

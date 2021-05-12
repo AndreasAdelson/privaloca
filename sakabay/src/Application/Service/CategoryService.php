@@ -5,7 +5,6 @@ namespace App\Application\Service;
 use App\Domain\Model\Category;
 use App\Infrastructure\Repository\CategoryRepositoryInterface;
 use Doctrine\ORM\EntityNotFoundException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryService
 {
@@ -39,10 +38,7 @@ class CategoryService
 
         return $category;
     }
-    // public function findOneBy(array $email): ?Category
-    // {
-    //     return $this->CategoryRepository->findOneBy($email);
-    // }
+
     /// Afficher un Category
     public function getCategory(int $categoryId): ?Category
     {

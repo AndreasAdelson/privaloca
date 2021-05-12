@@ -3,14 +3,16 @@
 namespace App\Infrastructure\Doctrine\DataFixtures;
 
 use App\Application\Utils\StringUtils;
-use App\Domain\Model\Subscription;
+use App\Domain\Model\Advantage;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class FixSubscription extends Fixture implements OrderedFixtureInterface, ContainerAwareInterface
+class FixAdvantage extends Fixture implements
+    OrderedFixtureInterface,
+    ContainerAwareInterface
 {
     private $container;
 
@@ -28,25 +30,17 @@ class FixSubscription extends Fixture implements OrderedFixtureInterface, Contai
 
         foreach ($lines as $data) {
             list(
-                $name,
+                $message,
                 $code,
-                $price,
-                $advantages
+                $priority
             ) = explode(';', trim($data));
 
-            $subscription = new Subscription();
-            $subscription->setName($name);
-            $subscription->setCode($code);
-            $subscription->setPrice($price);
-            $listAdvantages = explode('|', $advantages);
-            foreach ($listAdvantages as $itemAdvantage) {
-                if ('' !== $itemAdvantage) {
-                    $subscription->addAdvantage($this->getReference('advantage_' . $itemAdvantage));
-                }
-            }
-
-            $manager->persist($subscription);
-            $this->addReference('subscription_' . $code, $subscription);
+            $advantage = new Advantage();
+            $advantage->setMessage($message);
+            $advantage->setCode($code);
+            $advantage->setPriority($priority);
+            $manager->persist($advantage);
+            $this->addReference('advantage_' . $code, $advantage);
         }
 
         $manager->flush();
@@ -55,10 +49,10 @@ class FixSubscription extends Fixture implements OrderedFixtureInterface, Contai
     /**
      * Get the order of this fixture.
      *
-     * @return integer
+     * @return int
      */
     public function getOrder()
     {
-        return 2;
+        return 1;
     }
 }

@@ -236,6 +236,23 @@
       "name": "Enter a city"
     }
   },
+  "advantage": {
+    "title": "City list",
+    "title_card": {
+      "free": "Free",
+      "premium": "Premium"
+    },
+    "fields": {
+      "message": "Message of the advantage",
+      "code": "Code",
+      "priority": "Display priority"
+    },
+    "placeholder": {
+      "message": "Enter a advantage",
+      "code": "Enter the advantage code",
+      "priority": "Enter in the order of display"
+    }
+  },
   "dashboard": {
     "title": "Dashboard",
     "recent_activity": "Recent activity",
@@ -270,6 +287,18 @@
     }
   },
   "subscription": {
+    "title": "Subscriptions list",
+    "fields": {
+      "name": "Subscription name",
+      "code": "Code of the subscription",
+      "price": "Price",
+      "advantages": "Advantages"
+    },
+    "placeholder": {
+      "name": "Enter a name",
+      "code": "Enter a code",
+      "price": "Enter a price"
+    },
     "detailsPremium": "detailsPremium",
     "detailsPro": "detailsPro",
     "detailsFree": "detailsFree"

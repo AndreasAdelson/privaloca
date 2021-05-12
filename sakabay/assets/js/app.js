@@ -85,6 +85,12 @@ import BesoinList from './components/utilisateur/besoin/list';
 import BesoinForm from './components/utilisateur/besoin/form';
 import OpportunityList from './components/opportunity';
 import OpportunityRecap from './components/opportunity/quote/show';
+import FormAdvantage from './components/admin/advantage/form';
+import ShowAdvantage from './components/admin/advantage/show';
+import ListAdvantage from './components/admin/advantage';
+import FormSubscription from './components/admin/subscription/form';
+import ShowSubscription from './components/admin/subscription/show';
+import ListSubscription from './components/admin/subscription';
 import 'utils/logger';
 import Nl2br from 'vue-nl2br';
 import Raters from 'vue-rate-it';
@@ -221,7 +227,13 @@ new Vue({
     BesoinList,
     BesoinForm,
     OpportunityList,
-    OpportunityRecap
+    OpportunityRecap,
+    FormAdvantage,
+    ShowAdvantage,
+    ListAdvantage,
+    FormSubscription,
+    ShowSubscription,
+    ListSubscription
   }
 });
 

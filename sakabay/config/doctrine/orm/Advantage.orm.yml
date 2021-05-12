@@ -1,0 +1,38 @@
+App\Domain\Model\Advantage:
+    type: entity
+    table: advantage
+    options:
+        comment: Entité représentant un avantage.
+
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+            options:
+                comment: Identifiant technique d'un avantage
+    fields:
+        message:
+            type: string
+            length: 191
+            column: message
+            nullable: false
+        code:
+            type: string
+            length: 100
+            column: code
+            nullable: false
+        priority:
+            type: integer
+            length: 5
+            column: priority
+            nullable: false
+
+    manyToMany:
+        subscriptions:
+            targetEntity: Subscription
+            mappedBy: advantages
+    uniqueConstraints:
+        uniqueAdvantageCode:
+            columns: [code]
+

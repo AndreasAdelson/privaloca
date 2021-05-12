@@ -38,4 +38,12 @@ CBESOINSTATUT; Création d'un besoin d'entreprise
 RBESOINSTATUT; Consultation d'un besoin d'entreprise
 UBESOINSTATUT; Modification d'un besoin d'entreprise
 DBESOINSTATUT; Suppression d'un besoin d'entreprise
+CADVANTAGE; Création d'un avantage d'abonnement
+RADVANTAGE; Consultation d'un avantage d'abonnement
+UADVANTAGE; Modification d'un avantage d'abonnement
+DADVANTAGE; Suppression d'un avantage d'abonnement
+CSUBSCRIPTION; Création d'un abonnement
+RSUBSCRIPTION; Consultation d'un abonnement
+USUBSCRIPTION; Modification d'un abonnement
+DSUBSCRIPTION; Suppression d'un abonnement
 ADMIN; Administrateur du site

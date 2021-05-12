@@ -1,40 +1,45 @@
 <template>
   <div class="container skb-body">
-    <div v-if="loading">
+    <div v-show="loading">
       <div class="loader-container-full">
         <div class="loader" />
       </div>
     </div>
-
     <div
-      v-else
-      class="row"
+      v-if="subscriptions.length > 0"
+      class="row mt-4"
     >
-      <b-card-group deck>
-        <b-card
-          v-for="(subscription , index) in subscriptions "
-          :key="'subscription_'+index"
-          :title="subscription.name"
-          img-src="build/premium.jpg"
-          img-alt="Image"
-          img-top
-        >
-          <b-card-text v-if="subscription.name.toLowerCase() == 'premium'">
-            {{ $t('subscription.detailsPremium') }}
-          </b-card-text>
-          <b-card-text v-if="subscription.name.toLowerCase() == 'pro'">
-            {{ $t('subscription.detailsPro') }}
-          </b-card-text>
-          <b-card-text v-if="subscription.name.toLowerCase() == 'free'">
-            {{ $t('subscription.detailsFree') }}
-          </b-card-text>
-          <a
-            class="btn button_skb_yellow"
-            :href="'subscription/'+subscription.name.toLowerCase()"
+      <div class="col-12">
+        <b-card-group deck>
+          <b-card
+            v-for="(subscription, index) in subscriptions "
+            :key="'subscription_'+index"
+            :img-src="getImage(subscription)"
+            img-alt="Image"
+            img-height="400"
+            img-width="150"
+            img-top
           >
-            Follow
-          </a>
-        </b-card>
+            <b-card-text v-if="subscription.advantages">
+              <ul>
+                <li
+                  v-for="(advantage, indexAdvantage) in subscription.advantages"
+                  :key="'advantage_' + indexAdvantage"
+                >
+                  <span>{{ advantage.message }}</span>
+                </li>
+              </ul>
+            </b-card-text>
+            <a
+              v-if="subscription.code !== 'FRE'"
+              class="btn button_skb_yellow"
+              :href="'subscription/'+subscription.name.toLowerCase()"
+            >
+              Souscrire
+            </a>
+          </b-card>
+        </b-card-group>
+      </div>
       </b-card-group>
     </div>
   </div>
@@ -55,7 +60,7 @@
     data() {
 
       return {
-        loading: true,
+        loading: false,
         subscriptions: [],
         currentName: null,
       };
@@ -63,7 +68,8 @@
     created() {
       this.getAllSubscriptions();
 
-    }, methods: {
+    },
+    methods: {
       getAllSubscriptions() {
         this.loading = true;
         return axios.get('/api/subscribes')
@@ -76,6 +82,15 @@
           });
 
       },
+      getImage(subscription) {
+        let url = 'build/';
+        if (subscription.code === 'FRE') {
+          url += 'gratuite.jpg';
+        } else if (subscription.code === 'PRE') {
+          url += 'premium.jpg';
+        }
+        return url;
+      }
     },
   };
 </script>

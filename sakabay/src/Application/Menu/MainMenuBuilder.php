@@ -32,6 +32,14 @@ class MainMenuBuilder
                 ],
             ],
             "menu_management_entities" => [
+                "menu_all_advantages" => [
+                    "route" => "advantage_index",
+                    "roles" => ["ROLE_RADVANTAGE"]
+                ],
+                "menu_all_subscriptions" => [
+                    "route" => "subscription_admin_index",
+                    "roles" => ["ROLE_RSUBSCRIPTION"]
+                ],
                 "menu_all_categories" => [
                     "route" => "category_index",
                     "roles" => ["ROLE_RCATEGORY"]

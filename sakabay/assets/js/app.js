@@ -91,6 +91,9 @@ import ListAdvantage from './components/admin/advantage';
 import FormSubscription from './components/admin/subscription/form';
 import ShowSubscription from './components/admin/subscription/show';
 import ListSubscription from './components/admin/subscription';
+import FormSubscriptionStatus from './components/admin/subscription-status/form';
+import ShowSubscriptionStatus from './components/admin/subscription-status/show';
+import ListSubscriptionStatus from './components/admin/subscription-status';
 import 'utils/logger';
 import Nl2br from 'vue-nl2br';
 import Raters from 'vue-rate-it';
@@ -233,7 +236,10 @@ new Vue({
     ListAdvantage,
     FormSubscription,
     ShowSubscription,
-    ListSubscription
+    ListSubscription,
+    ListSubscriptionStatus,
+    ShowSubscriptionStatus,
+    FormSubscriptionStatus,
   }
 });
 
@@ -243,4 +249,5 @@ global.$ = global.jQuery = $;
 $(document).ready(() => {
   // Bootstrap tooltips
   $('[data-toggle="tooltip"]').tooltip();
+
 });

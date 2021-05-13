@@ -278,11 +278,15 @@
         "name": "Nom",
         "price": "Prix",
         "dt_debut": "Date de souscription",
-        "dt_fin": "Date de fin",
+        "dt_fin": "Date de renouvellement/ Date de fin",
         "statut": "Statut",
         "in_progress": "En cours",
-        "expired": "Expiré",
-        "company": "Entreprise"
+        "coming_soon": "A venir",
+        "expired": "Terminé",
+        "company": "Entreprise",
+        "canceled_renewal": "Renouvellement annulé",
+        "canceled": "Annulé",
+        "offer": "Offert"
       }
     }
   },
@@ -292,16 +296,26 @@
       "name": "Nom de l'abonnement",
       "code": "Code de l'abonnement",
       "price": "Prix",
-      "advantages": "Avantages"
+      "advantages": "Avantages",
+      "stripeId": "Stripe id"
     },
     "placeholder": {
       "name": "Renseignez un nom d'un abonnement",
       "code": "Renseignez un code d'un abonnement",
-      "price": "Renseignez un prix"
+      "price": "Renseignez un prix",
+      "stripeId": "Renseignez l'id du prix stripe (facultatif)"
     },
-    "detailsPremium": "detailsPremium",
-    "detailsPro": "detailsPro",
-    "detailsFree": "detailsFree"
+    "subscribe": "Souscrire",
+    "sign_up": "S'abonner",
+    "continue_subscription": "Poursuivre l'abonnement",
+    "already_subscribed_paid": "Cette entreprise est abonnée. Prochain prélèvement prévu le {0}.",
+    "already_subscribed_pending": "Cette entreprise est abonnée mais le paiement n'est pas encore validé. Prochain prélèvement prévu le {0}",
+    "subscription_cancelled_reload": "Cette entreprise est abonnée jusqu'au {0}. Si vous décidez de relancer l'abonnement ce dernier débutera à la fin de celui-ci.",
+    "subscription_cancelled_continue": "Cette entreprise est abonnée jusqu'au {0}. Si vous décidez de poursuivre l'abonnement ce dernier débutera à la fin de celui-ci.",
+    "cancel_subscription": "Annulez le renouvellement de l'abonnement",
+    "mandate_acceptance": "En fournissant vos informations de paiement et en confirmant ce paiement, vous autorisez Sakabay et Stripe, notre prestataire de services de paiement, à envoyer des instructions à votre banque pour débiter votre compte et votre banque à débiter votre compte conformément à ces instructions. Dans le cadre de vos droits, vous avez droit à un remboursement de la part de votre banque, conformément aux conditions de votre contrat avec votre banque. Le remboursement doit être demandé dans un délai de 8 semaines à compter de la date à laquelle votre compte a été débité. Vos droits sont expliqués dans une déclaration que vous pouvez obtenir auprès de votre banque. Vous acceptez de recevoir des notifications pour les futurs débits jusqu'à 2 jours avant qu'ils n'aient lieu.",
+    "assign_default": "Définir comme méthode de paiement par défaut",
+    "default_payment_method": "Votre méthode de paiement par défaut :"
   },
   "sous_category": {
     "title": "Liste des sous-catégories",
@@ -428,6 +442,17 @@
         "title": "Répondre à la demande de service : ",
         "your_answer": "Votre réponse"
       }
+    }
+  },
+  "subscription_status": {
+    "title": "Liste des statuts des abonnements",
+    "fields": {
+      "name": "Statut de l'abonnement",
+      "code": "Code du statut"
+    },
+    "placeholder": {
+      "name": "Renseignez un statut",
+      "code": "Renseignez un Code du statut"
     }
   },
   "error_message_required": "Ce champ est obligatoire. Merci de bien vouloir le renseigner.",

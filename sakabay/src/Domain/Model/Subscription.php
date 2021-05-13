@@ -60,7 +60,6 @@ class Subscription
      * @var Companysubscription[]
      * @Expose
      * @Groups({
-     * "api_subscriptions",
      * })
      */
     private $companySubscriptions;
@@ -73,6 +72,16 @@ class Subscription
      * })
      */
     private $advantages;
+
+    /**
+     * @var string
+     * @Expose
+     * @Groups({
+     * "api_subscriptions",
+     * "api_dashboard_utilisateur"
+     * })
+     */
+    private $stripeId;
 
     public function __construct()
     {
@@ -211,6 +220,18 @@ class Subscription
         if ($this->advantages->contains($advantage)) {
             $this->advantages->removeElement($advantage);
         }
+
+        return $this;
+    }
+
+    public function getStripeId()
+    {
+        return $this->stripeId;
+    }
+
+    public function setStripeId(?string $stripeId)
+    {
+        $this->stripeId = $stripeId;
 
         return $this;
     }

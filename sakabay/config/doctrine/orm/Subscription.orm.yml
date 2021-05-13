@@ -26,6 +26,11 @@ App\Domain\Model\Subscription:
             type: integer
             length: 50
             column: price
+        stripeId:
+            type: string
+            length: 100
+            column: stripe_id
+            nullable: true
     oneToMany:
         companySubscriptions:
             targetEntity: CompanySubscription

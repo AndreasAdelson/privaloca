@@ -18,7 +18,7 @@
         <div class="col-6 justify-content-end">
           <a
             class="float-right"
-            :href="'/admin/companystatut/edit/' + companyStatutId"
+            :href="'/admin/company-statut/edit/' + companyStatutId"
           >
             <b-button class="button_skb">{{ this.$t('commons.edit') }}</b-button>
           </a>

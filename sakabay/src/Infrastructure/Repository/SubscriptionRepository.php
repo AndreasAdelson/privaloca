@@ -10,8 +10,15 @@ class SubscriptionRepository extends AbstractRepository implements SubscriptionR
 {
 
     /**
-     * SubscriptionRepository constructor.
+     * subscription code field for type "PREMIUM"
      */
+    const PREMIUM_CODE = 'PRE';
+
+    /**
+     * subscription code field for type "FREE"
+     */
+    const FREE_CODE = 'FREE';
+
     public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct($entityManager, new ClassMetadata(Subscription::class));

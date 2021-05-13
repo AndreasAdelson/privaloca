@@ -8,6 +8,7 @@ parameters:
     app.fixture_csv_dir : '%kernel.project_dir%/%env(resolve:INIT_DATA_PATH)%'
     upload_dir: '%kernel.project_dir%/public/build/images/uploads'
     url: '%env(MAILER_DSN)%'
+    secret_key: '%env(STRIPE_SECRET_KEY)%'
 
 services:
     # default configuration for services in *this* file

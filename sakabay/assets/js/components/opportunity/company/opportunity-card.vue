@@ -8,7 +8,7 @@
           </div>
         </div>
         <div class="col-2 text-right black-light-skb fontSize14">
-          <span>{{ $getDateLabel(opportunity.dt_created) }}</span>
+          <span>{{ $getDateLabelFromNow(opportunity.dt_created) }}</span>
         </div>
       </div>
       <div class="row mb-3">

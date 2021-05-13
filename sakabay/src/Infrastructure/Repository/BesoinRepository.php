@@ -36,9 +36,7 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
         if ($isCounting === 'true') {
             $qb->select('count(DISTINCT b.id)');
         }
-        $qb->leftJoin('b.author', 'author')
-            ->andWhere('author.id = :utilisateurId')
-            ->setParameter('utilisateurId', $utilisateur);
+
 
         if (is_array($codeStatut) && !empty($codeStatut)) {
             $orStatements = $qb->expr()->orX();
@@ -54,7 +52,7 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
                 ->andWhere('besoinStatut.code = :codeStatut')
                 ->setParameter('codeStatut', $codeStatut);
         }
-        
+
         if (!empty($company)) {
             $qb->leftJoin('b.company', 'company')
                 ->andWhere('company.id = :companyId')
@@ -64,6 +62,9 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
                 ->andWhere('company IS NULL');
         }
 
+        $qb->leftJoin('b.author', 'author')
+            ->andWhere('author.id = :utilisateurId')
+            ->setParameter('utilisateurId', $utilisateur);
         $qb->orderBy('b.dtCreated', 'DESC');
 
         if ($isCounting === 'true') {

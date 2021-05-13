@@ -46,4 +46,8 @@ CSUBSCRIPTION; Création d'un abonnement
 RSUBSCRIPTION; Consultation d'un abonnement
 USUBSCRIPTION; Modification d'un abonnement
 DSUBSCRIPTION; Suppression d'un abonnement
+CSUBSCRIPTIONSTATUS; Création d'un statut d'abonnement
+RSUBSCRIPTIONSTATUS; Consultation d'un statut d'abonnement
+USUBSCRIPTIONSTATUS; Modification d'un statut d'abonnement
+DSUBSCRIPTIONSTATUS; Suppression d'un statut d'abonnement
 ADMIN; Administrateur du site

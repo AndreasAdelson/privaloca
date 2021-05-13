@@ -10,17 +10,17 @@ class CompanyStatutRepository extends AbstractRepository implements CompanyStatu
 {
 
     /**
-     * Category code field for type "Beauté"
+     * companyStatut code field for type "En cours"
      */
     const EN_COURS_CODE = 'ENC';
 
     /**
-     * Category code field for type "Beauté"
+     * companyStatut code field for type "Validé"
      */
     const VALIDE_CODE = 'VAL';
 
     /**
-     * Category code field for type "Beauté"
+     * companyStatut code field for type "Refusé"
      */
     const REFUSED_CODE = 'REF';
     /**

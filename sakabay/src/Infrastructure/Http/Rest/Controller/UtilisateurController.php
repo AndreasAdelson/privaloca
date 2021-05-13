@@ -236,7 +236,7 @@ final class UtilisateurController extends AbstractFOSRestController
         $email = (new Email())
             ->from('no-reply@sakabay.com')
             ->to($receiver)
-            // ->addTo('andreasadelson@gmail.com')
+            ->addTo('andreasadelson@gmail.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             ->priority(Email::PRIORITY_HIGH)

@@ -3,32 +3,66 @@
 namespace App\Infrastructure\Http\Rest\Controller;
 
 use App\Application\Form\Type\CompanySubscriptionType;
+use App\Application\Form\Type\PaymentMethodType;
 use App\Application\Service\CompanySubscriptionService;
+use App\Application\Service\CompanyService;
+use App\Application\Service\PaymentMethodService;
+use App\Application\Service\SubscriptionService;
+use App\Application\Service\SubscriptionStatusService;
+use App\Domain\Model\Company;
 use App\Domain\Model\CompanySubscription;
+use App\Domain\Model\PaymentMethod;
+use App\Infrastructure\Factory\NotificationFactory;
+use App\Infrastructure\Repository\SubscriptionRepository;
+use App\Infrastructure\Repository\SubscriptionStatusRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Stripe\StripeClient;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\Email;
 
 final class CompanySubscriptionController extends AbstractFOSRestController
 {
     private $entityManager;
     private $companySubscriptionService;
+    private $companyService;
     private $translator;
+    private $notificationFactory;
+    private $paymentMethodService;
+    private $subscriptionStatusService;
+    private $subscriptionService;
+
+
     /**
      * CompanySubscriptionRestController constructor.
      */
     public function __construct(
         CompanySubscriptionService $companySubscriptionService,
+        CompanyService $companyService,
         TranslatorInterface $translator,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        NotificationFactory $notificationFactory,
+        PaymentMethodService $paymentMethodService,
+        SubscriptionStatusService $subscriptionStatusService,
+        SubscriptionService $subscriptionService
+
     ) {
         $this->companySubscriptionService = $companySubscriptionService;
+        $this->companyService = $companyService;
         $this->translator = $translator;
         $this->entityManager = $entityManager;
+        $this->notificationFactory = $notificationFactory;
+        $this->paymentMethodService = $paymentMethodService;
+        $this->subscriptionStatusService = $subscriptionStatusService;
+        $this->subscriptionService = $subscriptionService;
     }
 
     /**
@@ -44,17 +78,6 @@ final class CompanySubscriptionController extends AbstractFOSRestController
         return View::create($companySubscription, Response::HTTP_OK);
     }
 
-    // /**
-    //  * @Rest\View(serializerGroups={"api_company_subscriptions"})
-    //  * @Rest\Get("/follows")
-    //  *
-    //  * @return View
-    //  */
-    // public function getCompanySubscriptions(): View
-    // {
-    //     $companySubscription = $this->companySubscriptionService->getAllCompanySubscriptions();
-    //     return View::create($companySubscription, Response::HTTP_OK);
-    // }
 
     /**
      * @Rest\View()
@@ -65,18 +88,224 @@ final class CompanySubscriptionController extends AbstractFOSRestController
      */
     public function createCompanySubscription(Request $request)
     {
+        $isTrial = $request->request->get('isTrial');
+        $request->request->remove('isTrial');
+        $companyId = $request->request->get('company');
 
-        $companySubscription = new CompanySubscription();
-        $formOptions = ['translator' => $this->translator];
-        $form = $this->createForm(CompanySubscriptionType::class, $companySubscription, $formOptions);
-        $form->submit($request->request->all());
-        if (!$form->isValid()) {
-            return $form;
+        $activeCompanySubscription = $this->companySubscriptionService->getActiveSubscription($companyId, false, true);
+        if (empty($activeCompanySubscription)) {
+            $activeCompanySubscription = $this->companySubscriptionService->getActiveSubscription($companyId, false, false);
+        }
+        if (!empty($activeCompanySubscription) && $activeCompanySubscription->getSubscriptionStatus()->getCode() != SubscriptionStatusRepository::OFFER_CODE) {
+            $subscriptionStatus = $this->subscriptionStatusService->getSubscriptionStatusByCode(SubscriptionStatusRepository::PENDING_CODE);
+            $activeCompanySubscription->setSubscriptionStatus($subscriptionStatus);
+            $activeCompanySubscription->setStripeId($request->request->get('stripeId'));
+            $this->entityManager->persist($activeCompanySubscription);
+            $this->entityManager->flush();
+            if ($isTrial == false) {
+                $user = $activeCompanySubscription->getCompany()->getUtilisateur();
+                $ressourceLocation = $this->generateUrl('subscription_details_subscriptions', ['slug' => strtolower($activeCompanySubscription->getSubscription()->getName())]);
+                $this->notificationFactory->createCompanySubscription([$user], $ressourceLocation, $activeCompanySubscription);
+            }
+        } else {
+            $companySubscription = new CompanySubscription();
+            $subscriptionStatus = $this->subscriptionStatusService->getSubscriptionStatusByCode(SubscriptionStatusRepository::PENDING_CODE);
+            $request->request->set('subscriptionStatus', $subscriptionStatus->getId());
+            $formOptions = ['translator' => $this->translator];
+            $form = $this->createForm(CompanySubscriptionType::class, $companySubscription, $formOptions);
+            $form->submit($request->request->all());
+            if (!$form->isValid()) {
+                return $form;
+            }
+            $this->entityManager->persist($companySubscription);
+            $this->entityManager->flush();
+
+            $email = $companySubscription->getCompany()->getEmail();
+            $subject = $this->translator->trans('email_pending_payment_subject');
+            $bodyMessage = sprintf(
+                $this->translator->trans('email_pending_payment_message'),
+                $companySubscription->getCompany()->getName(),
+                $companySubscription->getSubscription()->getName(),
+                $companySubscription->getSubscription()->getName()
+            );
+            $this->sendMail($email, $subject, $bodyMessage);
+            if ($isTrial == false) {
+                $user = $companySubscription->getCompany()->getUtilisateur();
+                $ressourceLocation = $this->generateUrl('subscription_details_subscriptions', ['slug' => strtolower($companySubscription->getSubscription()->getName())]);
+                $this->notificationFactory->createCompanySubscription([$user], $ressourceLocation, $companySubscription);
+            }
         }
 
-        $this->entityManager->persist($companySubscription);
-        $this->entityManager->flush();
 
+        $ressourceLocation = $this->generateUrl('dashboard');
+
+        return View::create([], Response::HTTP_CREATED, ['Location' => $ressourceLocation]);
+    }
+
+
+    /**
+     * @Rest\View(serializerGroups={"api_company_subscriptions"})
+     * @Rest\Get("intent/{companyId}")
+     *
+     * @return View
+     */
+    public function getStripeIntentByCompany(int $companyId): View
+    {
+        $company = $this->companyService->getCompany($companyId);
+        // if (empty($company)) {
+
+        // }
+        $stripe = new StripeClient($this->getParameter('secret_key'));
+        $customer = $this->getStripeCustomer($company, $stripe);
+        if (!empty($customer)) {
+            try {
+                $setupIntent = $stripe->setupIntents->create([
+                    'customer' => $customer['id'],
+                    'payment_method_types' => ['sepa_debit']
+                ]);
+            } catch (Exception $e) {
+                return View::create($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        return View::create($setupIntent->client_secret, Response::HTTP_OK);
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Post("/default-payment")
+     * @param Request $request
+     *
+     * @return View
+     */
+    public function setPaymentMethodAndPay(Request $request)
+    {
+        $companyId = $request->request->get('company');
+        $stripeId = $request->request->get('stripeId');
+        $subscriptionId = $request->request->get('subscription');
+        $request->request->remove('subscription');
+        $dtStart = $request->request->get('dtStart');
+        $request->request->remove('dtstart');
+        $subscription = $this->subscriptionService->getSubscription($subscriptionId);
+        $priceStripeId = $subscription->getStripeId();
+        $company = $this->companyService->getCompany($companyId);
+        $stripe = new StripeClient($this->getParameter('secret_key'));
+        $customer = $this->getStripeCustomer($company, $stripe);
+        try {
+            $stripe->customers->update(
+                $customer['id'],
+                [
+                    'invoice_settings' => [
+                        'default_payment_method' => $stripeId
+                    ]
+                ]
+            );
+            // SetPaymentMethod For company
+            $paymentMethodRetrieved = $stripe->paymentMethods->retrieve($stripeId);
+            $paymentMethod = new PaymentMethod();
+            $request->request->set('last4', $paymentMethodRetrieved['sepa_debit']['last4']);
+            $request->request->set('fingerprint', $paymentMethodRetrieved['sepa_debit']['fingerprint']);
+            $request->request->set('country', $paymentMethodRetrieved['sepa_debit']['country']);
+            $paymentMethod->setDefaultMethod(true);
+            $formOptions = ['translator' => $this->translator];
+            $form = $this->createForm(PaymentMethodType::class, $paymentMethod, $formOptions);
+            $form->submit($request->request->all());
+            if (!$form->isValid()) {
+                return $form;
+            }
+
+            $this->entityManager->persist($paymentMethod);
+            $this->entityManager->flush();
+            $subscription = $this->createStripeSubscription($stripe, $customer, $priceStripeId, $dtStart);
+        } catch (Exception $e) {
+            return View::create($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return View::create($subscription, Response::HTTP_CREATED);
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Post("/payment")
+     * @param Request $request
+     *
+     * @return View
+     */
+    public function subscribeWithDefaultPaymentMethod(Request $request)
+    {
+        $companyId = $request->request->get('company');
+        $requestDtStart = $request->request->get('dtStart');
+        $subscriptionId = $request->request->get('subscription');
+        $subscription = $this->subscriptionService->getSubscription($subscriptionId);
+        if ($requestDtStart) {
+            $dtStart = new DateTime();
+            $dtStart->setTimestamp($request->request->get('dtStart'));
+            $dtStart = $dtStart->getTimestamp();
+        }
+
+
+        //Récupérer l'id du prix depuis la table subscription. Gérer l'initialisation de cet id dans la bdd.
+        $priceStripeId = $subscription->getStripeId();
+        $company = $this->companyService->getCompany($companyId);
+        $stripe = new StripeClient($this->getParameter('secret_key'));
+        $customer = $this->getStripeCustomer($company, $stripe);
+
+        try {
+            if (!empty($dtStart)) {
+                $subscription = $stripe->subscriptions->create([
+                    'customer' => $customer['id'],
+                    'items' => [[
+                        'price' => $priceStripeId,
+                    ]],
+                    'expand' => ['latest_invoice.payment_intent'],
+                    'trial_end' => $dtStart
+                ]);
+            } else {
+                $subscription = $stripe->subscriptions->create([
+                    'customer' => $customer['id'],
+                    'items' => [[
+                        'price' => $priceStripeId,
+                    ]],
+                    'expand' => ['latest_invoice.payment_intent']
+                ]);
+            }
+        } catch (Exception $e) {
+            return View::create($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return View::create($subscription, Response::HTTP_CREATED);
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Post("/cancel-subscription")
+     * @param Request $request
+     *
+     * @return View
+     */
+    public function cancelSubscription(Request $request)
+    {
+        $companyId = $request->request->get('company');
+        $activeSubscription = $this->companySubscriptionService->getActiveSubscription($companyId, true, false);
+        $subscriptionStripeId = $activeSubscription->getStripeId();
+        $stripe = new StripeClient($this->getParameter('secret_key'));
+        $canceledSubscriptionStatus = $this->subscriptionStatusService->getSubscriptionStatusByCode('ANN');
+        try {
+            $subscription = $stripe->subscriptions->retrieve($subscriptionStripeId);
+            $subscription->cancel();
+            $activeSubscription->setStripeId(null);
+            $activeSubscription->setSubscriptionStatus($canceledSubscriptionStatus);
+
+            $this->entityManager->persist($activeSubscription);
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            return View::create($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        $ressourceLocation = $this->generateUrl('dashboard',);
+        //Send notification to user
+        $user = $activeSubscription->getCompany()->getUtilisateur();
+        $ressourceLocation = $this->generateUrl('subscription_details_subscriptions', ['slug' => strtolower($activeSubscription->getSubscription()->getName())]);
+        $this->notificationFactory->cancelCompanySubscription([$user], $ressourceLocation, $activeSubscription);
         $ressourceLocation = $this->generateUrl('dashboard');
 
         return View::create([], Response::HTTP_CREATED, ['Location' => $ressourceLocation]);
@@ -84,33 +313,121 @@ final class CompanySubscriptionController extends AbstractFOSRestController
 
     /**
      * @Rest\View()
-     * @Rest\Post("/subscribes/{slug}")
+     * @Rest\Post("/update-payment-method")
      * @param Request $request
      *
      * @return View
      */
-    public function createCompanySubscriptionByname(string $slug, Request $request): View
+    public function updateDefaultPayment(Request $request)
     {
+        $companyId = $request->request->get('company');
+        $paymentMethodId = $request->request->get('stripeId');
+        $subscriptionName = $request->request->get('subscriptionName');
+        $request->request->remove('subscriptionName');
+        $company = $this->companyService->getCompany($companyId);
+        $stripe = new StripeClient($this->getParameter('secret_key'));
+        $customer = $this->getStripeCustomer($company, $stripe);
+        try {
+            $stripe->paymentMethods->attach(
+                $paymentMethodId,
+                ['customer' => $customer['id']]
+            );
+            $stripe->customers->update(
+                $customer['id'],
+                [
+                    'invoice_settings' => ['default_payment_method' => $paymentMethodId]
+                ]
+            );
+            //Unset default older paymentMethod
+            $oldPaymentMethod = $this->paymentMethodService->getDefaultPaymentMethod($companyId);
+            $oldPaymentMethod->setDefaultMethod(false);
+            $stripe->paymentMethods->detach($oldPaymentMethod->getStripeId());
+            $this->entityManager->persist($oldPaymentMethod);
 
-        $companySubscription = new CompanySubscription();
+            // SetPaymentMethod For company
+            $paymentMethodRetrieved = $stripe->paymentMethods->retrieve($paymentMethodId);
+            $paymentMethod = new PaymentMethod();
+            $request->request->set('last4', $paymentMethodRetrieved['sepa_debit']['last4']);
+            $request->request->set('fingerprint', $paymentMethodRetrieved['sepa_debit']['fingerprint']);
+            $request->request->set('country', $paymentMethodRetrieved['sepa_debit']['country']);
+            $paymentMethod->setDefaultMethod(true);
+            $formOptions = ['translator' => $this->translator];
+            $form = $this->createForm(PaymentMethodType::class, $paymentMethod, $formOptions);
+            $form->submit($request->request->all());
+            if (!$form->isValid()) {
+                return $form;
+            }
 
-        $setcompanySubscription = $this->companySubscriptionService->createCompanySubscriptionByname($slug);
-
-
-        $companySubscription = $setcompanySubscription;
-        $formOptions = ['translator' => $this->translator];
-        $form = $this->createForm(CompanySubscriptionType::class, $companySubscription, $formOptions);
-        $form->submit($request->request->all());
-        if (!$form->isValid()) {
-            return $form;
+            $this->entityManager->persist($paymentMethod);
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            return View::create($e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $this->entityManager->persist($companySubscription);
-        $this->entityManager->flush();
-
-        $ressourceLocation = $this->generateUrl('dashboard');
-
+        $ressourceLocation = $this->generateUrl('subscription_details_subscriptions', ['slug' => $subscriptionName]);
         return View::create([], Response::HTTP_CREATED, ['Location' => $ressourceLocation]);
-        // return View::create($subscription, Response::HTTP_OK);
+    }
+
+    private function getStripeCustomer(Company $company, $stripe)
+    {
+        $companyStripeId = $company->getStripeId();
+        $customer = null;
+        if (empty($companyStripeId)) {
+            $customer = $stripe->customers->create([
+                'email' => $company->getEmail(),
+                'name' => $company->getName(),
+                'preferred_locales' => ['fr-FR']
+            ]);
+            $company->setStripeId($customer['id']);
+
+            $this->entityManager->persist($company);
+            $this->entityManager->flush();
+        } else {
+            $customer = $stripe->customers->retrieve($companyStripeId);
+        }
+        return $customer;
+    }
+
+    private function sendMail($receiver, $subject, $bodyMessage)
+    {
+        $dsn = $this->getParameter('url');
+        $transport = Transport::fromDsn($dsn);
+        $mailer = new Mailer($transport);
+
+        $email = (new Email())
+            ->from('no-reply@sakabay.com')
+            ->to($receiver)
+            ->addTo('andreasadelson@gmail.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            ->priority(Email::PRIORITY_HIGH)
+            ->subject($subject)
+            ->text($bodyMessage)
+            // ->html('<p>See Twig integration for better HTML integration!</p>')
+        ;
+
+        $mailer->send($email);
+    }
+
+    private function createStripeSubscription($stripe, $customer, $priceStripeId, $dtStart)
+    {
+        if (!empty($dtStart)) {
+            $subscription = $stripe->subscriptions->create([
+                'customer' => $customer['id'],
+                'items' => [[
+                    'price' => $priceStripeId,
+                ]],
+                'expand' => ['latest_invoice.payment_intent'],
+                'trial_end' => $dtStart
+            ]);
+        } else {
+            $subscription = $stripe->subscriptions->create([
+                'customer' => $customer['id'],
+                'items' => [[
+                    'price' => $priceStripeId,
+                ]],
+                'expand' => ['latest_invoice.payment_intent']
+            ]);
+        }
+        return $subscription;
     }
 }

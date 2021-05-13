@@ -740,8 +740,8 @@ a[data-toggle="collapse"] {
 ********************************/
 
 .link {
-  text-decoration: underline;
-  color: blue;
+  text-decoration: underline !important;
+  color: blue !important;
 }
 
 .user_card {
@@ -781,6 +781,24 @@ a[data-toggle="collapse"] {
   background: $green_success_color !important;
   color: white !important;
   border-color: $green_success_color !important;
+  white-space: normal !important;
+  cursor: default !important;
+}
+
+.button_skb_yellow_disabled {
+  width: 100%;
+  background: $yellow_login_color !important;
+  color: white !important;
+  border-color: $yellow_login_color !important;
+  white-space: normal !important;
+  cursor: default !important;
+}
+
+.button_skb_blue_disabled {
+  width: 100%;
+  background: $blue_light_color !important;
+  color: white !important;
+  border-color: $blue_light_color !important;
   white-space: normal !important;
   cursor: default !important;
 }

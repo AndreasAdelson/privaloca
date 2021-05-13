@@ -49,6 +49,16 @@ App\Domain\Model\Company:
             length: 100
             column: image_profil
             nullable: true
+        stripeId:
+            type: string
+            length: 100
+            column: stripe_id
+            nullable: true
+        email:
+            type: string
+            length: 191
+            column: email
+            nullable: false
     manyToOne:
         category:
             targetEntity: Category
@@ -126,6 +136,12 @@ App\Domain\Model\Company:
             targetEntity: Comment
             mappedBy: authorCompany
             cascade: [persist]
+            nullable: true
+        paymentMethods:
+            targetEntity: PaymentMethod
+            orphanRemoval: true
+            cascade: [persist, remove]
+            mappedBy: company
             nullable: true
 
     manyToMany:

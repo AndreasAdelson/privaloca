@@ -1,0 +1,33 @@
+App\Domain\Model\SubscriptionStatus:
+    type: entity
+    table: subscription_status
+    options:
+        comment: Entité représentant le statut de l entreprise.
+
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+            options:
+                comment: Identifiant technique d'un SubscriptionStatus
+    fields:
+        name:
+            type: string
+            length: 191
+            column: name
+            nullable: false
+        code:
+            type: string
+            length: 100
+            column: code
+            nullable: false
+    oneToMany:
+        companySubscriptions:
+            targetEntity: CompanySubscription
+            orphanRemoval: true
+            cascade: [persist, remove]
+            mappedBy: subscriptionStatus
+    uniqueConstraints:
+        uniqueSubscriptionStatusCode:
+            columns: [code]

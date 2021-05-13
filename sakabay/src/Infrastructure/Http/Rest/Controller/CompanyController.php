@@ -8,14 +8,20 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use App\Application\Form\Type\CompanyType;
 use App\Application\Form\Type\CompanyAdminEditType;
+use App\Application\Form\Type\CompanySubscriptionType;
 use App\Application\Form\Type\CompanyUserEditType;
 use App\Application\Service\CompanyStatutService;
 use App\Application\Service\CompanyService;
 use App\Application\Service\FileUploader;
+use App\Application\Service\SubscriptionService;
+use App\Application\Service\SubscriptionStatusService;
 use App\Application\Service\UtilisateurService;
 use App\Domain\Model\Company;
+use App\Domain\Model\CompanySubscription;
 use App\Infrastructure\Factory\NotificationFactory;
 use App\Infrastructure\Repository\CompanyStatutRepository;
+use App\Infrastructure\Repository\SubscriptionRepository;
+use App\Infrastructure\Repository\SubscriptionStatusRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Context\Context;
@@ -37,9 +43,10 @@ final class CompanyController extends AbstractFOSRestController
     private $companyService;
     private $companyStatutService;
     private $translator;
-    private $encoder;
     private $notificationFactory;
     private $utilisateurService;
+    private $subscriptionStatusService;
+    private $subscriptionService;
 
     /**
      * CompanyRestController constructor.
@@ -50,7 +57,9 @@ final class CompanyController extends AbstractFOSRestController
         CompanyStatutService $companyStatutService,
         TranslatorInterface $translator,
         NotificationFactory $notificationFactory,
-        UtilisateurService $utilisateurService
+        UtilisateurService $utilisateurService,
+        SubscriptionService $subscriptionService,
+        SubscriptionStatusService $subscriptionStatusService
     ) {
         $this->entityManager = $entityManager;
         $this->translator = $translator;
@@ -58,6 +67,8 @@ final class CompanyController extends AbstractFOSRestController
         $this->companyStatutService = $companyStatutService;
         $this->notificationFactory = $notificationFactory;
         $this->utilisateurService = $utilisateurService;
+        $this->subscriptionService = $subscriptionService;
+        $this->subscriptionStatusService = $subscriptionStatusService;
     }
 
     /**
@@ -88,8 +99,7 @@ final class CompanyController extends AbstractFOSRestController
         $this->entityManager->flush();
         //WARNING be sure about who get this notification for production
 
-        // $email = $company->getUtilisateur()->getEmail();
-        $email = "andreasadelson@gmail.com";
+        $email = $company->getUtilisateur()->getEmail();
         $subject = $this->translator->trans('email_register_confirmation_subject');
         $bodyMessage = sprintf($this->translator->trans('email_register_confirmation_body'), $company->getName());
         $this->sendMail($email, $subject, $bodyMessage);
@@ -409,11 +419,24 @@ final class CompanyController extends AbstractFOSRestController
         $this->entityManager->persist($company);
         $this->entityManager->flush($company);
 
-        // WARNING carreful about the email address for production
+        //2 months subscription offers
+        $companySubscription = new CompanySubscription();
+        $subscriptionStatus = $this->subscriptionStatusService->getSubscriptionStatusByCode(SubscriptionStatusRepository::OFFER_CODE)->getId();
+        $subscription = $this->subscriptionService->getSubscriptionByCode(SubscriptionRepository::PREMIUM_CODE)->getId();
+        $request->request->set('subscription', $subscription);
+        $request->request->set('subscriptionStatus', $subscriptionStatus);
 
+        $formOptions = ['translator' => $this->translator];
+        $form = $this->createForm(CompanySubscriptionType::class, $companySubscription, $formOptions);
+        $form->submit($request->request->all());
+        if (!$form->isValid()) {
+            return $form;
+        }
+        $this->entityManager->persist($companySubscription);
+        $this->entityManager->flush($companySubscription);
+        // WARNING carreful about the email address for production
         //Send email
-        // $email = $company->getUtilisateur()->getEmail();
-        $email = "andreasadelson@gmail.com";
+        $email = $company->getUtilisateur()->getEmail();
         $subject = $this->translator->trans('email_register_validation_subject');
         $bodyMessage = sprintf($this->translator->trans('email_register_validation_body'), $company->getName(), $this->generateUrl('home'));
         $this->sendMail($email, $subject, $bodyMessage);
@@ -505,13 +528,21 @@ final class CompanyController extends AbstractFOSRestController
     /**
      * @Rest\View(serializerGroups={"api_admin_companies"})
      * @Rest\Get("/companies/utilisateur/{utilisateurId}")
-     *
+     * @QueryParam(name="onlySubscribed",
+     *             default="false",
+     *             description="Avoir les entreprises abonnées uniquement"
+     * )
      * @return View
      */
-    public function getCompanyByUserId(string $utilisateurId): View
+    public function getCompanyByUserId(ParamFetcher $paramFetcher, string $utilisateurId): View
     {
-        $company = $this->companyService->getCompanyByUserId($utilisateurId);
-        return View::create($company, Response::HTTP_OK);
+        $onlySubscribed = $paramFetcher->get('onlySubscribed');
+        if ($onlySubscribed === 'true') {
+            $companies = $this->companyService->getCompanyByUserId($utilisateurId, $onlySubscribed);
+            return View::create($companies, Response::HTTP_OK);
+        }
+        $companies = $this->companyService->getCompanyByUserId($utilisateurId);
+        return View::create($companies, Response::HTTP_OK);
     }
 
 
@@ -525,7 +556,7 @@ final class CompanyController extends AbstractFOSRestController
         $email = (new Email())
             ->from('no-reply@sakabay.com')
             ->to($receiver)
-            // ->addTo('andreasadelson@gmail.com')
+            ->addTo('andreasadelson@gmail.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             ->priority(Email::PRIORITY_HIGH)

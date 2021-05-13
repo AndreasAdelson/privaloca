@@ -229,6 +229,17 @@ class Company
      */
     private $authorComments;
 
+    /**
+     * @var PaymentMethod[]
+     * @Expose
+     * @Groups({
+     * "api_admin_companies",
+     * "api_companies",
+     * "api_dashboard_utilisateur"
+     * })
+     */
+    private $paymentMethods;
+
 
     /**
      * @var string
@@ -242,6 +253,28 @@ class Company
     private $imageProfil;
 
     /**
+     * @var string
+     * @Expose
+     * @Groups({
+     * "api_companies",
+     * "api_besoins_utilisateur",
+     * "api_admin_companies"
+     * })
+     */
+    private $stripeId;
+
+    /**
+     * @var string
+     * @Expose
+     * @Groups({
+     * "api_companies",
+     * "api_besoins_utilisateur",
+     * "api_admin_companies"
+     * })
+     */
+    private $email;
+
+    /**
      * Unmapped property to handle file uploads
      */
     private $file;
@@ -251,6 +284,7 @@ class Company
     public function __construct()
     {
         $this->companySubscriptions = new ArrayCollection();
+        $this->paymentMethods = new ArrayCollection();
         $this->sousCategorys =  new ArrayCollection();
         $this->answers =  new ArrayCollection();
         $this->besoins =  new ArrayCollection();
@@ -677,6 +711,79 @@ class Company
     public function setImageProfil(?string $imageProfil)
     {
         $this->imageProfil = $imageProfil;
+        return $this;
+    }
+
+    /**
+     * Get "api_companies"
+     *
+     * @return  string
+     */
+    public function getStripeId()
+    {
+        return $this->stripeId;
+    }
+
+    /**
+     *
+     * @param  string  $stripeId
+     *
+     * @return  self
+     */
+    public function setStripeId(?string $stripeId)
+    {
+        $this->stripeId = $stripeId;
+
+        return $this;
+    }
+
+    /**
+     * Get "api_companies"
+     *
+     * @return  string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     *
+     * @param  string  $email
+     *
+     * @return  self
+     */
+    public function setEmail(string $email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PaymentMethod[]
+     */
+    public function getPaymentMethods(): Collection
+    {
+        return $this->paymentMethods;
+    }
+
+    public function addPaymentMethod(PaymentMethod $paymentMethod): self
+    {
+        if (!$this->paymentMethods->contains($paymentMethod)) {
+            $this->paymentMethods[] = $paymentMethod;
+            $paymentMethod->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaymentMethod(PaymentMethod $paymentMethod): self
+    {
+        if ($this->paymentMethods->contains($paymentMethod)) {
+            $this->paymentMethods->removeElement($paymentMethod);
+        }
+
         return $this;
     }
 }

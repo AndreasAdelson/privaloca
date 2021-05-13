@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Stripe\StripeClient;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class SubscriptionController extends AbstractFOSRestController
@@ -45,6 +46,12 @@ final class SubscriptionController extends AbstractFOSRestController
     public function createSubscriptionAdmin(Request $request)
     {
         $subscription = new Subscription();
+        //Integrate stripe id here
+        if (empty($request->request->get('stripeId'))) {
+            $stripe = new StripeClient($this->getParameter('secret_key'));
+            $stripePrice = $this->getStripePrice($subscription, $stripe);
+            $request->request->set('stripeId', $stripePrice['id']);
+        }
         $formOptions = ['translator' => $this->translator];
         $form = $this->createForm(SubscriptionType::class, $subscription, $formOptions);
         $form->submit($request->request->all());
@@ -134,6 +141,12 @@ final class SubscriptionController extends AbstractFOSRestController
     public function editSubscriptionAdmin(int $subscriptionId, Request $request)
     {
         $subscription = $this->subscriptionService->getSubscription($subscriptionId);
+        //Integrate stripe id here
+        if (empty($request->request->get('stripeId'))) {
+            $stripe = new StripeClient($this->getParameter('secret_key'));
+            $stripePrice = $this->getStripePrice($subscription, $stripe);
+            $request->request->set('stripeId', $stripePrice['id']);
+        }
 
         if (!$subscription) {
             throw new EntityNotFoundException('Subscription with id ' . $subscriptionId . ' does not exist!');
@@ -208,5 +221,29 @@ final class SubscriptionController extends AbstractFOSRestController
     {
         $subscription = $this->subscriptionService->getSubscriptionByName($slug);
         return View::create($subscription, Response::HTTP_OK);
+    }
+
+    private function getStripePrice(Subscription $subscription, $stripe)
+    {
+        $subscriptionStripeId = $subscription->getStripeId();
+        $price = null;
+        if (empty($subscriptionStripeId)) {
+            $product = $stripe->products->create([
+                'name' => $subscription->getName(),
+            ]);
+            $price = $stripe->prices->create([
+                'unit_amount' => $subscription->getPrice() * 100,
+                'currency' => 'eur',
+                'recurring' => ['interval' => 'month'],
+                'product' => $product['id']
+            ]);
+            $subscription->setStripeId($price['id']);
+
+            $this->entityManager->persist($subscription);
+            $this->entityManager->flush();
+        } else {
+            $price = $stripe->prices->retrieve($subscriptionStripeId);
+        }
+        return $price;
     }
 }

@@ -1,0 +1,53 @@
+App\Domain\Model\PaymentMethod:
+    type: entity
+    table: payment_method
+    options:
+        comment: Entité pour définir la validité de l'abonnement.
+
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+            options:
+                comment: Identifiant technique de la méthode de payment
+    fields:
+        stripeId:
+            type: string
+            length: 100
+            nullable: false
+            column: stripe_id
+        last4:
+            type: string
+            length: 4
+            nullable: false
+            column: last4
+        fingerprint:
+            type: string
+            length: 16
+            column: fingerprint
+            nullable: false
+        country:
+            type: string
+            length: 2
+            column: country
+            nullable: false
+        defaultMethod:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+    manyToOne:
+        company:
+            targetEntity: Company
+            cascade: [persist, merge]
+            inversedBy: paymentMethods
+            joinColumn:
+                name: id_company
+                referencedColumnName: id
+                nullable: false
+    uniqueConstraints:
+        uniquePaymentMethodFingerprint:
+            columns: fingerprint, id_company
+
+

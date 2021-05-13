@@ -278,11 +278,15 @@
         "name": "Name",
         "price": "Price",
         "dt_debut": "Date of subscription",
-        "dt_fin": "End Date",
+        "dt_fin": "Renewal date/ End date",
         "statut": "Status",
         "in_progress": "In progress",
-        "expired": "Expired",
-        "company": "Company"
+        "coming_soon": "Upcoming",
+        "endend": "Ended",
+        "company": "Company",
+        "canceled_renewal": "Renewal canceled",
+        "canceled": "Canceled",
+        "offer": "Offer"
       }
     }
   },
@@ -292,16 +296,26 @@
       "name": "Subscription name",
       "code": "Code of the subscription",
       "price": "Price",
-      "advantages": "Advantages"
+      "advantages": "Advantages",
+      "stripeId": "Stripe id"
     },
     "placeholder": {
       "name": "Enter a name",
       "code": "Enter a code",
-      "price": "Enter a price"
+      "price": "Enter a price",
+      "stripeId": "Enter stripe price id (optional)"
     },
-    "detailsPremium": "detailsPremium",
-    "detailsPro": "detailsPro",
-    "detailsFree": "detailsFree"
+    "subscribe": "Subscribe",
+    "sign_up": "Sign up",
+    "continue_subscription": "Continue the subscription",
+    "already_subscribed_paid": "This company is subscribed. The next payment is due on {0}.",
+    "already_subscribed_pending": "This company is subscribed but the payment is not yet validated. The next payment is due on {0}",
+    "subscription_cancelled_reload": "This company is subscribed until {0}. If you decide to restart the subscription, it will start at the end of the subscription.",
+    "subscription_cancelled_continue": "This company is subscribed until {0}. If you decide to continue the subscription, it will start at the end of the subscription.",
+    "cancel_subscription": "Cancel subscription renewal",
+    "mandate_acceptance": "By providing your payment information and confirming such payment, you authorize Sakabay and Stripe, our payment service provider, to send instructions to your bank to debit your account and your bank to debit your account in accordance with such instructions. As part of your rights, you are entitled to a refund from your bank in accordance with the terms of your contract with your bank. The refund must be requested within 8 weeks from the date your account was debited. Your rights are explained in a statement that you can obtain from your bank. You agree to receive notifications of future debits up to 2 days before they occur.",
+    "assign_default": "Set as default method payment",
+    "default_payment_method": "Your default payment method :"
   },
   "sous_category": {
     "title": "List of a subcategories",
@@ -428,6 +442,17 @@
         "title": "Responding to the demand for service: ",
         "your_answer": "Your reply"
       }
+    }
+  },
+  "subscription_status": {
+    "title": "List of subscription status",
+    "fields": {
+      "name": "Subscription status",
+      "code": "Code number"
+    },
+    "placeholder": {
+      "name": "Enter a name",
+      "code": "Enter a code number"
     }
   },
   "error_message_required": "This field is mandatory. Thank you for filling it in.",

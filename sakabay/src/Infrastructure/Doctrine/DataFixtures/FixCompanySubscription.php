@@ -32,6 +32,7 @@ class FixCompanySubscription extends Fixture implements OrderedFixtureInterface,
                 $dtFin,
                 $company,
                 $subscription,
+                $subscriptionStatus
             ) = explode(';', trim($data));
 
             $companySubscription = new CompanySubscription();
@@ -39,6 +40,7 @@ class FixCompanySubscription extends Fixture implements OrderedFixtureInterface,
             $companySubscription->setDtFin(new \DateTime($dtFin, new \DateTimeZone('Europe/Paris')));
             $companySubscription->setCompany($this->getReference('company_' . $company));
             $companySubscription->setSubscription($this->getReference('subscription_' . $subscription));
+            $companySubscription->setSubscriptionStatus($this->getReference('subscriptionStatus_' . $subscriptionStatus));
 
             $manager->persist($companySubscription);
             $this->addReference('companySubscription_' . $dtFin, $companySubscription);

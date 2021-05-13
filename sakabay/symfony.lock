@@ -49,6 +49,9 @@
     "doctrine/dbal": {
         "version": "2.10.2"
     },
+    "doctrine/deprecations": {
+        "version": "v0.5.3"
+    },
     "doctrine/doctrine-bundle": {
         "version": "2.0",
         "recipe": {
@@ -363,6 +366,9 @@
         "files": [
             "./config/packages/stof_doctrine_extensions.yaml"
         ]
+    },
+    "stripe/stripe-php": {
+        "version": "v7.78.0"
     },
     "symfony/apache-pack": {
         "version": "1.0",

@@ -4,8 +4,6 @@ namespace App\Application\Service;
 
 use App\Domain\Model\CompanySubscription;
 use App\Infrastructure\Repository\CompanySubscriptionRepositoryInterface;
-use Doctrine\ORM\EntityNotFoundException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CompanySubscriptionService
 {
@@ -33,23 +31,34 @@ class CompanySubscriptionService
         return $this->companySubscriptionRepository->findAll();
     }
 
-    public function createCompanySubscriptionByname(string $name): array
+    public function getActiveSubscription($companyId, $onStripeId, $isCanceled)
     {
-        return $this->subscriptionRepository->createCompanySubscriptionByname($name);
+        return $this->companySubscriptionRepository->getActiveSubscription($companyId, $onStripeId, $isCanceled);
     }
 
-    // ///Editer un Category
-    // public function editCompanySubscription(string $dtFin, string $dtDebut, int $companySubscriptionId)
-    // {
-    //     $companySubscription = $this->companySubscriptionRepository->findById($companySubscriptionId);
-    //     $companySubscription->setDtFin($dtFin);
-    //     $companySubscription->setDtDebut($dtDebut);
+    public function findCompanySubscriptionByStripeId($stripeSubscriptionId): ?CompanySubscription
+    {
+        $companySubscription = $this->companySubscriptionRepository->findOneBy([
+            'stripeId' => $stripeSubscriptionId
+        ]);
+        if (!$companySubscription) {
+            throw new \Exception('Somehow we have no companySubscription id ' . $stripeSubscriptionId);
+        }
 
-    //     return $companySubscription;
-    // }
+        return $companySubscription;
+    }
 
-    // public function getCompanySubscriptionById(int $companySubscriptionId)
-    // {
-    //     return $this->subscriptionRepository->findById($companySubscriptionId);
-    // }
+    public function endCompanySubscriptionByStripeId($stripeSubscriptionId, $dtFin): void
+    {
+        $companySubscription = $this->findCompanySubscriptionByStripeId($stripeSubscriptionId);
+        $companySubscription->setDtFin($dtFin);
+        $this->companySubscriptionRepository->save($companySubscription);
+    }
+
+    public function setStatusCompanySubscriptionByStripeId($stripeSubscriptionId, $subscritonStatus): void
+    {
+        $companySubscription = $this->findCompanySubscriptionByStripeId($stripeSubscriptionId);
+        $companySubscription->setSubscriptionStatus($subscritonStatus);
+        $this->companySubscriptionRepository->save($companySubscription);
+    }
 }

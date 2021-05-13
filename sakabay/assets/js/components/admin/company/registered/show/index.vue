@@ -215,6 +215,7 @@
 <script>
   import axios from 'axios';
   import ConfirmModal from 'components/commons/confirm-modal';
+  import moment from 'moment';
 
   export default {
     components: {
@@ -232,14 +233,20 @@
       urlPrecedente: {
         type: String,
         default: null
-      }
+      },
     },
     data() {
       return {
         DECLINE_CONFIRM_MODAL_ID: 'decline_confirmModal',
         VALIDATE_CONFIRM_MODAL_ID: 'validate_confirmModal',
         company: null,
-        loading: true
+        loading: true,
+        validateForm: {
+          dtDebut: moment().format('YYYY/MM/DD H:m:s'),
+          dtFin: moment().format('YYYY/MM/DD H:m:s'),
+          company: new Object(),
+          stripeId: null,
+        }
       };
     },
     created() {
@@ -257,7 +264,13 @@
     methods: {
       validateCompany() {
         this.loading = true;
-        return axios.post('/api/admin/companies/' + this.companyId + '/validation')
+        let currentDate = moment(this.validateForm.dtStart);
+        let futureMonth= moment(currentDate).add(2, 'M');
+        this.validateForm.dtFin = futureMonth.format('YYYY/MM/DD H:m:s');
+        this.validateForm.company = this.companyId;
+
+        let formData = this.$getFormFieldsData(this.validateForm);
+        return axios.post('/api/admin/companies/' + this.companyId + '/validation', formData)
           .then(response => {
             this.loading = false;
             window.location.assign(response.headers.location);

@@ -38,7 +38,8 @@ class FixCompany extends Fixture implements
                 $companyStatut,
                 $address,
                 $city,
-                $sousCategorys
+                $sousCategorys,
+                $email,
             ) = explode(';', trim($data));
 
 
@@ -52,6 +53,7 @@ class FixCompany extends Fixture implements
             $company->setAddress($this->getReference('address_' . $address));
             $company->setCity($this->getReference('city_' . $city));
             $company->setDtCreated(new \DateTime());
+            $company->setEmail($email);
 
             $listSousCategories = explode('|', $sousCategorys);
             foreach ($listSousCategories as $itemSousCategories) {

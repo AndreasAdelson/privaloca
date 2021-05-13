@@ -196,7 +196,7 @@
     <confirm-modal
       :id="REQUEST_QUOTE_MODAL_ID"
       :title-text="$t('besoin.modal_request_quote.title')"
-      :body-text="$t('besoin.modal_request_quote.text', [currentPendingBesoinTitle, currentCompanyName])"
+      :body-text="$t('besoin.modal_request_quote.text', [currentCompanyName, currentPendingBesoinTitle])"
       :nl2br="true"
       :button-yes-text="$t('commons.yes')"
       :button-no-text="$t('commons.no')"

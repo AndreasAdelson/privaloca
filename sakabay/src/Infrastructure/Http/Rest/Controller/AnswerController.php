@@ -273,7 +273,7 @@ final class AnswerController extends AbstractFOSRestController
                     $receiverEmail = $answer->getBesoin()->getAuthor()->getEmail();
                     $subject = $this->translator->trans('email_send_quote_subject');
                     $bodyMessage = $request->request->get('messageEmail');
-                    $this->sendMail($senderEmail, 'andreasadelson@gmail.com', $subject, $bodyMessage, $uploadDirectory . '/' . $newFileName);
+                    $this->sendMail($senderEmail, $receiverEmail, $subject, $bodyMessage, $uploadDirectory . '/' . $newFileName);
                     $this->entityManager->persist($answer);
                     $this->entityManager->flush();
                 } catch (FileNotFoundException | IOException $e) {

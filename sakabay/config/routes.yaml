@@ -192,7 +192,7 @@ company_statut_new:
     methods: [GET, POST]
 
 company_statut_edit:
-    path: company/edit/{id}
+    path: admin/company-statut/edit/{id}
     controller: App\Infrastructure\Http\Web\Controller\CompanyStatutController::edit
     methods: [GET, POST]
 
@@ -252,7 +252,11 @@ subscription_details_subscriptions:
     path: /subscription/{slug}
     controller: App\Infrastructure\Http\Web\Controller\SubscriptionController::detailsSubscriptions
     methods: [GET]
-
+###Webhook Stripe
+webhook_stripe:
+    path: /webhooks/stripe
+    controller: App\Infrastructure\Http\Web\Controller\WebhookStripeController::stripeWebhookAction
+    methods: [GET, POST]
    # Routes for Subscription object
 subscription_admin_index:
     path: admin/subscription
@@ -293,6 +297,27 @@ advantage_edit:
 advantage_show:
     path: admin/advantage/show/{id}
     controller: App\Infrastructure\Http\Web\Controller\AdvantageController::show
+    methods: [GET, POST]
+
+######### routes for subscription status ###########
+subscription_status_index:
+    path: admin/subscription-status
+    controller: App\Infrastructure\Http\Web\Controller\SubscriptionStatusController::index
+    methods: [GET]
+
+subscription_status_show:
+    path: admin/subscription-status/show/{id}
+    controller: App\Infrastructure\Http\Web\Controller\SubscriptionStatusController::show
+    methods: [GET, POST]
+
+subscription_status_new:
+    path: admin/subscription-status/new
+    controller: App\Infrastructure\Http\Web\Controller\SubscriptionStatusController::new
+    methods: [GET, POST]
+
+subscription_status_edit:
+    path: admin/subscription-status/edit/{id}
+    controller: App\Infrastructure\Http\Web\Controller\SubscriptionStatusController::edit
     methods: [GET, POST]
 
 # Routes for SousCategory object

@@ -10,7 +10,7 @@
               </div>
             </div>
             <div class="col-2 text-right black-light-skb fontSize14">
-              <span>{{ $getDateLabel(pendingQuote.dt_created) }}</span>
+              <span>{{ $getDateLabelFromNow(pendingQuote.dt_created) }}</span>
             </div>
           </div>
           <div class="row">

@@ -4,6 +4,7 @@ namespace App\Infrastructure\Factory;
 
 use App\Domain\Model\Answer;
 use App\Domain\Model\Company;
+use App\Domain\Model\CompanySubscription;
 use App\Domain\Notification\Model\Notification;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -104,6 +105,55 @@ class NotificationFactory
         $message = sprintf(
             $this->translator->trans('requestquote_message'),
             $answer->getBesoin()->getTitle()
+        );
+
+        $this->addNotification($destinataires, $subject, $message, $redirect);
+    }
+
+    public function createCompanySubscription(array $destinataires, string $redirect, CompanySubscription $companysubscription)
+    {
+        $subject = $this->translator->trans('create_company_subscription_subject');
+        $message = sprintf(
+            $this->translator->trans('create_company_subscription_message'),
+            $companysubscription->getSubscription()->getName()
+        );
+
+        $this->addNotification($destinataires, $subject, $message, $redirect);
+    }
+
+    public function confirmPaymentCompanySubscription(array $destinataires, string $redirect)
+    {
+        $subject = $this->translator->trans('confirm_payment_company_subscription_subject');
+        $message = $this->translator->trans('confirm_payment_company_subscription_message');
+
+        $this->addNotification($destinataires, $subject, $message, $redirect);
+    }
+
+    public function unpaidCompanySubscription(array $destinataires, string $redirect)
+    {
+        $subject = $this->translator->trans('unpaid_company_subscription_subject');
+        $message = $this->translator->trans('unpaid_company_subscription_message');
+
+        $this->addNotification($destinataires, $subject, $message, $redirect);
+    }
+
+    public function cancelCompanySubscription(array $destinataires, string $redirect, CompanySubscription $companySubscription)
+    {
+        $subject = $this->translator->trans('cancel_company_subscription_subject');
+        $message = sprintf(
+            $this->translator->trans('cancel_company_subscription_message'),
+            $companySubscription->getDtFin()->format('d/m/Y H:i')
+        );
+
+        $this->addNotification($destinataires, $subject, $message, $redirect);
+    }
+
+    public function trialPeriodCompanySubscription(array $destinataires, string $redirect, CompanySubscription $companySubscription)
+    {
+        $subject = $this->translator->trans('trial_period_company_subscription_subject');
+        $message = sprintf(
+            $this->translator->trans('trial_period_company_subscription_message'),
+            $companySubscription->getDtFin()->format('d/m/Y H:i')
         );
 
         $this->addNotification($destinataires, $subject, $message, $redirect);

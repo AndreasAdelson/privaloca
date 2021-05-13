@@ -94,6 +94,29 @@
                 </fieldset>
               </div>
             </div>
+            <div class="col-6">
+              <div class="form-group">
+                <fieldset
+                  id="stripeId"
+                  class="stripeId"
+                >
+                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('subscription.fields.stripeId') }}</label>
+                  <input
+                    v-model="formFields.stripeId"
+                    type="text"
+                    name="stripeId"
+                    class="form-control"
+                    :placeholder="$t('subscription.placeholder.stripeId')"
+                  >
+                  <div
+                    v-for="errorText in formErrors.stripeId"
+                    :key="'stripeId_' + errorText"
+                  >
+                    <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
           </div>
           <div class="row">
             <fieldset
@@ -173,12 +196,14 @@
           price: null,
           code: null,
           advantages: [],
+          stripeId: null
         },
         formErrors: {
           name: [],
           price: [],
           code: [],
-          advantages: []
+          advantages: [],
+          stripeId: []
         }
       };
     },

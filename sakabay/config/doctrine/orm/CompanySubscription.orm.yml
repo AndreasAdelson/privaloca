@@ -22,6 +22,11 @@ App\Domain\Model\CompanySubscription:
             length: 50
             nullable: true
             column: dt_fin
+        stripeId:
+            type: string
+            length: 100
+            column: stripe_id
+            nullable: true
 
     manyToOne:
         subscription:
@@ -41,5 +46,16 @@ App\Domain\Model\CompanySubscription:
                 name: id_company
                 referencedColumnName: id
                 nullable: false
+
+        subscriptionStatus:
+            targetEntity: SubscriptionStatus
+            orphanRemoval: true
+            cascade: [persist, remove]
+            inversedBy: companySubscriptions
+            joinColumn:
+                name: id_subscription_status
+                referencedColumnName: id
+                nullable: false
+            nullable: false
 
 

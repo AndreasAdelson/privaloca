@@ -57,7 +57,7 @@
           :button-text="$t('dashboard.link.recruit')"
           class-color="blue-skb"
           :small-text="true"
-          :disabled="!hasOneSusbcribed"
+          :disabled="!hasOneValidated"
         />
       </div>
     </div>

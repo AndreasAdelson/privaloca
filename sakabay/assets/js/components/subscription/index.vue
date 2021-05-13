@@ -18,6 +18,7 @@
             img-alt="Image"
             img-height="400"
             img-width="150"
+            style="max-width: 30rem;"
             img-top
           >
             <b-card-text v-if="subscription.advantages">
@@ -35,7 +36,7 @@
               class="btn button_skb_yellow"
               :href="'subscription/'+subscription.name.toLowerCase()"
             >
-              Souscrire
+              {{ $t('subscription.subscribe') }}
             </a>
           </b-card>
         </b-card-group>

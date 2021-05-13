@@ -36,6 +36,7 @@ class MainMenuBuilder
                     "route" => "advantage_index",
                     "roles" => ["ROLE_RADVANTAGE"]
                 ],
+
                 "menu_all_subscriptions" => [
                     "route" => "subscription_admin_index",
                     "roles" => ["ROLE_RSUBSCRIPTION"]
@@ -48,13 +49,20 @@ class MainMenuBuilder
                     "route" => "sous_category_index",
                     "roles" => ["ROLE_RSOUSCATEGORY"]
                 ],
-                "menu_all_companustatus" => [
-                    "route" => "company_statut_index",
-                    "roles" => ["ROLE_RCOMPANYSTATUT"]
-                ],
                 "menu_all_cities" => [
                     "route" => "city_index",
                     "roles" => ["ROLE_RCITY"]
+                ],
+            ],
+            "menu_management_status" => [
+
+                "menu_all_subscriptionstatus" => [
+                    "route" => "subscription_status_index",
+                    "roles" => ["ROLE_RSUBSCRIPTIONSTATUS"]
+                ],
+                "menu_all_companustatus" => [
+                    "route" => "company_statut_index",
+                    "roles" => ["ROLE_RCOMPANYSTATUT"]
                 ],
                 "menu_all_besoinstatut" => [
                     "route" => "besoin_statut_index",

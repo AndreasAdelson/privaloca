@@ -110,7 +110,11 @@
     async created() {
       this.setPageByUrlParameter();
       let promises = [];
-      promises.push(axios.get('/api/companies/utilisateur/' + this.utilisateurId));
+      promises.push(axios.get('/api/companies/utilisateur/' + this.utilisateurId, {
+        params: {
+          onlySubscribed: true
+        }
+      }));
       return Promise.all(promises).then(res => {
         this.companies = _.cloneDeep(res[0].data);
         if (this.companies.length > 0) {

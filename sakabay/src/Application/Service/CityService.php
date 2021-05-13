@@ -22,13 +22,6 @@ class CityService
         $this->cityRepository = $cityRepository;
     }
 
-    public function addCity(string $name)
-    {
-        $city = new City();
-        $city->setName($name);
-        $this->cityRepository->save($city);
-    }
-
     /// Afficher un City
     public function getCity(int $cityId): ?City
     {

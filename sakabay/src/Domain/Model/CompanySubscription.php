@@ -63,9 +63,33 @@ class CompanySubscription
      * @Groups({
      * "api_dashboard_utilisateur",
      * "api_companies",
+     * "api_admin_companies",
      * })
      */
     private $company;
+
+    /**
+     * @var string
+     * @Expose
+     * @Groups({
+     * "api_dashboard_utilisateur",
+     * "api_companies",
+     * "api_admin_companies",
+     * })
+     */
+    private $stripeId;
+
+    /**
+     * @Expose
+     * @Groups({
+     * "api_subscription_status",
+     * "api_admin_companies",
+     * "api_dashboard_utilisateur"
+     * })
+     * @var SubscriptionStatus
+     *
+     */
+    private $subscriptionStatus;
 
 
     public function __construct()
@@ -164,6 +188,39 @@ class CompanySubscription
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
+        return $this;
+    }
+
+    public function getStripeId()
+    {
+        return $this->stripeId;
+    }
+
+    public function setStripeId(?string $stripeId)
+    {
+        $this->stripeId = $stripeId;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @return  SubscriptionStatus
+     */
+    public function getSubscriptionStatus()
+    {
+        return $this->subscriptionStatus;
+    }
+
+    /**
+     *
+     * @param  SubscriptionStatus
+     *
+     * @return  self
+     */
+    public function setSubscriptionStatus(SubscriptionStatus $subscriptionStatus)
+    {
+        $this->subscriptionStatus = $subscriptionStatus;
         return $this;
     }
 }

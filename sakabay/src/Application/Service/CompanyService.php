@@ -178,8 +178,8 @@ class CompanyService
         return $pager;
     }
 
-    public function getCompanyByUserId($utilisateur = '')
+    public function getCompanyByUserId($utilisateur = '', $onlySubscribed = 'false')
     {
-        return $this->companyRepository->getCompanyByUserId($utilisateur);
+        return $this->companyRepository->getCompanyByUserId($utilisateur, $onlySubscribed);
     }
 }

@@ -133,12 +133,18 @@ class CompanyRepository extends AbstractRepository implements CompanyRepositoryI
         return $qb->getQuery()->getResult();
     }
 
-    public function getCompanyByUserId($utilisateur = '')
+    public function getCompanyByUserId($utilisateur = '', $onlySubscribed = 'false')
     {
-        $qb = $this->createQueryBuilder('u');
-        $qb->leftJoin('u.utilisateur', 'utilisateur')
+        $qb = $this->createQueryBuilder('c');
+        $qb->leftJoin('c.utilisateur', 'utilisateur')
             ->andWhere('utilisateur.id = :utilisateurId')
             ->setParameter('utilisateurId', $utilisateur);
+        if ($onlySubscribed === 'true') {
+            $today = \DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:m:s"));
+            $qb->leftJoin('c.companySubscriptions', 'companySubscription')
+                ->andWhere('companySubscription.dtFin >= :today')
+                ->setParameter('today', $today);
+        }
 
         return $qb->getQuery()->getResult();
     }

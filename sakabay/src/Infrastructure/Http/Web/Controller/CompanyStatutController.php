@@ -2,10 +2,7 @@
 
 namespace App\Infrastructure\Http\Web\Controller;
 
-use App\Domain\Model\CompanyStatut;
-use App\Infrastructure\Repository\CompanyStatutRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -39,7 +36,7 @@ class CompanyStatutController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-        return $this->render('admin/compan-statut/form.html.twig', [
+        return $this->render('admin/company-statut/form.html.twig', [
             'companyStatutId' => 'null'
         ]);
     }

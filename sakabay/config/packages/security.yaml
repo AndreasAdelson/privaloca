@@ -54,7 +54,6 @@ security:
         - { path: ^/admin/category/edit, roles: ROLE_UCATEGORY }
         - { path: ^/admin/category/show, roles: ROLE_RCATEGORY }
 
-        # - { path: ^/admin/entreprise, roles: ROLE_RCOMPANY }
         - { path: ^/admin/entreprise/show, roles: ROLE_RCOMPANY }
         - { path: ^/admin/entreprise/edit, roles: ROLE_UCOMPANY }
         - { path: ^/admin/registered/entreprise, roles: ROLE_RCOMPANY }
@@ -64,15 +63,56 @@ security:
         - { path: ^/admin/refused/entreprise/show, roles: ROLE_RCOMPANY }
         - { path: ^/admin/refused/entreprise/edit, roles: ROLE_UCOMPANY }
 
-        - { path: ^/admin/companystatut, roles: ROLE_RCOMPANYSTATUT }
-        - { path: ^/admin/companystatut/show, roles: ROLE_RCOMPANYSTATUT }
-        - { path: ^/admin/companystatut/edit, roles: ROLE_UCOMPANYSTATUT }
-        - { path: ^/admin/companystatut/new, roles: ROLE_CCOMPANYSTATUT }
+        - { path: ^/admin/company-statut, roles: ROLE_RCOMPANYSTATUT }
+        - { path: ^/admin/company-statut/show, roles: ROLE_RCOMPANYSTATUT }
+        - { path: ^/admin/company-statut/edit, roles: ROLE_UCOMPANYSTATUT }
+        - { path: ^/admin/company-statut/new, roles: ROLE_CCOMPANYSTATUT }
 
         - { path: ^/admin/group, roles: ROLE_RGROUP }
         - { path: ^/admin/group/new, roles: ROLE_CGROUP }
         - { path: ^/admin/group/edit, roles: ROLE_UGROUP }
         - { path: ^/admin/group/show, roles: ROLE_RGROUP }
 
-
         - { path: ^/utilisateur/edit, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/entreprises/search, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/entreprise, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/entreprise/new, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/entreprise/edit, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/entreprise/list, roles: IS_AUTHENTICATED_FULLY }
+
+        - { path: ^/admin/city, roles: ROLE_RCITY }
+        - { path: ^/admin/city/new, roles: ROLE_CCITY }
+        - { path: ^/admin/city/edit, roles: ROLE_UCITY }
+        - { path: ^/admin/city/show, roles: ROLE_RCITY }
+
+        - { path: ^/subscription, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/admin/subscription, roles: ROLE_RSUBSCRIPTION }
+        - { path: ^/admin/subscription/new, roles: ROLE_CSUBSCRIPTION }
+        - { path: ^/admin/subscription/edit, roles: ROLE_USUBSCRIPTION }
+        - { path: ^/admin/subscription/show, roles: ROLE_RSUBSCRIPTION }
+
+        - { path: ^/admin/advantage, roles: ROLE_RADVANTAGE }
+        - { path: ^/admin/advantage/new, roles: ROLE_CADVANTAGE }
+        - { path: ^/admin/advantage/edit, roles: ROLE_UADVANTAGE }
+        - { path: ^/admin/advantage/show, roles: ROLE_RADVANTAGE }
+
+        - { path: ^/admin/sous-category, roles: ROLE_RSOUSCATEGORY }
+        - { path: ^/admin/sous-category/new, roles: ROLE_CSOUSCATEGORY }
+        - { path: ^/admin/sous-category/edit, roles: ROLE_USOUSCATEGORY }
+        - { path: ^/admin/sous-category/show, roles: ROLE_RSOUSCATEGORY }
+
+        - { path: ^/admin/besoin-statut, roles: ROLE_RBESOINSTATUT }
+        - { path: ^/admin/besoin-statut/new, roles: ROLE_CBESOINSTATUT }
+        - { path: ^/admin/besoin-statut/edit, roles: ROLE_UBESOINSTATUT }
+        - { path: ^/admin/besoin-statut/show, roles: ROLE_RBESOINSTATUT }
+
+        - { path: ^/services/list, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/services/new, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/services/edit, roles: IS_AUTHENTICATED_FULLY }
+
+        - { path: ^/opportunities/list, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/opportunities/recap, roles: IS_AUTHENTICATED_FULLY }
+
+
+

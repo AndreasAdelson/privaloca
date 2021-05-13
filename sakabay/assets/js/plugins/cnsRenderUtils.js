@@ -108,6 +108,23 @@ const CnsRenderUtils = {
       return label;
     };
 
+
+    Vue.prototype.$getPaymentMethodLabel = function(entity) {
+      let label = '';
+      if (entity) {
+        if (entity.country) {
+          label += entity.country.replaceAll(/./g, '*');
+        }
+        if (entity.fingerprint) {
+          label += entity.fingerprint.replaceAll(/./g, '*');
+        }
+        if (entity.last4) {
+          label += ' ' + entity.last4;
+        }
+      }
+      return label;
+    };
+
     /**
      * Print the given error message in the console.
      * @param {Error} error
@@ -144,9 +161,13 @@ const CnsRenderUtils = {
       return nbMaxChars - _.get(text, 'length', 0);
     };
 
-    Vue.prototype.$getDateLabel = function(date) {
+    Vue.prototype.$getDateLabelFromNow = function(date) {
       return moment(date, 'DD/MM/YYYY H:m:ss').fromNow();
       // return moment(date,'DD/MM/YYYY HH:mm:ss').format('[le] DD/MM/YYYY, [à] HH:mm');
+    };
+
+    Vue.prototype.$getDateLabel = function(date) {
+      return moment(date, 'DD/MM/YYYY H:m:ss').format('DD/MM/YYYY [à] H:mm');
     };
 
     Vue.prototype.$capitalise = function(text) {

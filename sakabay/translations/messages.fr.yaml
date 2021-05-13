@@ -34,13 +34,15 @@ menu_management_company: Gestion des entreprises
 menu_subscribed_company: Entreprises
 menu_registered_company: Inscriptions
 menu_refused_company: Refusées
-menu_all_companustatus: Liste statut des entreprises
+menu_all_companustatus: Liste des statuts des entreprises
 dashboard: "Tableau de bord"
 settings: "Paramètres"
 menu_management_entities: "Gestion des entités"
 menu_all_sous_category: "Liste des sous catégories"
 menu_all_advantages: "Liste des avantages"
 menu_all_subscriptions: "Listes des abonnements"
+menu_all_subscriptionstatus: Liste des statuts des abonnements
+menu_management_status: "Gestion des statuts"
 
 #form-user
 username_placeholder: "Pseudonyme"
@@ -96,7 +98,7 @@ role_title_create_page: "Créer un role"
 role_title_show_page: "Détails d'un role"
 
 #Company statut pages
-company_statut_title_list_page: "Liste des statut des entreprises"
+company_statut_title_list_page: "Liste des statuts des entreprises"
 company_statut_title_edit_page: "Modifier un statut d'entreprise"
 company_statut_title_create_page: "Créer un statut d'entreprise"
 company_statut_title_show_page: "Détails d'un statut d'entreprise"
@@ -143,10 +145,20 @@ city_title_show_page: "Détails d'une ville"
 email_register_confirmation_subject: "Confirmation de votre inscription"
 email_register_confirmation_body: "Bonjour, \n\nVotre candidature pour que l'entreprise « %s », soit référencée sur Sakabay est en cours de traitement.\nNotre enseigne s'assure que votre entreprise respecte bien nos conditions d'utilisations.\nVous pouvez dès à présent vous connectez et suivre l'évolution de votre candidature sur l'application à l'aide de vos identifiants. \n\nMerci pour l'intérêt que vous portez à Sakabay\n\nCet email est automatique, merci de ne pas y répondre.\nL'Equipe Sakabay."
 email_register_validation_subject: "Validation de votre candidature"
-email_register_validation_body: "Bonjour, \n\nC'est avec plaisir que vous nous annoncons que l'inscription de l'entreprise « %s » à été validée par nos équipes.\nNous vous souhaitons donc la bienvenue au sein de notre groupe avec 2 mois d'abonnement offert. Vous pouvez dès maintenant personnaliser votre page de présentation depuis ce lien  %s , accessible depuis le menu glissant de l'application.\nL'Equipe Sakabay vous souhaite une bonne journée.\n\nMerci pour l'intérêt que vous portez à Sakabay\n\nCet email est automatique, merci de ne pas y répondre.\nL'Equipe Sakabay."
+email_register_validation_body: "Bonjour, \n\nC'est avec plaisir que vous nous annoncons que l'inscription de l'entreprise « %s » à été validée par nos équipes.\nNous vous souhaitons donc la bienvenue au sein de notre groupe avec 2 mois d'abonnement offert. Vous pouvez dès maintenant personnaliser votre page de présentation depuis ce lien  %s .\nL'Equipe Sakabay vous souhaite une bonne journée.\n\nMerci pour l'intérêt que vous portez à Sakabay\n\nCet email est automatique, merci de ne pas y répondre.\nL'Equipe Sakabay."
 email_update_password_subject: "Votre mot de passe a été modifié."
 email_update_password_body: "Bonjour, \n\n Nous vous confirmons la modification de votre mot de passe. \n\nBonne journée sur Sakabay."
 email_send_quote_subject: "Réponse à la demande de devis"
+email_pending_payment_subject: "Votre abonnement chez Sakabay"
+email_pending_payment_message: "Votre entreprise %s vient de souscrire à l'abonnement %s, le paiement de votre abonnement est en cours. \nVous pouvez dès à présent accéder à la liste des opportunités ainsi que de profiter de tous les privilèges de l'abonnement %s.\nNous vous souhaitons la bienvenue au sein de nos entreprises partenaires. \nNous vous tenons informé de l'avancement de la situation.\n\nCet email est automatique, merci de ne pas y répondre.\nL'Equipe Sakabay."
+email_first_subscription_subject: "Confirmation de votre abonnement"
+email_first_subscription_body: "Félicitations, \n\nNous vons confirmons que le paiement de votre premier abonnement premium à bien été pris en compte.\nLe prochain prélèvement sera prévu le %s. \n\nNous vous souhaitons une agréable expérience sur Sakabay.\n\nCet email est automatique, merci de ne pas y répondre.\nL'Equipe Sakabay."
+email_renewal_subscription_subject: "Confirmation de votre abonnement"
+email_renewal_subscription_body: "Bonjour, \n\nNous vons confirmons que le paiement de votre abonnement premium à bien été pris en compte.\n  Le prochain prélèvement sera prévu le %s. \n\nNous vous souhaitons une agréable expérience sur Sakabay.\n\nCet email est automatique, merci de ne pas y répondre.\nL'Equipe Sakabay."
+email_payment_failed_subject: "[IMPORTANT] Abonnement annulé"
+email_payment_failed_body: "Bonjour, \n\nLe paiement de votre abonnement premium à échoué.\nSi vous souhaitez relancer un abonnement avec un autre moyen de paiement rendez-vous ce lien %s.\n\nCet email est automatique, merci de ne pas y répondre.\nL'Equipe Sakabay."
+email_first_payment_failed_subject: "[IMPORTANT] Paiement échoué"
+email_first_payment_failed_body: "Bonjour, \n\nLe paiement de votre abonnement premium à échoué.\nPas d'inquiétudes, vous possédez encore des avatanges de l'abonnement premium.Nous effecturons plusieurs tentatives lors des 10 prochains jours. \nNous vous tiendrons informer si l'échec du paiement persiste. \nSi vous souhaitez modifier votre moyen de paiement rendez-vous ce lien %s.\n\nCet email est automatique, merci de ne pas y répondre.\nL'Equipe Sakabay."
 
 ###### Notifications ######
 createcompany_subject_admin: "Inscription d'une entreprise"
@@ -156,7 +168,7 @@ validatecompany_message_admin: "L'entreprise « %s » à été acceptée sur not
 createcompany_subject: "Confirmation inscription"
 createcompany_message: "Votre inscription qui concerne l'entreprise « %s »  est en cours de traitement. Une réponse vous sera délivrée sous 48h."
 validatecompany_subject: "Acceptation de votre candidature"
-validatecompany_message: "Félicitations ! Vous faîtes désormais partis de Sakabay Entrepeneur. Afin de vous souhaiter la bienvenue nous vous offrons 2 mois d'abonnements premium. Bienvenue chez Sakabay :)."
+validatecompany_message: "Félicitations ! Votre entreprise « %s » fait désormais partis de Sakabay Entrepeneur et vous offrons 2 mois d'abonnement premium. Profitez bien de l'expérience Sakabay et bienvenue à vous."
 updatepassword_subject: "Confirmation changement de mot de passe"
 updatepassword_message: "Votre mot de passe a bien été modifié. Un email de confirmation vous a également été envoyé."
 createbesoin_message: "Votre demande « %s » à été publiée avec succès. Nous la transmettons à nos entreprises partenaires pouvant répondre à ce besoin."
@@ -165,6 +177,16 @@ createanswer_message: "L'entreprise « %s » vient de répondre à votre demande
 createanswer_subject: "Réponse à une opportunité"
 requestquote_subject: "Demande de devis"
 requestquote_message: "Une demande de devis à été réalisée concernant l'opportunité « %s »."
+create_company_subscription_message: "Vous venez de souscrire à l'abonnement premium et il est désormais actif. Nous vous souhaitons une agréable expérience sur l'application."
+create_company_subscription_subject: "Abonnement d'une entreprise"
+confirm_payment_company_subscription_message: "Le paiement de votre abonnement premium a été réalisé avec succès. Vous pouvez arrêter l'abonnement quand vous le souhaitez. Nous vous souhaitons une agréable expérience sur l'application."
+confirm_payment_company_subscription_subject: "Confirmation d'une entreprise"
+unpaid_company_subscription_message: "Le paiement de votre abonnement premium a échoué. Nous avons donc annulé votre abonnement. "
+unpaid_company_subscription_subject: "Abonnement d'une entreprise impayé"
+cancel_company_subscription_message: "Vous venez d'annuler le renouvellement de votre abonnement. Votre abonnement arrivera donc à échéance le %s ."
+cancel_company_subscription_subject: "Annulation de l'abonnement d'une entreprise"
+trial_period_company_subscription_subject: "Periode d'essai"
+trial_period_company_subscription_message: "Nous avons bien pris en compte votre souhait de renouveler votre abonnement premium. Le prochain prélèvement aura lieu le %s"
 
 ####Footer:
 company_footer_name: "SAKABAY"
@@ -218,3 +240,9 @@ subscription_title_list_page: "Liste des abonnements"
 subscription_title_edit_page: "Modifier un abonnement"
 subscription_title_create_page: "Créer un abonnement"
 subscription_title_show_page: "Détails d'un abonnement"
+
+#Subscription status pages
+subscription_status_title_list_page: "Liste des statuts des abonnements"
+subscription_status_title_edit_page: "Modifier un statut d'abonnement"
+subscription_status_title_create_page: "Créer un statut d'abonnement"
+subscription_status_title_show_page: "Détails d'un statut d'abonnement"

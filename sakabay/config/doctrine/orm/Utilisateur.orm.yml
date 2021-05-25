@@ -49,6 +49,11 @@ App\Domain\Model\Utilisateur:
                     on: update
             options:
                 default: CURRENT_TIMESTAMP
+        cuvi:
+            type: string
+            length: 191
+            column: cuvi
+            nullable: true
 
     uniqueConstraints:
         uniqueGroupCode:
@@ -83,4 +88,4 @@ App\Domain\Model\Utilisateur:
             targetEntity: Comment
             mappedBy: utilisateur
             nullable: true
-    
+

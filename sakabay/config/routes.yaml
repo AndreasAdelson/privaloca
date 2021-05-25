@@ -35,6 +35,11 @@ dashboard:
     controller: App\Infrastructure\Http\Web\Controller\DashboardController::index
     methods: [GET, POST]
 
+documents:
+    path: /documents
+    controller: App\Infrastructure\Http\Web\Controller\DashboardController::documents
+    methods: [GET, POST]
+
 # Routes for Fonction object
 fonction_index:
     path: admin/fonction

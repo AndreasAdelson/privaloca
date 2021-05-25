@@ -193,6 +193,12 @@ class Utilisateur implements UserInterface, EquatableInterface, NotifiableInterf
      */
     private $updated;
 
+    /**
+     * @var cuvi
+     *
+     */
+    private $cuvi;
+
 
     public function __construct()
     {
@@ -557,6 +563,15 @@ class Utilisateur implements UserInterface, EquatableInterface, NotifiableInterf
             $this->comments->removeElement($comment);
         }
 
+        return $this;
+    }
+
+    public function getCuvi(){
+        return $this->cuvi;
+    }
+
+    public function setCuvi(?string $cuvi){
+        $this->cuvi = $cuvi;
         return $this;
     }
 }

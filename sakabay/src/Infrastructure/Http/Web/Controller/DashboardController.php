@@ -14,7 +14,7 @@ class DashboardController extends AbstractController
 {
 
     /**
-     * @Route("/Dashboard", name="dashboard", methods="GET")
+     * @Route("/dashboard", name="dashboard", methods="GET")
      */
     public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
@@ -23,6 +23,20 @@ class DashboardController extends AbstractController
         } else {
             return $this->render('dashboard/index.html.twig', [
                 'controller_name' => 'UtilisateurController',
+                'utilisateurId' => $this->getUser()->getId()
+            ]);
+        }
+    }
+
+    /**
+     * @Route("/documents", name="documents", methods="GET")
+     */
+    public function documents(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        } else {
+            return $this->render('dashboard/document.html.twig', [
                 'utilisateurId' => $this->getUser()->getId()
             ]);
         }

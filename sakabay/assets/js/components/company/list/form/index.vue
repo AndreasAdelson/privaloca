@@ -299,8 +299,8 @@
 
                   <multiselect
                     v-model="formFields.sousCategorys"
-                    :disabled="!isSubscriptionActive"
                     :options="sousCategorys"
+                    :disabled="!formFields.category"
                     name="sousCategory"
                     placeholder="Selectionner vos activités"
                     :searchable="false"
@@ -316,9 +316,6 @@
                     :key="'sousCategory_' + errorText"
                   >
                     <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
-                  </div>
-                  <div>
-                    <span class="fontSize14 fontUbuntuItalic">{{ $t('commons.only_subscribed_edit') }}</span>
                   </div>
                 </fieldset>
               </div>

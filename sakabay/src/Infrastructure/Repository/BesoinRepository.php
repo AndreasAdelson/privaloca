@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 
 class BesoinRepository extends AbstractRepository implements BesoinRepositoryInterface
 {
-
     public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct($entityManager, new ClassMetadata(Besoin::class));
@@ -47,7 +46,7 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
                 );
             }
             $qb->orWhere($orStatements);
-        } else if (!empty($codeStatut)) {
+        } elseif (!empty($codeStatut)) {
             $qb->leftJoin('b.besoinStatut', 'besoinStatut')
                 ->andWhere('besoinStatut.code = :codeStatut')
                 ->setParameter('codeStatut', $codeStatut);
@@ -157,7 +156,8 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
 
     public function getPaginatedOpportunityWithRequestedQuoteList(
         $company = '',
-        $isCounting = false
+        $isCounting = false,
+        $onlyCompany = false
     ) {
         $qb = $this->createQueryBuilder('b');
         if ($isCounting) {
@@ -166,9 +166,16 @@ class BesoinRepository extends AbstractRepository implements BesoinRepositoryInt
         $qb->leftJoin('b.answers', 'answer')
             ->andWhere('answer.requestQuote = 1')
             ->andWhere('answer.company = :companyId');
-        $qb->leftJoin('answer.company', 'company')
-            ->andWhere('company.id = :companyId')
+        $qb->leftJoin('answer.company', 'answerCompany')
+            ->andWhere('answerCompany.id = :companyId')
             ->setParameter('companyId', $company);
+        if ($onlyCompany === 'false') {
+            $qb->leftJoin('b.company', 'company')
+            ->andWhere('company IS NULL');
+        } else {
+            $qb->leftJoin('b.company', 'company')
+            ->andWhere('company IS NOT NULL');
+        }
         if (!$isCounting) {
             $qb->addSelect('answer');
         }

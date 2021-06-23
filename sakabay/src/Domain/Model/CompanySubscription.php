@@ -21,6 +21,7 @@ class CompanySubscription
      * @Groups({
      * "api_companies",
      * "api_admin_companies",
+     * "api_company_subscriptions"
      * })
      */
     private $id;
@@ -32,6 +33,7 @@ class CompanySubscription
      * "api_dashboard_utilisateur",
      * "api_companies",
      * "api_admin_companies",
+     * "api_company_subscriptions"
      * })
      */
     private $dtDebut;
@@ -43,6 +45,7 @@ class CompanySubscription
      * "api_dashboard_utilisateur",
      * "api_companies",
      * "api_admin_companies",
+     * "api_company_subscriptions"
      * })
      */
     private $dtFin;
@@ -52,6 +55,7 @@ class CompanySubscription
      * @Expose
      * @Groups({
      * "api_dashboard_utilisateur",
+     * "api_admin_companies",
      * "api_companies",
      * })
      */
@@ -75,6 +79,7 @@ class CompanySubscription
      * "api_dashboard_utilisateur",
      * "api_companies",
      * "api_admin_companies",
+     * "api_company_subscriptions"
      * })
      */
     private $stripeId;
@@ -84,7 +89,8 @@ class CompanySubscription
      * @Groups({
      * "api_subscription_status",
      * "api_admin_companies",
-     * "api_dashboard_utilisateur"
+     * "api_dashboard_utilisateur",
+     * "api_company_subscriptions"
      * })
      * @var SubscriptionStatus
      *

@@ -56,8 +56,8 @@ import ShowCompanyStatut from './components/admin/company-statut/show';
 import ListCompanyStatut from './components/admin/company-statut';
 import RegisterCompanyForm from './components/company/register/form';
 import RegisterCompany from './components/company/register';
-import ListCompanySubscribed from './components/admin/company/subscribed';
-import CompanySubscribedShow from './components/admin/company/subscribed/show';
+import ListCompanySubscribed from './components/admin/company/validated';
+import CompanySubscribedShow from './components/admin/company/validated/show';
 import ListCompanyRegistered from './components/admin/company/registered';
 import CompanyRegisteredShow from './components/admin/company/registered/show';
 import CompanyAdminForm from './components/admin/company/form';
@@ -94,9 +94,11 @@ import ListSubscription from './components/admin/subscription';
 import FormSubscriptionStatus from './components/admin/subscription-status/form';
 import ShowSubscriptionStatus from './components/admin/subscription-status/show';
 import ListSubscriptionStatus from './components/admin/subscription-status';
+import FormCompanySubscription from './components/admin/company-subscription/form';
 import 'utils/logger';
 import Nl2br from 'vue-nl2br';
 import Raters from 'vue-rate-it';
+import Datepicker from 'vuejs-datepicker';
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
@@ -120,6 +122,7 @@ Vue.use(vuescroll, {
     locking: true,
   },
 });
+
 
 Vue.prototype.$vuescrollConfig = {
   bar: {
@@ -240,6 +243,8 @@ new Vue({
     ListSubscriptionStatus,
     ShowSubscriptionStatus,
     FormSubscriptionStatus,
+    FormCompanySubscription,
+    Datepicker
   }
 });
 
@@ -250,4 +255,20 @@ $(document).ready(() => {
   // Bootstrap tooltips
   $('[data-toggle="tooltip"]').tooltip();
 
+  // Input data-empty control
+  $('form')
+    .find('input, textarea')
+    .each(function() {
+      $(this).attr('data-empty', $(this).val().length <= 0);
+  });
+  $('form')
+    .find('input')
+    .on('input', e => {
+      $(e.currentTarget).attr('data-empty', !e.currentTarget.value);
+  });
+  $('form')
+    .find('textarea')
+    .on('input', e => {
+      $(e.currentTarget).attr('data-empty', !e.currentTarget.value);
+  });
 });

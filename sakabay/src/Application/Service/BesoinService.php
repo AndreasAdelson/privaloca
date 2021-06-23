@@ -115,7 +115,6 @@ class BesoinService
         $currentPage = 1,
         $perPage = PHP_INT_MAX ? PHP_INT_MAX : 10
     ) {
-
         $opportunities =  $this->besoinRepository
             ->getPaginatedOpportunityList($category, $sousCategory, 'false', $company);
         return $this->paginateArray($opportunities, $perPage, $currentPage);
@@ -146,21 +145,22 @@ class BesoinService
     public function getPaginatedOpportunityWithRequestedQuoteList(
         $company = '',
         $currentPage = 1,
-        $perPage = PHP_INT_MAX ? PHP_INT_MAX : 10
+        $perPage = PHP_INT_MAX ? PHP_INT_MAX : 10,
+        $onlyCompany = false
     ) {
-
         $opportunities =  $this->besoinRepository
-            ->getPaginatedOpportunityWithRequestedQuoteList($company, false);
+            ->getPaginatedOpportunityWithRequestedQuoteList($company, false, $onlyCompany);
         return $this->paginateArray($opportunities, $perPage, $currentPage);
     }
 
 
     public function getCountOpportunitiesWithRequestedQuote(
         $company = '',
-        $isCounting = true
+        $isCounting = true,
+        $onlyCompany = false
     ) {
         return $this->besoinRepository
-            ->getPaginatedOpportunityWithRequestedQuoteList($company, $isCounting);
+            ->getPaginatedOpportunityWithRequestedQuoteList($company, $isCounting, $onlyCompany);
     }
 
     /**

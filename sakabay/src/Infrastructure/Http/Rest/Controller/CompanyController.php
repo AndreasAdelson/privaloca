@@ -99,7 +99,7 @@ final class CompanyController extends AbstractFOSRestController
         $this->entityManager->flush();
         //WARNING be sure about who get this notification for production
 
-        $email = $company->getUtilisateur()->getEmail();
+        $email = $company->getEmail();
         $subject = $this->translator->trans('email_register_confirmation_subject');
         $bodyMessage = sprintf($this->translator->trans('email_register_confirmation_body'), $company->getName());
         $this->sendMail($email, $subject, $bodyMessage);
@@ -336,7 +336,7 @@ final class CompanyController extends AbstractFOSRestController
             'translator' => $this->translator,
         ];
         $isValidated =  $request->request->get('validated');
-        $ressourceLocation = $isValidated ? $this->generateUrl('company_subscribed_index') : $this->generateUrl('company_registered_index');
+        $ressourceLocation = $isValidated ? $this->generateUrl('company_validated_index') : $this->generateUrl('company_registered_index');
         $request->request->remove('validated');
 
         $form = $this->createForm(CompanyAdminEditType::class, $company, $formOptions);
@@ -472,7 +472,7 @@ final class CompanyController extends AbstractFOSRestController
         } catch (EntityNotFoundException $e) {
             throw new NotFoundHttpException($e->getMessage());
         }
-        $ressourceLocation = $this->generateUrl('company_subscribed_index');
+        $ressourceLocation = $this->generateUrl('company_validated_index');
 
         return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
     }

@@ -71,6 +71,7 @@ logout: "Se déconnecter"
 edit_account: "Modifier son compte"
 error_message_field_not_empty_city: "Ce champ est obligatoire. Assurez-vous que la ville existe sur l'application en tapant les deux premières lettres. Si le champ ne vous propose pas la ville que vous recherchez veuillez nous contacter."
 edit_company_profil: "Modifier son entreprise"
+error_message_start_before_end: "La date de début doit précéder la date de fin"
 
 # Page d'erreur 404
 

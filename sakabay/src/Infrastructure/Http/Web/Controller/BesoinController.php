@@ -33,9 +33,7 @@ class BesoinController extends AbstractController
      */
     public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/group/index.html.twig', [
             'canCreate' => $authorizationChecker->isGranted('ROLE_CGROUP'),
             'canRead' => $authorizationChecker->isGranted('ROLE_RGROUP'),
@@ -49,9 +47,7 @@ class BesoinController extends AbstractController
      */
     public function new()
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $utilisateurId = $this->getUser()->getId();
         return $this->render('utilisateur/besoin/form.html.twig', [
             'utilisateurId' => $utilisateurId,
@@ -64,9 +60,7 @@ class BesoinController extends AbstractController
      */
     public function edit(int $id)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $utilisateurId = $this->getUser()->getId();
         return $this->render('utilisateur/besoin/form.html.twig', [
             'utilisateurId' => $utilisateurId,
@@ -91,9 +85,7 @@ class BesoinController extends AbstractController
      */
     public function manageBesoinList()
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $utilisateurId = $this->getUser()->getId();
         return $this->render('utilisateur/besoin/list.html.twig', [
             'utilisateurId' => $utilisateurId,
@@ -105,9 +97,7 @@ class BesoinController extends AbstractController
      */
     public function opportunityList()
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $utilisateurId = $this->getUser()->getId();
         $companies = $this->getUser()->getCompanys();
         if (empty($companies)) {
@@ -134,9 +124,7 @@ class BesoinController extends AbstractController
      */
     public function opportunityRecap(int $id, string $slug)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $company = $this->companyService->getCompanyByUrlName($slug);
         if (empty($company)) {
             throw new NotFoundHttpException('Page does not exist');

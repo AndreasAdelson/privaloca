@@ -19,9 +19,7 @@ class CityController extends AbstractController
      */
     public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/city/index.html.twig', [
             'canCreate' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'canRead' => $authorizationChecker->isGranted('ROLE_ADMIN'),
@@ -35,9 +33,7 @@ class CityController extends AbstractController
      */
     public function new()
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/city/form.html.twig', [
             'cityId' => 'null'
         ]);
@@ -49,9 +45,7 @@ class CityController extends AbstractController
      */
     public function edit(int $id)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/city/form.html.twig', [
             'cityId' => $id,
         ]);
@@ -63,9 +57,7 @@ class CityController extends AbstractController
      */
     public function show(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/city/show.html.twig', [
             'canEdit' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'cityId' => $id,

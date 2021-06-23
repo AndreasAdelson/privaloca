@@ -1,8 +1,11 @@
 <template>
-  <table class="table table-hover text-center">
+  <table class="table table-hover text-center mb-0">
     <thead>
       <tr class="fontAlice">
-        <th scope="col">
+        <th
+          v-if="withCompanyName"
+          scope="col"
+        >
           {{ $t('dashboard.history.table.company') }}
         </th>
         <th scope="col">
@@ -20,6 +23,12 @@
         <th scope="col">
           {{ $t('dashboard.history.table.statut') }}
         </th>
+        <th
+          v-if="canEdit"
+          scope="col"
+        >
+          {{ $t('dashboard.history.table.action') }}
+        </th>
       </tr>
     </thead>
     <tbody class="fontPoppins fontSize14">
@@ -28,12 +37,25 @@
         :key="'history_'+ index"
         :class="history.isActive ? 'orange-skb' : ''"
       >
-        <td>{{ history.company_name }}</td>
+        <td
+          v-if="withCompanyName"
+        >
+          {{ history.company_name }}
+        </td>
         <td>{{ history.subscription.name }}</td>
         <td>{{ getPriceLabel(history) }}</td>
         <td>{{ getDtDebutLabel(history.dt_debut) }}</td>
         <td>{{ getDtDebutLabel(history.dt_fin) }}</td>
         <td>{{ isHistoryActive(history) }}</td>
+        <td v-if="canEdit">
+          <a
+            v-if="canEdit"
+            :href="'/admin/company-subscription/edit/' + history.id"
+            class="mx-1"
+          >
+            <b-button><font-awesome-icon :icon="['fas', 'edit']" /></b-button>
+          </a>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -48,6 +70,14 @@
         type: Array,
         default: null
       },
+      withCompanyName: {
+        type: Boolean,
+        default: false
+      },
+      canEdit: {
+        type: Boolean,
+        default: false
+      }
     },
     data() {
       return {
@@ -86,7 +116,7 @@
           }
           break;
         case 'TER':
-          label = this.$t('dashboard.history.table.expired');
+          label = this.$t('dashboard.history.table.ended');
           break;
         case 'ENC':
           label = this.$t('dashboard.history.table.in_progress');
@@ -99,7 +129,7 @@
             if (moment(history.dt_fin, 'DD/MM/YYYY HH:mm:ss').isAfter()) {
               label = this.$t('dashboard.history.table.canceled');
             } else {
-              label = this.$t('dashboard.history.table.expired');
+              label = this.$t('dashboard.history.table.ended');
             }
           }
           break;
@@ -107,7 +137,7 @@
           if(history.isActive) {
             label = this.$t('dashboard.history.table.offer');
           } else {
-            label = this.$t('dashboard.history.table.expired');
+            label = this.$t('dashboard.history.table.ended');
           }
           break;
         }

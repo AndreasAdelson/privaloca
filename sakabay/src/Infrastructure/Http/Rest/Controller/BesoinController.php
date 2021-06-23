@@ -406,10 +406,13 @@ final class BesoinController extends AbstractFOSRestController
      *             default="10",
      *             description="Taille de la page"
      * )
-     *
      * @QueryParam(name="count",
      *             default=false,
      *             description="Avoir le total de résultats"
+     * )
+     * @QueryParam(name="onlyCompany",
+     *             default="false",
+     *             description="Uniquement les devis des entreprises"
      * )
      *
      * @return View
@@ -421,6 +424,7 @@ final class BesoinController extends AbstractFOSRestController
         $currentPage = $paramFetcher->get('currentPage');
         $perPage = $paramFetcher->get('perPage');
         $isCounting = $paramFetcher->get('count');
+        $onlyCompany = $paramFetcher->get('onlyCompany');
         /**
          * Oblige à ce que le paramètre company soit donné pour effectuer la requête.
          * Sans cela un petit malin pourrait récupérer tous les besoins depuis cette route.
@@ -431,11 +435,11 @@ final class BesoinController extends AbstractFOSRestController
         //Avoir le total
         if ($isCounting) {
             $response = $this->besoinService
-                ->getCountOpportunitiesWithRequestedQuote($company, $isCounting);
+                ->getCountOpportunitiesWithRequestedQuote($company, $isCounting, $onlyCompany);
             return View::create($response, Response::HTTP_OK);
         }
         $pager = $this->besoinService
-            ->getPaginatedOpportunityWithRequestedQuoteList($company, $currentPage, $perPage);
+            ->getPaginatedOpportunityWithRequestedQuoteList($company, $currentPage, $perPage, $onlyCompany);
         $besoins = $pager->getCurrentPageResults();
         $nbResults = $pager->getNbResults();
         $view = $this->view($besoins, Response::HTTP_OK);
@@ -452,7 +456,6 @@ final class BesoinController extends AbstractFOSRestController
      */
     public function getOpportunityRecap(int $besoinId, int $companyId): View
     {
-
         $besoin = $this->besoinService->getBesoinAnsweredByCompany($besoinId, $companyId);
 
         return View::create($besoin, Response::HTTP_OK);

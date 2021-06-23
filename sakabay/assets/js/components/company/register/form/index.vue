@@ -1,11 +1,14 @@
 <template>
   <div class="skb-body container">
+    <h3 class="fontUbuntuItalic orange-skb text-center p-1">
+      {{ $t('company.title_create_company') }}
+    </h3>
     <div v-show="loading">
       <div class="loader-container-full">
         <div class="loader" />
       </div>
     </div>
-    <a href="/">
+    <a @click="goBack()">
       <button
         title="Annulez "
         type="button"
@@ -25,7 +28,7 @@
                   id="name"
                   class="name"
                 >
-                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('company.fields.name') }}</label>
+                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('company.fields.name') }} <span class="red">*</span></label>
                   <input
                     v-model="formFields.name"
                     v-validate="'required'"
@@ -49,7 +52,7 @@
                   id="numSiret"
                   class="numSiret"
                 >
-                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('company.fields.num_siret') }}</label>
+                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('company.fields.num_siret') }} <span class="red">*</span></label>
                   <input
                     v-model="formFields.numSiret"
                     v-validate="'required'"
@@ -74,10 +77,98 @@
             <div class="col-6">
               <div class="form-group">
                 <fieldset
+                  id="email"
+                  class="email"
+                >
+                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('company.fields.email') }} <span class="red">*</span></label>
+                  <input
+                    v-model="formFields.email"
+                    v-validate="'required|email'"
+                    type="text"
+                    name="email"
+                    class="form-control"
+                    :placeholder="$t('company.placeholder.email')"
+                  >
+                  <div
+                    v-for="errorText in formErrors.email"
+                    :key="'email_' + errorText"
+                  >
+                    <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <fieldset
+                id="category"
+                class="category"
+              >
+                <label class="fontUbuntuItalic fontSize14">{{ this.$t('company.table.fields.category') }} <span class="red">*</span></label>
+
+                <multiselect
+                  v-model="formFields.category"
+                  v-validate="'required'"
+                  :options="category"
+                  name="category"
+                  placeholder="Selectionner categorie"
+                  :searchable="false"
+                  :close-on-select="false"
+                  :show-labels="false"
+                  label="name"
+                  track-by="name"
+                  open-direction="below"
+                  @input="getSousCategorys"
+                />
+                <div
+                  v-for="errorText in formErrors.category"
+                  :key="'category_' + errorText"
+                >
+                  <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <fieldset
+                  id="sousCategory"
+                  class="sousCategory"
+                >
+                  <label class="fontUbuntuItalic fontSize16">{{ this.$t('company.table.fields.sous_category') }}</label>
+                  <multiselect
+                    v-model="formFields.sousCategorys"
+                    :options="sousCategorys"
+                    :disabled="!formFields.category"
+                    name="sousCategory"
+                    placeholder="Selectionner vos activités"
+                    :searchable="false"
+                    :close-on-select="false"
+                    :show-labels="false"
+                    :multiple="true"
+                    label="name"
+                    track-by="name"
+                    open-direction="below"
+                  />
+                  <div
+                    v-for="errorText in formErrors.sousCategorys"
+                    :key="'sousCategory_' + errorText"
+                  >
+                    <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <!-- Third row -->
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <fieldset
                   id="postalAddress"
                   class="postalAddress"
                 >
-                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('company.table.fields.address.postal_address') }}</label>
+                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('company.table.fields.address.postal_address') }} <span class="red">*</span></label>
                   <input
                     v-model="formFields.address.postalAddress"
                     v-validate="'required'"
@@ -107,7 +198,7 @@
                   id="postalCode"
                   class="postalCode"
                 >
-                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('company.table.fields.address.postal_code') }}</label>
+                  <label class="fontUbuntuItalic fontSize14">{{ this.$t('company.table.fields.address.postal_code') }} <span class="red">*</span></label>
                   <input
                     v-model="formFields.address.postalCode"
                     v-validate="'required'"
@@ -163,14 +254,14 @@
               />{{ $t('company.table.fields.address.warning_message') }}</span>
             </div>
           </div>
-          <!-- third row -->
+          <!-- Fourth row -->
           <div class="row mb-3">
             <div class="col-6">
               <fieldset
                 id="city"
                 class="city"
               >
-                <label class="fontUbuntuItalic fontSize14">{{ this.$t('company.table.fields.city') }}</label>
+                <label class="fontUbuntuItalic fontSize14">{{ this.$t('company.table.fields.city') }} <span class="red">*</span></label>
                 <autocomplete
                   ref="autocomplete"
                   v-model="formFields.city"
@@ -189,34 +280,6 @@
                 <div
                   v-for="errorText in formErrors.city"
                   :key="'city_' + errorText"
-                >
-                  <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
-                </div>
-              </fieldset>
-            </div>
-            <div class="col-6">
-              <fieldset
-                id="category"
-                class="category"
-              >
-                <label class="fontUbuntuItalic fontSize14">{{ this.$t('company.table.fields.category') }}</label>
-
-                <multiselect
-                  v-model="formFields.category"
-                  v-validate="'required'"
-                  :options="category"
-                  name="category"
-                  placeholder="Selectionner categorie"
-                  :searchable="false"
-                  :close-on-select="false"
-                  :show-labels="false"
-                  label="name"
-                  track-by="name"
-                  open-direction="below"
-                />
-                <div
-                  v-for="errorText in formErrors.category"
-                  :key="'category_' + errorText"
                 >
                   <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
                 </div>
@@ -266,6 +329,10 @@
         type: Number,
         default: null
       },
+      urlPrecedente: {
+        type: String,
+        default: null
+      }
     },
     data() {
       return {
@@ -278,7 +345,9 @@
           utilisateur: new Object(),
           address: new Object(),
           category: null,
-          city: new Object()
+          city: new Object(),
+          email: null,
+          sousCategorys: null
         },
         position: {
           lng: null,
@@ -294,11 +363,19 @@
           category: [],
           city: [],
           postalAddress: [],
-          postalCode: []
+          postalCode: [],
+          sousCategorys: []
         },
         category: [],
-        utilisateur: null
+        utilisateur: null,
+        userEmail: null,
+        sousCategorys: []
       };
+    },
+    watch: {
+      utilisateur(newValue) {
+        this.formFields.email = newValue.email;
+      }
     },
     created() {
       let promises = [];
@@ -318,7 +395,6 @@
       });
     },
     methods: {
-
       getLongLat() {
         let query = this.formFields.address.postalAddress + ' ' + this.formFields.city;
         let postalCode = this.formFields.address.postalCode;
@@ -340,6 +416,19 @@
         }).catch(e => {
           this.$handleError(e);
           this.loadingMap = false;
+        });
+      },
+
+      getSousCategorys() {
+        axios.get('/api/admin/sous-categories', {
+          params: {
+            category: this.formFields.category.id
+          }
+        }).then(res => {
+          this.sousCategorys =  res.data;
+        }).catch(e => {
+          this.$handleError(e);
+          this.loading = false;
         });
       },
 
@@ -374,6 +463,9 @@
             this.loading = false;
 
           });
+      },
+      goBack() {
+        this.$goTo(this.urlPrecedente);
       },
     },
   };

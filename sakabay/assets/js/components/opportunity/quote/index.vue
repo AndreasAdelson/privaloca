@@ -90,6 +90,77 @@
               </div>
             </div>
           </div>
+          <div class="card mt-2">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <div class="title-card-skb ">
+                    <span class="underline">{{ $t('opportunity.quote.company_request') }}</span>
+                    <span
+                      class="fontPoppins fontSize12 py-1 px-2 orange-gradiant white-skb rounded"
+                    >{{ nbResult }}</span>
+                  </div>
+                </div>
+              </div>
+              <div v-if="printedCompanyQuote.length == 0">
+                <div class="row">
+                  <div class="col">
+                    <p class="text-center mt-3">
+                      {{ $t('opportunity.quote.no_company_request') }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                v-else
+                class="row scroll-h500"
+              >
+                <vuescroll>
+                  <div class="col-12">
+                    <div
+                      v-for="(pendingCompanyQuote, index) in printedCompanyQuote"
+                      :key="'pendingQuote_' + index"
+                      :class="setColorCard(pendingCompanyQuote)"
+                      class="service-card mb-2 px-3 pt-3 border"
+                    >
+                      <quote-card
+                        :pending-quote="pendingCompanyQuote"
+                        :company-selected="companySelected"
+                      />
+                    </div>
+                    <div
+                      class="w-100 whitebg text-center"
+                    >
+                      <div
+                        v-if="isScrolling"
+                        v-show="loading3"
+                        class="my-5"
+                      >
+                        <div class="loader4" />
+                      </div>
+                    </div>
+                    <div
+                      v-if="printedCompanyQuote.length"
+                      v-observe-visibility="(isVisible,entry) => throttledScroll(isVisible,API_URL,params,entry, 'companyQuote')"
+                      name="spy"
+                    />
+                    <div
+                      v-if="bottom && printedCompanyQuote.length > 0"
+                      class="text-center pt-4"
+                    >
+                      <span>{{ $t('opportunity.customer.end_of_results') }}</span>
+                    </div>
+                    <div
+                      v-else-if="bottom && printedCompanyQuote.length === 0"
+                      class="text-center pt-4"
+                    >
+                      <span>{{ $t('opportunity.customer.no_opportunity') }}</span>
+                    </div>
+                  </div>
+                </vuescroll>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -119,12 +190,16 @@
         API_URL: '/api/opportunities/quote',
         loading: false,
         loading2: false,
+        loading3: false,
         nbResult: 0,
+        nbResut2: 0,
         isScrolling: false,
         bottom: false,
+        bottom2: false,
         nbMaxResult: 10,
         currentPage: 2,
         printedEntities: [],
+        printedCompanyQuote: [],
         firstAttempt: true,
       };
     },
@@ -148,24 +223,44 @@
         this.loading = true;
         promises.push(axios.get('/api/opportunities/quote', {
           params: {
-            company: this.companySelected.id
+            company: this.companySelected.id,
+            onlyCompany: false
+          }
+        }));
+        promises.push(axios.get('/api/opportunities/quote', {
+          params: {
+            company: this.companySelected.id,
+            onlyCompany: true
           }
         }));
         if (this.firstAttempt) {
           promises.push(axios.get('/api/opportunities/quote?count=true', {
             params: {
-              company: this.companySelected.id
+              company: this.companySelected.id,
+              onlyCompany: false
+
+            }
+          }));
+          promises.push(axios.get('/api/opportunities/quote?count=true', {
+            params: {
+              company: this.companySelected.id,
+              onlyCompany: true
             }
           }));
         }
         return Promise.all(promises).then(res => {
           this.loading = false;
           this.printedEntities = _.cloneDeep(res[0].data);
+          this.printedCompanyQuote = _.cloneDeep(res[1].data);
           if (this.printedEntities.length < this.nbMaxResult) {
             this.bottom = true;
           }
+          if (this.printedCompanyQuote.length < this.nbMaxResult) {
+            this.bottom2 = true;
+          }
           if (this.firstAttempt) {
-            this.nbResult = _.cloneDeep(res[1].data);
+            this.nbResult = _.cloneDeep(res[2].data);
+            this.nbResult2 = _.cloneDeep(res[3].data);
             this.firstAttempt = false;
           }
         }).catch(e => {

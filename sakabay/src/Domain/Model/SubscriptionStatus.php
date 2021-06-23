@@ -24,7 +24,8 @@ class SubscriptionStatus
      * @Groups({
      * "api_subscription_status",
      * "api_admin_companies",
-     * "api_companies"
+     * "api_companies",
+     * "api_company_subscriptions"
      * })
      */
     private $id;
@@ -35,6 +36,7 @@ class SubscriptionStatus
      * @Groups({
      * "api_subscription_status",
      * "api_admin_companies",
+     * "api_company_subscriptions",
      * "api_companies"
      * })
      */

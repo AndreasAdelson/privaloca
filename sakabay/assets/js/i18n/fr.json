@@ -1,5 +1,6 @@
 {
   "commons": {
+    "continue": "Continuer",
     "create": "Créer",
     "cancel": "Annuler",
     "actions": "Actions",
@@ -135,13 +136,16 @@
     "title_registered": "Liste demande d'inscription",
     "title_refused": "Liste des refus",
     "title_list_user": "Gestion de votre entreprise | Gestion de votre entreprise | Gestions de vos entreprises",
+    "title_create_company": "Référencer son entreprise",
     "table": {
       "fields": {
         "name": "Nom",
         "url_name": "Nom url",
         "utilisateur": "Pseudo utilisateur",
         "category": "Catégorie",
+        "subscription": "Abonnement",
         "statut": "Statut",
+        "dt_created": "Date de création",
         "city": "Ville",
         "description": "Description",
         "address": {
@@ -157,7 +161,9 @@
     },
     "fields": {
       "name": "Nom de votre entreprise",
-      "num_siret": "Numéro de SIRET"
+      "num_siret": "Numéro de SIRET",
+      "email": "Email",
+      "subscriptions": "Abonnements"
     },
     "information": {
       "short_description": "Les 300 premiers caractères de ce champ seront utilisés pour la description courte affichée sur votre carte de présentation, lors d'une recherche utilisateur."
@@ -170,7 +176,8 @@
       "postal_code": "Code postal",
       "latitude": "Latitude",
       "longitude": "Longitude",
-      "city": "Tapez les deux première lettres de la ville puis sélectionner"
+      "city": "Tapez les deux première lettres de la ville puis sélectionner",
+      "email": "Renseignez votre email"
     },
     "nav_title": {
       "presentation": "Présentation",
@@ -211,7 +218,7 @@
     },
     "state": {
       "validate": "Validé",
-      "pending": "En cours de traitement",
+      "pending": "Inscription en cours de traitement",
       "refused": "Refusé"
     }
   },
@@ -282,11 +289,13 @@
         "statut": "Statut",
         "in_progress": "En cours",
         "coming_soon": "A venir",
-        "expired": "Terminé",
+        "ended": "Terminé",
+        "none": "Non abonné",
         "company": "Entreprise",
         "canceled_renewal": "Renouvellement annulé",
         "canceled": "Annulé",
-        "offer": "Offert"
+        "offer": "Offert",
+        "action": "Action"
       }
     }
   },
@@ -453,6 +462,20 @@
     "placeholder": {
       "name": "Renseignez un statut",
       "code": "Renseignez un Code du statut"
+    }
+  },
+  "company_subscription": {
+    "fields": {
+      "dtDebut": "Date de début",
+      "dtFin": "Date de fin",
+      "subscription_status": "Statut",
+      "stripe_id": "Id Stripe"
+    },
+    "placeholder": {
+      "dtDebut": "Sélectionner une date de début",
+      "dtFin": "Sélectionner une date de fin",
+      "subscription_status": "Sélectionner un statut",
+      "stripe_id": "Renseignez l'id de l'abonnement stripe"
     }
   },
   "error_message_required": "Ce champ est obligatoire. Merci de bien vouloir le renseigner.",

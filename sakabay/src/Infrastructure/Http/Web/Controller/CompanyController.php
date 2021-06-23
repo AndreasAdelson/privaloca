@@ -43,11 +43,10 @@ class CompanyController extends AbstractController
      */
     public function new()
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('company/form.html.twig', [
-            'utilisateurId' => $this->getUser()->getId()
+            'utilisateurId' => $this->getUser()->getId(),
+            'urlPrecedente' => $this->urlPrecedente()
         ]);
     }
 
@@ -59,7 +58,7 @@ class CompanyController extends AbstractController
         $company = $this->companyService->getCompanyByUrlName($slug);
         if (!$company) {
             throw new NotFoundHttpException('Company with url_name ' . $slug . ' does not exist!');
-        } else if ($company->getCompanystatut()->getCode() !== "VAL") {
+        } elseif ($company->getCompanystatut()->getCode() !== "VAL") {
             throw $this->createNotFoundException("This company does not exist");
         }
         $isSubscriptionActive = $this->companyService->isCompanySubscribtionActive($company);
@@ -72,14 +71,12 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("admin/entreprise", name="company_subscribed_index", methods="GET")
+     * @Route("admin/entreprise", name="company_validated_index", methods="GET")
      */
-    public function subscribedIndex(AuthorizationCheckerInterface $authorizationChecker)
+    public function validatedIndex(AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
-        return $this->render('admin/company/subscribed/subscribed_index.html.twig', [
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        return $this->render('admin/company/validated/validated_index.html.twig', [
             'canEdit' => $authorizationChecker->isGranted('ROLE_UCOMPANY'),
             'canDelete' => $authorizationChecker->isGranted('ROLE_DCOMPANY'),
             'canRead' => $authorizationChecker->isGranted('ROLE_RCOMPANY')
@@ -87,30 +84,27 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("admin/entreprise/edit/{id}", name="company_subscribed_edit", methods="GET|POST")
+     * @Route("admin/entreprise/edit/{id}", name="company_validated_edit", methods="GET|POST")
      */
-    public function editSubscribed(int $id)
+    public function editValidated(int $id)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
-        return $this->render('admin/company/subscribed/subscribed_form.html.twig', [
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        return $this->render('admin/company/validated/validated_form.html.twig', [
             'companyId' => $id,
             'urlPrecedente' => $this->urlPrecedente()
         ]);
     }
 
     /**
-     * @Route("admin/entreprise/{id}", name="company_subscribed_show", methods="GET")
+     * @Route("admin/entreprise/{id}", name="company_validated_show", methods="GET")
      */
-    public function showSubscribed(int $id, AuthorizationCheckerInterface $authorizationChecker)
+    public function showValidated(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
-        return $this->render('admin/company/subscribed/subscribed_show.html.twig', [
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        return $this->render('admin/company/validated/validated_show.html.twig', [
             'companyId' => $id,
             'canEdit' => $authorizationChecker->isGranted('ROLE_UCOMPANY'),
+            'canEditSubscription' => $authorizationChecker->isGranted('ROLE_UCOMPANYSUBSCRIPTION'),
             'urlPrecedente' => $this->urlPrecedente()
         ]);
     }
@@ -120,9 +114,7 @@ class CompanyController extends AbstractController
      */
     public function registeredIndex(AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/company/registered/registered_index.html.twig', [
             'canEdit' => $authorizationChecker->isGranted('ROLE_UCOMPANY'),
             'canDelete' => $authorizationChecker->isGranted('ROLE_DCOMPANY'),
@@ -135,9 +127,7 @@ class CompanyController extends AbstractController
      */
     public function editRegistered(int $id)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/company/registered/registered_form.html.twig', [
             'companyId' => $id,
             'urlPrecedente' => $this->urlPrecedente()
@@ -150,9 +140,7 @@ class CompanyController extends AbstractController
      */
     public function showRegistered(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/company/registered/registered_show.html.twig', [
             'companyId' => $id,
             'canEdit' => $authorizationChecker->isGranted('ROLE_UCOMPANY'),
@@ -165,9 +153,7 @@ class CompanyController extends AbstractController
      */
     public function refusedIndex(AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/company/refused/refused_index.html.twig', [
             'canEdit' => $authorizationChecker->isGranted('ROLE_UCOMPANY'),
             'canDelete' => $authorizationChecker->isGranted('ROLE_DCOMPANY'),
@@ -180,9 +166,7 @@ class CompanyController extends AbstractController
      */
     public function editRefused(int $id)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/company/refused/refused_form.html.twig', [
             'companyId' => $id,
             'urlPrecedente' => $this->urlPrecedente()
@@ -195,9 +179,7 @@ class CompanyController extends AbstractController
      */
     public function showRefused(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/company/refused/refused_show.html.twig', [
             'companyId' => $id,
             'canEdit' => $authorizationChecker->isGranted('ROLE_UCOMPANY'),
@@ -210,9 +192,7 @@ class CompanyController extends AbstractController
      */
     public function manageCompanyList()
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $utilisateurId = $this->getUser()->getId();
         $companies = $this->getUser()->getCompanys();
         if (empty($companies)) {
@@ -228,9 +208,7 @@ class CompanyController extends AbstractController
      */
     public function editOwnCompany(string $slug)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $company = $this->companyService->getCompanyByUrlName($slug);
         $ownerId = $company->getUtilisateur()->getId();
         $utilisateurId = $this->getUser()->getId();

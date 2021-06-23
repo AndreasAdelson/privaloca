@@ -19,9 +19,7 @@ class GroupController extends AbstractController
      */
     public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/group/index.html.twig', [
             'canCreate' => $authorizationChecker->isGranted('ROLE_CGROUP'),
             'canRead' => $authorizationChecker->isGranted('ROLE_RGROUP'),
@@ -36,9 +34,7 @@ class GroupController extends AbstractController
      */
     public function new()
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/group/form.html.twig', [
             'groupId' => 'null'
         ]);
@@ -50,9 +46,7 @@ class GroupController extends AbstractController
      */
     public function edit(int $id)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/group/form.html.twig', [
             'groupId' => $id,
         ]);
@@ -63,9 +57,7 @@ class GroupController extends AbstractController
      */
     public function show(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/group/show.html.twig', [
             'canEdit' => $authorizationChecker->isGranted('ROLE_UGROUP'),
             'groupId' => $id,

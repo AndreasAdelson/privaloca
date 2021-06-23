@@ -189,7 +189,7 @@ final class SubscriptionController extends AbstractFOSRestController
 
     /**
      * @Rest\View(serializerGroups={"api_subscriptions"})
-     * @Rest\Get("subscribe/{subscriptionId}")
+     * @Rest\Get("subscription/{subscriptionId}")
      *
      * @return View
      */

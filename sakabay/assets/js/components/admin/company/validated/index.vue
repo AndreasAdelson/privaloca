@@ -108,6 +108,8 @@
   import axios from 'axios';
   import paginationMixin from 'mixins/paginationMixin';
   import ConfirmModal from 'components/commons/confirm-modal';
+  import _ from 'lodash';
+  import moment from 'moment';
 
   export default {
     components: {
@@ -140,7 +142,7 @@
             { key: 'url_name', label: this.$t('company.table.fields.url_name'), thClass: 'tableitem' },
             { key: 'utilisateur', label: this.$t('company.table.fields.utilisateur'), thClass: 'tableitem' },
             { key: 'category', label: this.$t('company.table.fields.category'), thClass: 'tableitem' },
-            { key: 'statut', label: this.$t('company.table.fields.statut'), thClass: 'tableitem', class: 'col-size-10' },
+            { key: 'subscription', label: this.$t('company.table.fields.subscription'), thClass: 'tableitem', class: 'col-size-10' },
             (!this.canDelete && !this.canEdit && !this.canRead) ? null : { key: 'actions', label: this.$t('commons.actions'), class: 'col-size-8', thClass: 'tableitem' },
           ],
           sortBy: 'name'
@@ -162,13 +164,14 @@
             codeStatut: 'VAL'
           }
         }).then(response => {
+          console.log(response.data);
           let items = _.map(response.data, company => _.assign(company, {
             name: company.name,
             numSiret: company.num_siret,
             urlName: company.url_name,
             utilisateur: company.utilisateur.username,
             category: company.category.name,
-            statut: company.companystatut.name,
+            subscription: this.isSubscribed(company.company_subscriptions),
             actions: company.id,
           }));
           this.pager.totalRows = parseInt(response.headers['x-total-count']);
@@ -180,6 +183,60 @@
           return [];
         });
       },
+      isSubscribed(companySubscriptions) {
+        let label = '';
+        if (companySubscriptions.length != 0) {
+          let subscriptions = _.cloneDeep(companySubscriptions);
+          subscriptions = _.orderBy(subscriptions, [
+            function(subscription) {
+              let dtFin = moment(subscription.dt_fin, 'DD/MM/YYYY HH:mm:ss').format('MM/DD/YYYY H:mm:ss');
+              return new Date(dtFin.toString());
+            }
+          ], ['desc']);
+          let recentSubscription = _.cloneDeep(subscriptions[0]);
+
+          switch(recentSubscription.subscription_status.code) {
+          case 'VAL':
+            if (moment(recentSubscription.dt_fin, 'DD/MM/YYYY HH:mm:ss').isAfter() && moment(recentSubscription.dt_debut, 'DD/MM/YYYY HH:mm:ss').isBefore()) {
+              label = this.$t('dashboard.history.table.in_progress');
+            } else {
+              label = this.$t('dashboard.history.table.coming_soon');
+            }
+            break;
+          case 'TER':
+            label = this.$t('dashboard.history.table.ended');
+            break;
+          case 'ENC':
+            label = this.$t('dashboard.history.table.in_progress');
+            break;
+          case 'ANN':
+            if (moment(recentSubscription.dt_fin, 'DD/MM/YYYY HH:mm:ss').isAfter() && moment(recentSubscription.dt_debut, 'DD/MM/YYYY HH:mm:ss').isBefore()) {
+              label = this.$t('dashboard.history.table.canceled_renewal');
+            }
+            else {
+              if (moment(recentSubscription.dt_fin, 'DD/MM/YYYY HH:mm:ss').isAfter()) {
+                label = this.$t('dashboard.history.table.canceled');
+              } else {
+                label = this.$t('dashboard.history.table.ended');
+              }
+            }
+            break;
+          case 'OFF':
+            if(moment(recentSubscription.dt_fin, 'DD/MM/YYYY HH:mm:ss').isAfter() && moment(recentSubscription.dt_debut, 'DD/MM/YYYY HH:mm:ss').isBefore()) {
+              label = this.$t('dashboard.history.table.offer');
+            } else {
+              label = this.$t('dashboard.history.table.ended');
+            }
+            break;
+          default:
+            label = this.$t('dashboard.history.table.none');
+          }
+          return label;
+        } else {
+          label = this.$t('dashboard.history.table.none');
+          return label;
+        }
+      }
     },
   };
 </script>

@@ -4,7 +4,7 @@ security:
         users:
             entity:
                 class: 'App\Domain\Model\Utilisateur'
-                # property: login
+                property: login
             # the property to query by - e.g. username, email, etc
     firewalls:
         dev:
@@ -23,6 +23,7 @@ security:
                 login_path: app_login
                 check_path: app_login
                 default_target_path: home
+                # use_referer: true
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

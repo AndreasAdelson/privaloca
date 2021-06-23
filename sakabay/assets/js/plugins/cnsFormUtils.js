@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import axios from 'axios';
+import moment from 'moment';
 
 const CnsFormUtils = {
   install(Vue, options) {
@@ -117,8 +118,34 @@ const CnsFormUtils = {
       }
     };
 
+    /**
+     * Transform date fields of an object into parsed date fields.
+     * Works recursively, so it also transforms date fields of type object of the given object.
+     * @param {object} object
+     */
+     Vue.prototype.$transformDateFields = function(object) {
+      if (object instanceof Array) {
+        object.forEach(obj => {
+          if (typeof obj === 'object') {
+            this.$transformDateFields(obj);
+          }
+        });
+      } else {
+        Object.keys(object).forEach(field => {
+          if (object[field]) {
+            if (field.startsWith('dt')) {
+              object[field] = moment(object[field], 'DD/MM/YYYY H:i:s').toDate();
+            } else if (typeof object[field] === 'object') {
+              this.$transformDateFields(object[field]);
+            }
+          }
+        });
+      }
+    };
+
     Vue.prototype.$setEditForm = function(data) {
       let transformedData = _.cloneDeep(data);
+      this.$transformDateFields(transformedData);
       Object.keys(this.formFields).forEach(field => {
         let underscoreField = this.$camelCaseToUnderscoreCase(field);
         if (this.formFields[field] instanceof Array) {
@@ -152,11 +179,7 @@ const CnsFormUtils = {
     Vue.prototype.$getTransformedValue = function(value) {
       let transformedValue = undefined;
       if (value instanceof Date) {
-        transformedValue = {
-          day: value.getDate(),
-          month: value.getMonth() + 1,
-          year: value.getFullYear(),
-        };
+        transformedValue = moment(value).format('YYYY/MM/DD HH:mm:ss');
       } else if (value instanceof Array) {
         if (value.length) {
           let newValueArray = new Array();

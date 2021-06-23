@@ -170,6 +170,10 @@ const CnsRenderUtils = {
       return moment(date, 'DD/MM/YYYY H:m:ss').format('DD/MM/YYYY [à] H:mm');
     };
 
+    Vue.prototype.$getDateLabel2 = function(date) {
+      return moment(date, 'DD/MM/YYYY H:m:ss').format('DD/MM/YYYY H:mm');
+    };
+
     Vue.prototype.$capitalise = function(text) {
       if (typeof text !== 'string') {
         console.log('not a string');

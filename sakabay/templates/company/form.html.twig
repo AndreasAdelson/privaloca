@@ -5,5 +5,8 @@
 {% endblock %}
 
 {% block body %}
- <register-company-form :utilisateur-id="{{ utilisateurId }}"></register-company-form>
+ <register-company-form
+  :utilisateur-id="{{ utilisateurId }}"
+  url-precedente="{{ urlPrecedente }}">
+ </register-company-form>
 {% endblock %}

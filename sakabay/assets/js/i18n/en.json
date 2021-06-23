@@ -1,5 +1,6 @@
 {
   "commons": {
+    "continue": "Continue",
     "create": "Create",
     "cancel": "Cancel",
     "actions": "Actions",
@@ -135,13 +136,16 @@
     "title_registered": "Company registration request list",
     "title_refused": "Liste des refus",
     "title_list_user": "Gestion de votre entreprise | Gestion de votre entreprise | Gestions de vos entreprises",
+    "title_create_company": "Référencer son entreprise",
     "table": {
       "fields": {
         "name": "Name",
         "url_name": "Url name",
         "utilisateur": "User username",
         "category": "Categorie",
+        "subscription": "Subscription",
         "statut": "Status",
+        "dt_created": "Creation date",
         "city": "City",
         "description": "Description",
         "address": {
@@ -157,7 +161,9 @@
     },
     "fields": {
       "name": "Company name",
-      "num_siret": "SIRET number"
+      "num_siret": "SIRET number",
+      "email": "Email",
+      "subscriptions": "Subscriptions"
     },
     "information": {
       "short_description": "The first 300 characters of this field will be used for the short description displayed on your presentation card during a user search."
@@ -170,7 +176,8 @@
       "postal_code": "Postal code",
       "latitude": "Latitude",
       "longitude": "Longitude",
-      "city": "Enter the first two letters and select a proposed city"
+      "city": "Enter the first two letters and select a proposed city",
+      "email": "Enter your email"
     },
     "nav_title": {
       "presentation": "Presentation",
@@ -211,7 +218,7 @@
     },
     "state": {
       "validate": "Validated",
-      "pending": "In process",
+      "pending": "Registration in process",
       "refused": "Rejected"
     }
   },
@@ -283,10 +290,12 @@
         "in_progress": "In progress",
         "coming_soon": "Upcoming",
         "endend": "Ended",
+        "none": "Not subscribed",
         "company": "Company",
         "canceled_renewal": "Renewal canceled",
         "canceled": "Canceled",
-        "offer": "Offer"
+        "offer": "Offer",
+        "action": "Action"
       }
     }
   },
@@ -453,6 +462,20 @@
     "placeholder": {
       "name": "Enter a name",
       "code": "Enter a code number"
+    }
+  },
+  "company_subscription": {
+    "fields": {
+      "dtDebut": "Start date",
+      "dtFin": "End date",
+      "subscription_status": "Status",
+      "stripe_id": "Stripe Id"
+    },
+    "placeholder": {
+      "dtDebut": "Select a start date",
+      "dtFin": "Select a end date",
+      "subscription_status": "Select a status",
+      "stripe_id": "Enter a stripe id"
     }
   },
   "error_message_required": "This field is mandatory. Thank you for filling it in.",

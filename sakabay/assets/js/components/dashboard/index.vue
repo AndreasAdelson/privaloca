@@ -154,14 +154,17 @@
                       </div>
                     </vuescroll>
                   </div>
-                  <!-- History SUbscription List -->
                   <div
                     v-else-if="historyActive && utilisateur && companies"
                     class="row scroll-h300"
                   >
+                    <!-- History SUbscription List -->
                     <vuescroll>
                       <div class="col-12">
-                        <history-item :company-subscriptions="companySubscriptions" />
+                        <history-item
+                          :company-subscriptions="companySubscriptions"
+                          :with-company-name="true"
+                        />
                       </div>
                     </vuescroll>
                   </div>
@@ -220,7 +223,7 @@
 <script>
   import LinkItem from './link-item.vue';
   import NotificationItem from './notification-item.vue';
-  import HistoryItem from './history-item.vue';
+  import HistoryItem from '../commons/history-item.vue';
   import InfoItem from './info-item.vue';
   import vuescroll from 'vuescroll';
   import axios from 'axios';

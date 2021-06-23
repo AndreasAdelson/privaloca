@@ -115,8 +115,8 @@
         </div>
 
         <!-- Map -->
-        <div class="row">
-          <div class="col-12">
+        <div class="row mb-2">
+          <div class="col-10 mx-auto">
             <v-map
               :zoom="16"
               :center="[company.address.latitude, company.address.longitude]"
@@ -127,20 +127,47 @@
             </v-map>
           </div>
         </div>
+        <div class="row">
+          <span class="fontPatua fontSize20">{{ $t('company.fields.subscriptions') }}</span>
+        </div>
+        <div
+          class="row scroll-h300 white-bg-skb"
+        >
+          <vuescroll>
+            <div class="col-12">
+              <history-item
+                :company-subscriptions="companySubscriptions"
+                :with-company-name="false"
+                :can-edit="canEditSubscription"
+              />
+            </div>
+          </vuescroll>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
   import axios from 'axios';
+  import HistoryItem from '../../../../commons/history-item.vue';
+  import vuescroll from 'vuescroll';
+  import _ from 'lodash';
 
   export default {
+    components: {
+      HistoryItem,
+      vuescroll
+    },
     props: {
       companyId: {
         type: Number,
         default: null
       },
       canEdit: {
+        type: Boolean,
+        default: false
+      },
+      canEditSubscription: {
         type: Boolean,
         default: false
       },
@@ -152,8 +179,14 @@
     data() {
       return {
         company: null,
-        loading: false
+        loading: false,
+        companySubscriptions: []
       };
+    },
+    watch: {
+      company(newValue) {
+        this.companySubscriptions = newValue.company_subscriptions;
+      }
     },
     async created() {
       if (this.companyId) {

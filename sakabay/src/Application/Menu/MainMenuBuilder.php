@@ -71,7 +71,7 @@ class MainMenuBuilder
             ],
             "menu_management_company" => [
                 "menu_subscribed_company" => [
-                    "route" => "company_subscribed_index",
+                    "route" => "company_validated_index",
                     "roles" => ["ROLE_RCOMPANY"]
                 ],
                 "menu_registered_company" => [

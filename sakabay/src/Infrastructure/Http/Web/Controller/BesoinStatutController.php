@@ -16,9 +16,7 @@ class BesoinStatutController extends AbstractController
      */
     public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/besoin-statut/index.html.twig', [
             'canCreate' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'canRead' => $authorizationChecker->isGranted('ROLE_ADMIN'),
@@ -33,9 +31,7 @@ class BesoinStatutController extends AbstractController
      */
     public function new()
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/besoin-statut/form.html.twig', [
             'besoinStatutId' => 'null'
         ]);
@@ -47,9 +43,7 @@ class BesoinStatutController extends AbstractController
      */
     public function edit(int $id)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/besoin-statut/form.html.twig', [
             'besoinStatutId' => $id,
         ]);
@@ -60,9 +54,7 @@ class BesoinStatutController extends AbstractController
      */
     public function show(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/besoin-statut/show.html.twig', [
             'canEdit' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'besoinStatutId' => $id,

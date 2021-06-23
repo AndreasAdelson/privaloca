@@ -1,6 +1,6 @@
 <template>
   <div class="row mt-3 ">
-    <div class="mx-auto col-10 card-skb">
+    <div class="col-12 card-skb">
       <div class="title-card-skb">
         <font-awesome-icon
           class="yellow-login-skb"
@@ -25,16 +25,16 @@
   </div>
 </template>
 <script>
-  export default {
-    props: {
-      company: {
-        type: Object,
-        default: null
-      },
-      isSubscriptionActive: {
-        type: Boolean,
-        default: false
-      }
+export default {
+  props: {
+    company: {
+      type: Object,
+      default: null
+    },
+    isSubscriptionActive: {
+      type: Boolean,
+      default: false
     }
-  };
+  }
+};
 </script>

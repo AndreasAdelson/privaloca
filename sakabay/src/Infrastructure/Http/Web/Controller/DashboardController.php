@@ -18,13 +18,10 @@ class DashboardController extends AbstractController
      */
     public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        } else {
-            return $this->render('dashboard/index.html.twig', [
-                'controller_name' => 'UtilisateurController',
-                'utilisateurId' => $this->getUser()->getId()
-            ]);
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        return $this->render('dashboard/index.html.twig', [
+            'controller_name' => 'UtilisateurController',
+            'utilisateurId' => $this->getUser()->getId()
+        ]);
     }
 }

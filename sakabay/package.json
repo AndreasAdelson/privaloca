@@ -22,8 +22,10 @@
     "lodash": "^4.17.19",
     "moment": "^2.29.1",
     "nouislider": "^14.6.0",
+    "patch-package": "^6.4.7",
     "popper.js": "^1.16.1",
     "portal-vue": "^2.1.7",
+    "postinstall-postinstall": "^2.1.0",
     "swiftmailer-bundle": "symfony/swiftmailer-bundle",
     "vee-validate": "^2.1.0-beta.11",
     "vue": "^2.6.11",
@@ -45,6 +47,7 @@
     "vue2-editor": "^2.10.2",
     "vue2-leaflet": "^2.6.0",
     "vue2-transitions": "^0.3.0",
+    "vuejs-datepicker": "^1.5.4",
     "vuejs-logger": "^1.5.4",
     "vuescroll": "^4.17.3",
     "vuetify": "^2.3.9",
@@ -129,6 +132,7 @@
     "test": "jest",
     "dev": "encore dev",
     "watch": "../utils/encore_watch.sh",
-    "build": "encore production --progress"
+    "build": "encore production --progress",
+    "postinstall": "patch-package"
   }
 }

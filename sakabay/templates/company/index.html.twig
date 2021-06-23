@@ -3,23 +3,5 @@
 {% block title %}{{ 'company_register_index_title'|trans }}{% endblock %}
 
 {% block body %}
-  {% if app.user %}
   <register-company></register-company>
-  <abonnement></abonnement>
-  {% else %}
-    <div class="skb-body">
-      <div class="container-fluid">
-        <div class="row pt-4">
-          <div class="col-8 mx-auto">
-              <h1>{{ 'company_register_index_title'|trans }}</h1>
-          </div>
-        </div>
-        <div class="row pt-3">
-          <div class="col">
-            <p class="text-center">{{ 'company_register_index_message_first'|trans }}<a href="{{ path('app_login') }}" class="link">{{ 'company_register_index_message_here'|trans }}</a>{{ 'company_register_index_message_second'|trans }}<a href="{{ path('app_register') }}" class="link">{{ 'company_register_index_message_subscribe'|trans }}</a> </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  {% endif %}
 {% endblock %}

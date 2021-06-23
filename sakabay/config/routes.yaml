@@ -91,19 +91,19 @@ category_show:
 
 # Routes for Company object
 #Route for subscribed companies
-company_subscribed_index:
+company_validated_index:
     path: admin/entreprise
-    controller: App\Infrastructure\Http\Web\Controller\CompanyController::subscribedIndex
+    controller: App\Infrastructure\Http\Web\Controller\CompanyController::validatedIndex
     methods: [GET]
 
-company_subscribed_show:
+company_validated_show:
     path: admin/entreprise/show/{id}
-    controller: App\Infrastructure\Http\Web\Controller\CompanyController::showSubscribed
+    controller: App\Infrastructure\Http\Web\Controller\CompanyController::showValidated
     methods: [GET]
 
-company_subscribed_edit:
+company_validated_edit:
     path: admin/entreprise/edit/{id}
-    controller: App\Infrastructure\Http\Web\Controller\CompanyController::editSubscribed
+    controller: App\Infrastructure\Http\Web\Controller\CompanyController::editValidated
     methods: [GET]
 
 #Route for registered companies
@@ -194,6 +194,12 @@ company_statut_new:
 company_statut_edit:
     path: admin/company-statut/edit/{id}
     controller: App\Infrastructure\Http\Web\Controller\CompanyStatutController::edit
+    methods: [GET, POST]
+
+######### routes for company subscriptions ###########
+company_subscription_edit:
+    path: admin/company-subscription/edit/{id}
+    controller: App\Infrastructure\Http\Web\Controller\CompanySubscriptionController::edit
     methods: [GET, POST]
 
 # Routes for Group object

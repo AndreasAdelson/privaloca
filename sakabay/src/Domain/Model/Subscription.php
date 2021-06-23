@@ -40,6 +40,7 @@ class Subscription
      * @Expose
      * @Groups({
      * "api_subscriptions",
+     * "api_admin_companies",
      * "api_dashboard_utilisateur"
      * })
      */
@@ -50,6 +51,7 @@ class Subscription
      * @Expose
      * @Groups({
      * "api_subscriptions",
+     * "api_admin_companies",
      * "api_dashboard_utilisateur"
      * })
      */
@@ -78,6 +80,7 @@ class Subscription
      * @Expose
      * @Groups({
      * "api_subscriptions",
+     * "api_admin_companies",
      * "api_dashboard_utilisateur"
      * })
      */

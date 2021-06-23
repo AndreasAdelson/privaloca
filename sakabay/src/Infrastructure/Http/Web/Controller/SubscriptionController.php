@@ -20,9 +20,8 @@ class SubscriptionController extends AbstractController
      */
     public function index()
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        } else if (empty($this->getUser()->getCompanys())) {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (empty($this->getUser()->getCompanys())) {
             throw new NotFoundHttpException('Error !');
         }
         return $this->render('abonnement/index.html.twig', [
@@ -36,9 +35,8 @@ class SubscriptionController extends AbstractController
     public function detailsSubscriptions(string $slug)
     {
         #Check si l'user est connecté sinon redirige vers l'authentification
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        } else if (empty($this->getUser()->getCompanys())) {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (empty($this->getUser()->getCompanys())) {
             throw new NotFoundHttpException('Error !');
         }
         return $this->render('abonnement/details/index.html.twig', [
@@ -54,9 +52,7 @@ class SubscriptionController extends AbstractController
      */
     public function indexAdmin(AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/subscription/index.html.twig', [
             'canCreate' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'canRead' => $authorizationChecker->isGranted('ROLE_ADMIN'),
@@ -71,9 +67,7 @@ class SubscriptionController extends AbstractController
      */
     public function new()
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/subscription/form.html.twig', [
             'subscriptionId' => 'null'
         ]);
@@ -85,9 +79,7 @@ class SubscriptionController extends AbstractController
      */
     public function edit(int $id)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/subscription/form.html.twig', [
             'subscriptionId' => $id,
         ]);
@@ -99,9 +91,7 @@ class SubscriptionController extends AbstractController
      */
     public function show(int $id, AuthorizationCheckerInterface $authorizationChecker)
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('admin/subscription/show.html.twig', [
             'canEdit' => $authorizationChecker->isGranted('ROLE_ADMIN'),
             'subscriptionId' => $id,

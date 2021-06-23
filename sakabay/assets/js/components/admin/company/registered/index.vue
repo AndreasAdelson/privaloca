@@ -117,10 +117,11 @@
             { key: 'url_name', label: this.$t('company.table.fields.url_name'), thClass: 'tableitem' },
             { key: 'utilisateur', label: this.$t('company.table.fields.utilisateur'), thClass: 'tableitem' },
             { key: 'category', label: this.$t('company.table.fields.category'), thClass: 'tableitem' },
-            { key: 'statut', label: this.$t('company.table.fields.statut'), thClass: 'tableitem' },
+            { key: 'dtCreated', label: this.$t('company.table.fields.dt_created'), thClass: 'tableitem', sortable: true },
             (!this.canDelete && !this.canEdit && !this.canRead) ? null : { key: 'actions', label: this.$t('commons.actions'), class: 'col-size-6', thClass: 'tableitem' },
           ],
-          sortBy: 'name',
+          sortBy: 'dtCreated',
+          sortDesc: true
         },
         loading: false
       };
@@ -145,7 +146,7 @@
             urlName: company.url_name,
             utilisateur: company.utilisateur.username,
             category: company.category.name,
-            statut: company.companystatut.name,
+            dtCreated: this.$getDateLabel2(company.dt_created),
             actions: company.id,
           }));
           this.pager.totalRows = parseInt(response.headers['x-total-count']);

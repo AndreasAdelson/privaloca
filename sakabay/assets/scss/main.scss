@@ -6,14 +6,14 @@
 @import "~vue2-editor/dist/vue2-editor.css";
 
 /* Import the Quill styles you want */
-@import '~quill/dist/quill.core.css';
-@import '~quill/dist/quill.bubble.css';
-@import '~quill/dist/quill.snow.css';
+@import "~quill/dist/quill.core.css";
+@import "~quill/dist/quill.bubble.css";
+@import "~quill/dist/quill.snow.css";
 /*---------------------------------
     VARIABLES
 -----------------------------------*/
-$blue_light_color:#2798a0;
-$blue_light_color_2:#b8e2f3;
+$blue_light_color: #2798a0;
+$blue_light_color_2: #b8e2f3;
 $blue_logo_color: #60a3bc;
 $blue_gradient: #a4e2f8;
 
@@ -27,13 +27,13 @@ $yellow_light_color: #f2d785;
 $yellow_light_color_2: #f5e1a6;
 $yellow_login_color: #f39c12;
 $yellow_gradient: #eeb861;
-$yellow_color: #F2A413;
+$yellow_color: #f2a413;
 
-$orange_color: #F26513;
+$orange_color: #f26513;
 $orange_login_color: #c0392b;
-$orange_light_color:#fd9999;
+$orange_light_color: #fd9999;
 
-$red_color: #8C1B24;
+$red_color: #8c1b24;
 
 $green_color: #038c3e;
 $green_light_color: #6be6a0;
@@ -44,14 +44,13 @@ $white_color: #fff;
 $black_color: #000;
 $black_light_color: #706b6b;
 
-
 body {
-  font-family: 'Alice', sans-serif;
+  font-family: "Alice", sans-serif;
   background-color: $grey_body;
 }
 
 p {
-  font-family: 'Alice', sans-serif;
+  font-family: "Alice", sans-serif;
   font-size: 1.1em;
   font-weight: 300;
   line-height: 1.7em;
@@ -73,7 +72,11 @@ a:focus {
 // Style title
 
 .navbar {
-  background: linear-gradient($yellow_login_color, $yellow_gradient, $yellow_gradient);
+  background: linear-gradient(
+    $yellow_login_color,
+    $yellow_gradient,
+    $yellow_gradient
+  );
   border: none;
   border-radius: 0;
   margin-bottom: 40px;
@@ -97,118 +100,117 @@ a:focus {
     HEADINGS & FONTS
 -----------------------------------*/
 @font-face {
-  font-family: 'PatuaOneSKB';
-  src: url('../fonts/PatuaOne-Regular.otf') format('opentype');
+  font-family: "PatuaOneSKB";
+  src: url("../fonts/PatuaOne-Regular.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Helvetica';
-  src: url('../fonts/Helvetica.ttf') format('truetype');
+  font-family: "Helvetica";
+  src: url("../fonts/Helvetica.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'icomoon';
-  src: url('../fonts/icomoon.ttf') format('truetype');
+  font-family: "icomoon";
+  src: url("../fonts/icomoon.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'icomoon';
-  src: url('../fonts/icomoon.eot') format('truetype');
+  font-family: "icomoon";
+  src: url("../fonts/icomoon.eot") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'icomoon';
-  src: url('../fonts/icomoon.woff') format('truetype');
+  font-family: "icomoon";
+  src: url("../fonts/icomoon.woff") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Helvetica-Bold';
-  src: url('../fonts/Helvetica-Bold.ttf') format('truetype');
+  font-family: "Helvetica-Bold";
+  src: url("../fonts/Helvetica-Bold.ttf") format("truetype");
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Helvetica-Oblique';
-  src: url('../fonts/Helvetica-Oblique.ttf') format('truetype');
+  font-family: "Helvetica-Oblique";
+  src: url("../fonts/Helvetica-Oblique.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
-
 @font-face {
-  font-family: 'UbuntuItalic';
-  src: url('../fonts/Ubuntu-Italic.ttf') format('truetype');
+  font-family: "UbuntuItalic";
+  src: url("../fonts/Ubuntu-Italic.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Alice';
-  src: url('../fonts/Alice-Regular.ttf') format('truetype');
+  font-family: "Alice";
+  src: url("../fonts/Alice-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Ubuntu';
-  src: url('../fonts/Ubuntu-Regular.ttf') format('truetype');
+  font-family: "Ubuntu";
+  src: url("../fonts/Ubuntu-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Poppins';
-  src: url('../fonts/Poppins-Regular.ttf') format('truetype');
+  font-family: "Poppins";
+  src: url("../fonts/Poppins-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 .fontPatua {
-  font-family: 'PatuaOneSKB', sans-serif !important;
+  font-family: "PatuaOneSKB", sans-serif !important;
 }
 
 .fontUbuntuItalic {
-  font-family: 'UbuntuItalic', sans-serif !important;
+  font-family: "UbuntuItalic", sans-serif !important;
 }
 
 .fontSideBar {
-  font-family: 'UbuntuItalic', sans-serif !important;
+  font-family: "UbuntuItalic", sans-serif !important;
   font-weight: bolder;
 }
 
 .fontHelvetica {
-  font-family: 'Helvetica', 'sans-serif' !important;
+  font-family: "Helvetica", "sans-serif" !important;
 }
 
 .fontHelveticaOblique {
-  font-family: 'Helvetica-Oblique', 'sans-serif' !important;
+  font-family: "Helvetica-Oblique", "sans-serif" !important;
 }
 
 .fontHelveticaBold {
-  font-family: 'Helvetica-Bold', 'sans-serif' !important;
+  font-family: "Helvetica-Bold", "sans-serif" !important;
 }
 
 .fontUbuntu {
-  font-family: 'Ubuntu', 'sans-serif' !important;
+  font-family: "Ubuntu", "sans-serif" !important;
 }
 
 .fontAlice {
-  font-family: 'Alice', 'sans-serif' !important;
+  font-family: "Alice", "sans-serif" !important;
 }
 
 .fontPoppins {
-  font-family: 'Poppins', 'serif' !important;
+  font-family: "Poppins", "serif" !important;
 }
 
 .fontArial {
@@ -291,7 +293,6 @@ a:focus {
   font-weight: 600;
 }
 
-
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
@@ -358,7 +359,7 @@ a:focus {
 }
 
 .menu-category {
-  font-family: 'UbuntuItalic', sans-serif !important;
+  font-family: "UbuntuItalic", sans-serif !important;
   font-weight: bold;
   text-decoration: underline;
   color: $orange_login_color;
@@ -470,7 +471,7 @@ a[data-toggle="collapse"] {
   margin-top: 5px;
 }
 
-.foldable-closed>div:not(.clickable)>div.clickable {
+.foldable-closed > div:not(.clickable) > div.clickable {
   background-color: #f2f2f2;
   cursor: pointer;
 }
@@ -500,7 +501,7 @@ a[data-toggle="collapse"] {
 }
 
 .grey-bg-skb {
-  background-color: $grey_icon
+  background-color: $grey_icon;
 }
 
 .blue-bg-skb {
@@ -509,7 +510,6 @@ a[data-toggle="collapse"] {
 
 .blue-light-bg-skb {
   background-color: $blue_light_color_2;
-
 }
 
 .yellow-light-bg-skb {
@@ -517,7 +517,11 @@ a[data-toggle="collapse"] {
 }
 
 .yellow-gradiant {
-  background: linear-gradient($yellow_light_color, $yellow_login_color, $yellow_light_color);
+  background: linear-gradient(
+    $yellow_light_color,
+    $yellow_login_color,
+    $yellow_light_color
+  );
 }
 
 .blue-gradiant {
@@ -525,11 +529,19 @@ a[data-toggle="collapse"] {
 }
 
 .orange-gradiant {
-  background: linear-gradient($orange_light_color, $orange_login_color, $orange_light_color);
+  background: linear-gradient(
+    $orange_light_color,
+    $orange_login_color,
+    $orange_light_color
+  );
 }
 
 .green-gradiant {
-  background: linear-gradient($green_light_color, $green_color, $green_light_color);
+  background: linear-gradient(
+    $green_light_color,
+    $green_color,
+    $green_light_color
+  );
 }
 
 /*---------------------------------
@@ -563,6 +575,10 @@ a[data-toggle="collapse"] {
   color: $red_color;
 }
 
+.red {
+  color: red;
+}
+
 .green-skb {
   color: $green_color;
 }
@@ -583,6 +599,10 @@ a[data-toggle="collapse"] {
   color: $black_color;
 }
 
+.black {
+  color: black;
+}
+
 .blue-skb {
   color: $blue_logo_color;
 }
@@ -599,14 +619,22 @@ a[data-toggle="collapse"] {
   color: $yellow_light_color;
   width: 50px;
   height: 50px;
-  background: linear-gradient($yellow_login_color, $yellow_gradient, $yellow_gradient);
+  background: linear-gradient(
+    $yellow_login_color,
+    $yellow_gradient,
+    $yellow_gradient
+  );
   border-color: transparent;
   border: none !important;
 }
 
 .btn-menu:hover {
   color: $white_color;
-  background: linear-gradient($yellow_login_color, $yellow_login_color, $yellow_gradient);
+  background: linear-gradient(
+    $yellow_login_color,
+    $yellow_login_color,
+    $yellow_gradient
+  );
   opacity: 1.33;
 }
 
@@ -616,15 +644,23 @@ a[data-toggle="collapse"] {
   color: $yellow_light_color !important;
   width: 50px;
   height: 50px;
-  background: linear-gradient($yellow_login_color, $yellow_gradient, $yellow_gradient);
+  background: linear-gradient(
+    $yellow_login_color,
+    $yellow_gradient,
+    $yellow_gradient
+  );
   padding-top: 12px;
   border: none !important;
 }
 
 .btn-user:hover {
   color: $white_color;
-  background: linear-gradient($yellow_login_color, $yellow_login_color, $yellow_gradient);
-  opacity: 1.33
+  background: linear-gradient(
+    $yellow_login_color,
+    $yellow_login_color,
+    $yellow_gradient
+  );
+  opacity: 1.33;
 }
 
 .btn-close {
@@ -665,14 +701,22 @@ a[data-toggle="collapse"] {
   color: $yellow_light_color !important;
   width: 50px;
   height: 50px;
-  background: linear-gradient($yellow_login_color, $yellow_gradient, $yellow_gradient);
+  background: linear-gradient(
+    $yellow_login_color,
+    $yellow_gradient,
+    $yellow_gradient
+  );
   padding-top: 10px;
   border: none !important;
 }
 
 .btn-connect:hover {
   color: $white_color;
-  background: linear-gradient($yellow_login_color, $yellow_login_color, $yellow_gradient);
+  background: linear-gradient(
+    $yellow_login_color,
+    $yellow_login_color,
+    $yellow_gradient
+  );
 }
 
 .btn-register {
@@ -708,7 +752,6 @@ a[data-toggle="collapse"] {
   color: inherit;
   background-color: transparent;
 }
-
 
 .icon-user:hover {
   color: inherit;
@@ -749,17 +792,22 @@ a[data-toggle="collapse"] {
   width: 350px;
   margin-top: auto;
   margin-bottom: auto;
-  background: linear-gradient($yellow_login_color, $yellow_gradient, $yellow_login_color);
+  background: linear-gradient(
+    $yellow_login_color,
+    $yellow_gradient,
+    $yellow_login_color
+  );
   position: relative;
   display: flex;
   justify-content: center;
   flex-direction: column;
   padding: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 5px;
-
 }
 
 .brand_logo_container {
@@ -892,10 +940,9 @@ a[data-toggle="collapse"] {
   outline: 0px !important;
 }
 
-.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
   background-color: $orange_login_color !important;
 }
-
 
 /*---------------------------------
     register style
@@ -905,15 +952,21 @@ a[data-toggle="collapse"] {
   height: 600px;
   margin: 1rem auto;
   width: 500px;
-  background: linear-gradient($yellow_login_color, $yellow_gradient, $yellow_login_color);
+  background: linear-gradient(
+    $yellow_login_color,
+    $yellow_gradient,
+    $yellow_login_color
+  );
   position: relative;
   display: flex;
   justify-content: center;
   flex-direction: column;
   padding: 50px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 5px;
 }
 
@@ -1025,7 +1078,6 @@ a[data-toggle="collapse"] {
 
   li {
     list-style: none;
-
   }
 }
 
@@ -1204,7 +1256,7 @@ footer.light .footer-copyright {
 }
 
 .widget-title span {
-  background: #839FAD none repeat scroll 0 0;
+  background: #839fad none repeat scroll 0 0;
   display: block;
   height: 1px;
   margin-top: 25px;
@@ -1359,7 +1411,6 @@ ul.social-footer2 li a {
   text-decoration: underline;
 }
 
-
 /*---------------------------------
     Pagination overwrite
 -----------------------------------*/
@@ -1421,13 +1472,13 @@ ul.social-footer2 li a {
 /*---------------------------------
     Autocomplete
 -----------------------------------*/
-.autocomplete-wrapper[disabled="disabled"]>input {
+.autocomplete-wrapper[disabled="disabled"] > input {
   pointer-events: none;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 
 .autocomplete-list {
-  border: 1px solid #D9DCE1;
+  border: 1px solid #d9dce1;
 }
 
 .autocomplete-list ul {
@@ -1452,10 +1503,9 @@ ul.social-footer2 li a {
 .company-image {
   width: 150px;
   height: 150px;
-  border: solid 3px rgba(0, 0, 0, .125);
+  border: solid 3px rgba(0, 0, 0, 0.125);
   float: left;
   image-rendering: pixelated;
-
 }
 
 .card-main-info {
@@ -1465,12 +1515,11 @@ ul.social-footer2 li a {
 .company-image-2 {
   width: 150px;
   height: 150px;
-  border: solid 3px rgba(0, 0, 0, .125);
+  border: solid 3px rgba(0, 0, 0, 0.125);
   float: left;
   margin-right: 1rem;
   margin-top: 1.5rem;
   image-rendering: pixelated;
-
 }
 
 .company-image-3 {
@@ -1498,14 +1547,14 @@ ul.social-footer2 li a {
   height: 100px;
   width: 100px;
   float: left;
-  border: solid 1px rgba(0, 0, 0, .125);
+  border: solid 1px rgba(0, 0, 0, 0.125);
 }
 
 .card-skb {
   background-color: $white_color;
   border-bottom: 1px solid $grey_body;
-  padding-bottom: .6rem;
-  padding-top: .6rem;
+  padding-bottom: 0.6rem;
+  padding-top: 0.6rem;
 }
 
 .navigation-menu .navigation-link {
@@ -1546,8 +1595,6 @@ ul.social-footer2 li a {
   padding: 0.5rem;
   border-bottom: 1px solid $grey_light_color;
 }
-
-
 
 /*---------------------------------
     Loader style
@@ -1637,7 +1684,7 @@ ul.social-footer2 li a {
 -----------------------------------*/
 
 .dashboard {
-  font-family: 'Poppins';
+  font-family: "Poppins";
 }
 
 .dashboard-title {
@@ -1683,8 +1730,10 @@ ul.social-footer2 li a {
   height: 200px;
   border-radius: 0.75rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .icon-button {
@@ -1738,22 +1787,30 @@ ul.social-footer2 li a {
 }
 
 .modal-opportunity-centered {
-  top: calc(50% - 12.4rem); //A modifier en fonction du height final de la modale opportunity
+  top: calc(
+    50% - 12.4rem
+  ); //A modifier en fonction du height final de la modale opportunity
 }
 
 .modal-quote-centered {
-  top: calc(50% - 17.4rem); //A modifier en fonction du height final de la modale quote
+  top: calc(
+    50% - 17.4rem
+  ); //A modifier en fonction du height final de la modale quote
 }
 
 .modal-manage-centered {
-  top: calc(50% - 22.4rem); //A modifier en fonction du height final de la modale quote
+  top: calc(
+    50% - 22.4rem
+  ); //A modifier en fonction du height final de la modale quote
 }
 
 .answer-card {
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .navigation-opportunities {
@@ -1792,7 +1849,6 @@ ul.social-footer2 li a {
   cursor: default;
 }
 
-
 // Multiselect rework
 
 .multiselect__option--highlight {
@@ -1804,29 +1860,29 @@ ul.social-footer2 li a {
 .multiselect__option--highlight:after {
   content: attr(data-select);
   background: $blue_logo_color;
-  color: #fff
+  color: #fff;
 }
 
 .multiselect__option--selected {
   background: #f3f3f3;
   color: #35495e;
-  font-weight: 700
+  font-weight: 700;
 }
 
 .multiselect__option--selected:after {
   content: attr(data-selected);
-  color: silver
+  color: silver;
 }
 
 .multiselect__option--selected.multiselect__option--highlight {
   background: $yellow_login_color;
-  color: #fff
+  color: #fff;
 }
 
 .multiselect__option--selected.multiselect__option--highlight:after {
   background: $yellow_login_color;
   content: attr(data-deselect);
-  color: #fff
+  color: #fff;
 }
 
 .multiselect__tag {
@@ -1842,7 +1898,7 @@ ul.social-footer2 li a {
   white-space: nowrap;
   overflow: hidden;
   max-width: 100%;
-  text-overflow: ellipsis
+  text-overflow: ellipsis;
 }
 
 .multiselect__tag_no_icon {
@@ -1858,7 +1914,7 @@ ul.social-footer2 li a {
   white-space: nowrap;
   overflow: hidden;
   max-width: 100%;
-  text-overflow: ellipsis
+  text-overflow: ellipsis;
 }
 
 .multiselect__tag-icon {
@@ -1873,22 +1929,22 @@ ul.social-footer2 li a {
   width: 22px;
   text-align: center;
   line-height: 18px;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   border-radius: 200em;
 }
 
 .multiselect__tag-icon:after {
   content: "\D7";
-  color: #B4B4B4;
-  font-size: 14px
+  color: #b4b4b4;
+  font-size: 14px;
 }
 
 .multiselect__tag-icon:focus,
 .multiselect__tag-icon:hover {
-  background: #6F81A5
+  background: #6f81a5;
 }
 
 .multiselect__tag-icon:focus:after,
 .multiselect__tag-icon:hover:after {
-  color: #fff
+  color: #fff;
 }

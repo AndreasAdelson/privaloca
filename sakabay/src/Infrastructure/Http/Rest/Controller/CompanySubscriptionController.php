@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Http\Rest\Controller;
 
 use App\Application\Form\Type\CompanySubscriptionType;
+use App\Application\Form\Type\EditCompanySubscriptionType;
 use App\Application\Form\Type\PaymentMethodType;
 use App\Application\Service\CompanySubscriptionService;
 use App\Application\Service\CompanyService;
@@ -13,10 +14,10 @@ use App\Domain\Model\Company;
 use App\Domain\Model\CompanySubscription;
 use App\Domain\Model\PaymentMethod;
 use App\Infrastructure\Factory\NotificationFactory;
-use App\Infrastructure\Repository\SubscriptionRepository;
 use App\Infrastructure\Repository\SubscriptionStatusRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -28,6 +29,7 @@ use Stripe\StripeClient;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 final class CompanySubscriptionController extends AbstractFOSRestController
 {
@@ -67,7 +69,7 @@ final class CompanySubscriptionController extends AbstractFOSRestController
 
     /**
      * @Rest\View(serializerGroups={"api_company_subscriptions"})
-     * @Rest\Get("subscribe/{companySubscriptionId}")
+     * @Rest\Get("admin/company-subscription/{companySubscriptionId}")
      *
      * @return View
      */
@@ -78,6 +80,35 @@ final class CompanySubscriptionController extends AbstractFOSRestController
         return View::create($companySubscription, Response::HTTP_OK);
     }
 
+    /**
+     * @Rest\View(serializerGroups={"api_company_subscriptions"})
+     * @Rest\Post("admin/company-subscription/{companySubscriptionId}")
+     *
+     * @return View
+     */
+    public function editCompanySubscription(int $companySubscriptionId, Request $request)
+    {
+        $companySubscription = $this->companySubscriptionService->getCompanySubscription($companySubscriptionId);
+
+        if (!$companySubscription) {
+            throw new EntityNotFoundException('CompanySubscription with id ' . $companySubscriptionId . ' does not exist.');
+        }
+        $formOptions = [
+            'translator' => $this->translator,
+        ];
+        $form = $this->createForm(EditCompanySubscriptionType::class, $companySubscription, $formOptions);
+        $form->submit($request->request->all());
+        if (!$form->isValid()) {
+            return $form;
+        }
+
+        $this->entityManager->persist($companySubscription);
+        $this->entityManager->flush($companySubscription);
+
+        $ressourceLocation = $this->generateUrl('company_validated_show', ['id' => $companySubscription->getCompany()->getId()]);
+
+        return View::create([], Response::HTTP_NO_CONTENT, ['Location' => $ressourceLocation]);
+    }
 
     /**
      * @Rest\View()

@@ -61,7 +61,7 @@
                   <span class="underline">{{ $t('besoin.pending_request') }}</span>
                   <span
                     class="fontPoppins fontSize12 py-1 px-2 orange-gradiant white-skb rounded"
-                  >{{ nbResultPending }}</span>
+                  >{{ nbResult1 }}</span>
                 </div>
               </div>
             </div>
@@ -130,7 +130,7 @@
                   {{ $t('besoin.expired_request') }}
                   <span
                     class="fontPoppins fontSize12 py-1 px-2 orange-gradiant white-skb rounded"
-                  >{{ nbResultExpired }}</span>
+                  >{{ nbResult2 }}</span>
                 </div>
               </div>
             </div>
@@ -271,8 +271,8 @@
         isScrolling2: false,
         bottom: false,
         bottom2: false,
-        nbResultPending: 0,
-        nbResultExpired: 0,
+        nbResult1: 0,
+        nbResult2: 0,
         nbMaxResult: 10,
         currentPage: 2,
         currentPage2: 2,
@@ -402,8 +402,8 @@
             this.bottom2 = true;
           }
           if (this.firstAttempt) {
-            this.nbResultPending = parseInt(res[2].data);
-            this.nbResultExpired = parseInt(res[3].data);
+            this.nbResult1 = parseInt(res[2].data);
+            this.nbResult2 = parseInt(res[3].data);
             this.firstAttempt = false;
           }
           this.loading = false;
@@ -428,14 +428,14 @@
       archiveBesoin() {
         let besoinToArchive = _.pullAt(this.pendingBesoins, this.indexPending);
         this.expiredBesoins.splice(0,0,besoinToArchive[0]);
-        this.nbResultPending -= 1;
-        this.nbResultExpired += 1;
+        this.nbResult1 -= 1;
+        this.nbResult2 += 1;
       },
       deleteBesoin() {
         this.pendingBesoins.splice(this.indexPending, 1);
         this.currentPendingId = null;
         this.indexPending = null;
-        this.nbResultPending -= 1;
+        this.nbResult1 -= 1;
       },
     },
 

@@ -1,5 +1,5 @@
-import _ from 'lodash';
 import axios from 'axios';
+import _ from 'lodash';
 
 export default {
   data() {
@@ -24,10 +24,10 @@ export default {
        * @param {*} entry
        */
       scroll(isVisible, url, params, entry, page) {
-        if (this.nbResultPending <= this.nbMaxResult) {
+        if (this.nbResult <= this.nbMaxResult) {
           this.bottom = true;
         }
-        if (this.nbResultExpired <= this.nbMaxResult) {
+        if (this.nbResult2 <= this.nbMaxResult) {
           this.bottom2 = true;
         }
         if(!this.bottom) {
@@ -95,6 +95,16 @@ export default {
               if (page === 'expiredBesoins') {
                 if (res.data.length > 0) {
                   this.expiredBesoins = _.unionBy(this.expiredBesoins, res.data, 'id');
+                  if (res.data.length < this.nbMaxResult) this.bottom2 = true;
+                }
+                else {
+                  // If the request yielded no data, then we have reached the bottom of the list
+                  this.bottom2 = true;
+                }
+              }
+              else if (page === 'companyQuote') {
+                if (res.data.length > 0) {
+                  this.printedCompanyQuote = _.unionBy(this.printedCompanyQuote, res.data, 'id');
                   if (res.data.length < this.nbMaxResult) this.bottom2 = true;
                 }
                 else {

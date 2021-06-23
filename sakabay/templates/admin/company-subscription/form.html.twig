@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  {{ 'company_subscription_title_edit_page'|trans }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="fontUbuntuItalic orange-skb text-center p-1">{{ 'company_subscription_title_edit_page'|trans }}</h1>
+    <form-company-subscription
+      :company-subscription-id="{{ companySubscriptionId }}"
+      url-precedente="{{ urlPrecedente }}"
+      >
+    </form-company-subscription>
+{% endblock %}

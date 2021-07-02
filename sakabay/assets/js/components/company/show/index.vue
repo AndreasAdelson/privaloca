@@ -76,7 +76,7 @@
       </div>
 
       <div v-else-if="commentActive">
-        <p>Work in progress ... Listing des commentaires</p>
+        <comment-page :company="company" />
       </div>
     </div>
   </div>
@@ -84,10 +84,12 @@
 <script>
   import axios from 'axios';
   import presentationPage from './presentation';
+  import commentPage from './comment';
   import _ from 'lodash';
   export default {
     components: {
-      presentationPage
+      presentationPage,
+      commentPage
     },
     props: {
       companyUrlName: {

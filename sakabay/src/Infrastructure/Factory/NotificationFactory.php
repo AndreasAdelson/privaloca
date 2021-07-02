@@ -153,7 +153,7 @@ class NotificationFactory
         $subject = $this->translator->trans('trial_period_company_subscription_subject');
         $message = sprintf(
             $this->translator->trans('trial_period_company_subscription_message'),
-            $companySubscription->getDtFin()->format('d/m/Y H:i')
+            $companySubscription->getDtFin()->format('d/m/Y \à H:i')
         );
 
         $this->addNotification($destinataires, $subject, $message, $redirect);

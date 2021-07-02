@@ -189,6 +189,9 @@
       "description": "Description",
       "no_subscriptions": "Not a subscriber"
     },
+    "comment": {
+      "title": "Comments"
+    },
     "card": {
       "label": {
         "category": "Catégorie",

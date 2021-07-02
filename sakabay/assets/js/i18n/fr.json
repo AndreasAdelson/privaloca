@@ -189,6 +189,9 @@
       "description": "Description",
       "no_subscriptions": "Non abonné"
     },
+    "comment": {
+      "title": "Avis"
+    },
     "card": {
       "label": {
         "category": "Catégorie",

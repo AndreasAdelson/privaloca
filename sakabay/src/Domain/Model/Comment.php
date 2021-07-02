@@ -18,7 +18,6 @@ class Comment
      * @var int
      * @Expose
      * @Groups({
-     * "api_companies",
      * })
      */
     private $id;
@@ -27,6 +26,7 @@ class Comment
      * @var string
      * @Expose
      * @Groups({
+     * "api_companies",
      * })
      */
     private $message;
@@ -35,6 +35,7 @@ class Comment
      * @var float
      * @Expose
      * @Groups({
+     * "api_companies",
      * })
      */
     private $note;
@@ -59,6 +60,7 @@ class Comment
      * @var Company
      * @Expose
      * @Groups({
+     * "api_companies",
      * })
      */
     private $authorCompany;
@@ -67,6 +69,7 @@ class Comment
      * @var Utilisateur
      * @Expose
      * @Groups({
+     * "api_companies",
      * })
      */
     private $utilisateur;

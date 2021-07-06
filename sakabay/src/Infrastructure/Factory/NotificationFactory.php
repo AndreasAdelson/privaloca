@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Factory;
 
 use App\Domain\Model\Answer;
+use App\Domain\Model\Comment;
 use App\Domain\Model\Company;
 use App\Domain\Model\CompanySubscription;
 use App\Domain\Notification\Model\Notification;

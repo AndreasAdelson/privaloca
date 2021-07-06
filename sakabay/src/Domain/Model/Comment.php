@@ -2,6 +2,7 @@
 
 namespace App\Domain\Model;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
@@ -26,16 +27,25 @@ class Comment
      * @var string
      * @Expose
      * @Groups({
-     * "api_companies",
+     * "api_comments",
+     * })
+     */
+    private $title;
+
+    /**
+     * @var string
+     * @Expose
+     * @Groups({
+     * "api_comments",
      * })
      */
     private $message;
 
     /**
-     * @var float
+     * @var int
      * @Expose
      * @Groups({
-     * "api_companies",
+     * "api_comments",
      * })
      */
     private $note;
@@ -60,7 +70,7 @@ class Comment
      * @var Company
      * @Expose
      * @Groups({
-     * "api_companies",
+     * "api_comments",
      * })
      */
     private $authorCompany;
@@ -69,11 +79,20 @@ class Comment
      * @var Utilisateur
      * @Expose
      * @Groups({
-     * "api_companies",
+     * "api_comments",
      * })
      */
     private $utilisateur;
 
+    /**
+     * @var DateTime
+     * @Expose
+     * @Groups({
+     * "api_comments",
+     * "api_dashboard_utilisateur"
+     * })
+     */
+    private $dtCreated;
 
 
 
@@ -90,6 +109,26 @@ class Comment
         return $this->id;
     }
 
+    /**
+     * Get the value of title
+     * @return  string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set the value of title
+     * @param  string  $title
+     * @return  self
+     */
+    public function setTitle(string $title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
 
     /**
      * Get the value of message
@@ -221,6 +260,18 @@ class Comment
     public function setAuthorCompany(?Company $authorCompany)
     {
         $this->authorCompany = $authorCompany;
+        return $this;
+    }
+
+    public function getDtCreated(): ?\DateTimeInterface
+    {
+        return $this->dtCreated;
+    }
+
+    public function setDtCreated(\DateTimeInterface $dtCreated): self
+    {
+        $this->dtCreated = $dtCreated;
+
         return $this;
     }
 }

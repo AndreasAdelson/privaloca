@@ -247,3 +247,6 @@ subscription_status_title_list_page: "Subscription status list"
 subscription_status_title_edit_page: "Edit a subscription status "
 subscription_status_title_create_page: "Create a subscription status "
 subscription_status_title_show_page: "Subscription status  detail"
+
+#Comment's pages
+comment_title_create_page: "Write a comment"

@@ -247,3 +247,6 @@ subscription_status_title_list_page: "Liste des statuts des abonnements"
 subscription_status_title_edit_page: "Modifier un statut d'abonnement"
 subscription_status_title_create_page: "Créer un statut d'abonnement"
 subscription_status_title_show_page: "Détails d'un statut d'abonnement"
+
+#Comment's pages
+comment_title_create_page: "Écrire un avis"

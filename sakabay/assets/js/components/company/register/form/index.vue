@@ -64,7 +64,7 @@
                   >
                   <div
                     v-for="errorText in formErrors.numSiret"
-                    :key="'code_' + errorText"
+                    :key="'numSiret_' + errorText"
                   >
                     <span class="fontUbuntuItalic fontSize13 red-skb">{{ errorText }}</span>
                   </div>
@@ -298,13 +298,6 @@
                 {{ $t('commons.create') }}
               </button>
             </div>
-            <!-- <div class="col-3">
-              <button
-                type="button"
-                class="btn button_skb fontUbuntuItalic"
-                @click="test()"
-              >Test</button>
-            </div> -->
           </div>
         </div>
       </div>

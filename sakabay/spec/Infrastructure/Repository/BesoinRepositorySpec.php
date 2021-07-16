@@ -2,16 +2,18 @@
 
 namespace spec\App\Infrastructure\Repository;
 
-use App\Domain\Model\Company;
-use App\Infrastructure\Repository\CompanyRepository;
+use App\Domain\Model\Besoin;
+use App\Infrastructure\Repository\BesoinRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\Query\Expr\Base;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class CompanyRepositorySpec extends ObjectBehavior
+class BesoinRepositorySpec extends ObjectBehavior
 {
     public function let(EntityManagerInterface $em, ClassMetadata $class)
     {
@@ -20,92 +22,118 @@ class CompanyRepositorySpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType(CompanyRepository::class);
+        $this->shouldHaveType(BesoinRepository::class);
     }
 
     /**
-     * save($city) test.
+     * save($besoin) test.
      */
     public function it_should_save($em)
     {
-        $city = new Company();
-        $em->persist($city)->willReturn(null);
-        $em->flush($city)->willReturn(null);
-        $this->save($city);
-        $em->persist($city)->shouldBeCalled();
-        $em->flush($city)->shouldBeCalled();
+        $besoin = new Besoin();
+        $em->persist($besoin)->willReturn(null);
+        $em->flush($besoin)->willReturn(null);
+        $this->save($besoin);
+        $em->persist($besoin)->shouldBeCalled();
+        $em->flush($besoin)->shouldBeCalled();
     }
 
     /**
-     * delete($city) test.
+     * delete($besoin) test.
      */
     public function it_should_delete($em)
     {
-        $city = new Company();
-        $em->remove($city)->willReturn(null);
-        $em->flush($city)->willReturn(null);
-        $this->delete($city);
-        $em->remove($city)->shouldBeCalled();
-        $em->flush($city)->shouldBeCalled();
+        $besoin = new Besoin();
+        $em->remove($besoin)->willReturn(null);
+        $em->flush($besoin)->willReturn(null);
+        $this->delete($besoin);
+        $em->remove($besoin)->shouldBeCalled();
+        $em->flush($besoin)->shouldBeCalled();
     }
 
-    public function it_should_get_paginated_list($em, QueryBuilder $queryBuilder, AbstractQuery $query)
+    public function it_should_get_paginated_besoin_by_user_id($em, QueryBuilder $queryBuilder, AbstractQuery $query,  Expr $expr, Base $base)
     {
         $em->createQueryBuilder(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->select(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->from(Argument::any(), Argument::any(), Argument::any())->willReturn($queryBuilder);
         $queryBuilder->leftJoin(Argument::any(), Argument::any())->willReturn($queryBuilder);
+        $queryBuilder->expr()->willReturn($expr);
+        $expr->orX()->willReturn($base);
+        $base->add(Argument::any())->shouldBeCalled();
+        $expr->like(Argument::any(), Argument::any())->shouldBeCalled();
+        $expr->literal(Argument::any())->shouldBeCalled();
+        $queryBuilder->orWhere(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->where(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->andWhere(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->setParameter(Argument::any(), Argument::any())->willReturn($queryBuilder);
         $queryBuilder->orderBy(Argument::any(), Argument::any())->willReturn($queryBuilder);
         $queryBuilder->getQuery()->willReturn($query);
 
-        $this->getPaginatedList('id', false, '', 'test', 1, 10, 24, 12, 1)->shouldBeLike($this->paginate($queryBuilder, 10, 1));
+        $this->getPaginatedBesoinByUserId('1', ['VAL'], '4', 'false')
+            ->shouldReturn(null);
+
+        $this->getPaginatedBesoinByUserId('1', 'VAL', null, 'true')
+            ->shouldReturn(null);
     }
 
-    public function it_should_get_paginated_list_admin($em, QueryBuilder $queryBuilder, AbstractQuery $query)
+    public function it_should_get_besoin_answered_by_company($em, QueryBuilder $queryBuilder, AbstractQuery $query)
     {
         $em->createQueryBuilder(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->select(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->from(Argument::any(), Argument::any(), Argument::any())->willReturn($queryBuilder);
         $queryBuilder->leftJoin(Argument::any(), Argument::any())->willReturn($queryBuilder);
+        $queryBuilder->where(Argument::any())->willReturn($queryBuilder);
+        $queryBuilder->andWhere(Argument::any())->willReturn($queryBuilder);
+        $queryBuilder->setParameters(Argument::any())->willReturn($queryBuilder);
+        $queryBuilder->addSelect(Argument::any())->willReturn($queryBuilder);
+        $queryBuilder->getQuery()->willReturn($query);
+
+        $this->getBesoinAnsweredByCompany('1', '2')->shouldReturn(null);
+    }
+
+    public function it_should_get_paginated_opportunity_list($em, QueryBuilder $queryBuilder, AbstractQuery $query,  Expr $expr, Base $base)
+    {
+        $em->createQueryBuilder(Argument::any())->willReturn($queryBuilder);
+        $queryBuilder->select(Argument::any())->willReturn($queryBuilder);
+        $queryBuilder->from(Argument::any(), Argument::any(), Argument::any())->willReturn($queryBuilder);
+        $queryBuilder->leftJoin(Argument::any(), Argument::any())->willReturn($queryBuilder);
+        $queryBuilder->expr()->willReturn($expr);
+        $expr->orX()->willReturn($base);
+        $base->add(Argument::any())->shouldBeCalled();
+        $expr->like(Argument::any(), Argument::any())->shouldBeCalled();
+        $expr->literal(Argument::any())->shouldBeCalled();
+        $queryBuilder->orWhere(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->where(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->andWhere(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->setParameter(Argument::any(), Argument::any())->willReturn($queryBuilder);
         $queryBuilder->orderBy(Argument::any(), Argument::any())->willReturn($queryBuilder);
         $queryBuilder->getQuery()->willReturn($query);
 
-        $this->getPaginatedListAdmin('id', false, '', 'test', 1, 10, 'VAL')->shouldBeLike($this->paginate($queryBuilder, 10, 1));
+        $this->getPaginatedOpportunityList('1', ['VAL'], 'false', 'false')
+            ->shouldReturn(null);
+
+        $this->getPaginatedOpportunityList('1', 'VAL', 'true', 'true')
+            ->shouldReturn(null);
     }
 
-    public function it_should_get_paginated_list_user($em, QueryBuilder $queryBuilder, AbstractQuery $query)
+    public function it_should_get_paginated_opportunity_with_requested_quote_list($em, QueryBuilder $queryBuilder, AbstractQuery $query)
     {
         $em->createQueryBuilder(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->select(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->from(Argument::any(), Argument::any(), Argument::any())->willReturn($queryBuilder);
         $queryBuilder->leftJoin(Argument::any(), Argument::any())->willReturn($queryBuilder);
+        $queryBuilder->orWhere(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->where(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->andWhere(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->setParameter(Argument::any(), Argument::any())->willReturn($queryBuilder);
         $queryBuilder->orderBy(Argument::any(), Argument::any())->willReturn($queryBuilder);
+        $queryBuilder->addSelect(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->getQuery()->willReturn($query);
 
-        $this->getPaginatedListUser('id', false, '', 'test', 1, 10, 24, 12)->shouldReturn(null);
-    }
+        $this->getPaginatedOpportunityWithRequestedQuoteList('1', false, false)
+            ->shouldReturn(null);
 
-    public function it_should_get_company_by_user_id($em, QueryBuilder $queryBuilder, AbstractQuery $query)
-    {
-        $em->createQueryBuilder(Argument::any())->willReturn($queryBuilder);
-        $queryBuilder->select(Argument::any())->willReturn($queryBuilder);
-        $queryBuilder->from(Argument::any(), Argument::any(), Argument::any())->willReturn($queryBuilder);
-        $queryBuilder->leftJoin(Argument::any(), Argument::any())->willReturn($queryBuilder);
-        $queryBuilder->where(Argument::any())->willReturn($queryBuilder);
-        $queryBuilder->andWhere(Argument::any())->willReturn($queryBuilder);
-        $queryBuilder->setParameter(Argument::any(), Argument::any())->willReturn($queryBuilder);
-        $queryBuilder->getQuery()->willReturn($query);
-
-        $this->getCompanyByUserId('id', false)->shouldReturn(null);
-        $this->getCompanyByUserId('id', true)->shouldReturn(null);
+        $this->getPaginatedOpportunityWithRequestedQuoteList('1', true, true)
+            ->shouldReturn(null);
     }
 }

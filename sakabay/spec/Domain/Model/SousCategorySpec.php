@@ -2,17 +2,18 @@
 
 namespace spec\App\Domain\Model;
 
+use App\Domain\Model\SousCategory;
 use App\Domain\Model\Besoin;
 use App\Domain\Model\Category;
 use App\Domain\Model\Company;
-use App\Domain\Model\SousCategory;
 use PhpSpec\ObjectBehavior;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class CategorySpec extends ObjectBehavior
+class SousCategorySpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType(Category::class);
+        $this->shouldHaveType(SousCategory::class);
         $this->getId()->shouldReturn(null);
     }
 
@@ -24,13 +25,23 @@ class CategorySpec extends ObjectBehavior
 
     public function it_should_save_a_code()
     {
-        $this->setCode('SKB');
-        $this->getCode()->shouldReturn('SKB');
+        $this->setCode('1234');
+        $this->getCode()->shouldReturn('1234');
     }
 
-    public function it_should_save_company()
+    public function it_should_save_a_category()
+    {
+        $category = new Category();
+        $this->setCategory($category);
+        $this->getCategory()->shouldReturn($category);
+    }
+
+    public function it_should_add_and_remove_company()
     {
         $company = new Company();
+        $category = new Category();
+        $company->setCategory($category);
+        $this->setCategory($category);
         $this->addCompany($company);
         $this->getCompanys()->shouldContain($company);
         $this->getCompanys()->shouldHaveCount(1);
@@ -38,19 +49,12 @@ class CategorySpec extends ObjectBehavior
         $this->getCompanys()->shouldHaveCount(0);
     }
 
-    public function it_should_save_sous_category()
-    {
-        $sousCategory = new SousCategory();
-        $this->addSousCategory($sousCategory);
-        $this->getSousCategorys()->shouldContain($sousCategory);
-        $this->getSousCategorys()->shouldHaveCount(1);
-        $this->removeSousCategory($sousCategory);
-        $this->getSousCategorys()->shouldHaveCount(0);
-    }
-
-    public function it_should_save_besoin()
+    public function it_should_add_and_remove_besoin()
     {
         $besoin = new Besoin();
+        $category = new Category();
+        $besoin->setCategory($category);
+        $this->setCategory($category);
         $this->addBesoin($besoin);
         $this->getBesoins()->shouldContain($besoin);
         $this->getBesoins()->shouldHaveCount(1);

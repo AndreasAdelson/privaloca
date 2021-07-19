@@ -18,6 +18,7 @@ extensions:
       - src/Infrastructure/Repository/AbstractRepository.php
       - src/Infrastructure/Repository/ResetPasswordRequestRepository.php
       - src/Infrastructure/Security/LoginFormAuthenticator.php
+      - src/Application/Utils/KeywordTrait.php
     output:
       html: tests/coverage
       clover: tests/coverage.xml
